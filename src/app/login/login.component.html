@@ -1,0 +1,57 @@
+<div id="wrapper">
+    <canvas #canvas></canvas>
+    <div id="container">
+      <span id="app-name">
+        INFINIX FLEET
+      </span>
+      <mat-card id="authentication" *ngIf="!registerForm">
+        <mat-card-header>
+          <mat-card-title>Connexion</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field class="login-wrapper">
+              <mat-label>Adresse mail</mat-label>
+              <input matInput id="login">
+            </mat-form-field>
+            <mat-form-field class="password-wrapper">
+              <mat-label>Mot de passe</mat-label>
+              <input matInput id="password">
+            </mat-form-field>
+            <div style="width: 100%; height: auto; display:flex; justify-content: flex-end;">
+              <button mat-button>Mot de passe oublié ?</button>
+            </div>
+            <button mat-raised-button color="primary" id="connect-button">Connexion</button>
+            <button mat-button (click)="registerForm = true">Créer un compte</button>
+        </mat-card-content>
+      </mat-card>
+      <mat-card id="register" *ngIf="registerForm">
+        <mat-card-header>
+          <mat-card-title>Création de compte</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field>
+            <mat-label>Nom</mat-label>
+            <input matInput id="last-name">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Prénom</mat-label>
+            <input matInput id="first-name">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Adresse mail</mat-label>
+            <input matInput id="mail">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Mot de passe</mat-label>
+            <input matInput id="password1">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Confirmez votre mot de passe</mat-label>
+            <input matInput id="password2">
+          </mat-form-field>
+          <button mat-raised-button color="primary" id="connect-button">Créer mon compte</button>
+          <button mat-button (click)="registerForm = false">J'ai déjà un compte</button>
+      </mat-card-content>
+      </mat-card>
+    </div>
+</div>
