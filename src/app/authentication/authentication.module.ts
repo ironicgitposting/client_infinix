@@ -1,23 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { LoginComponent } from './login.component';
+import { AuthenticationComponent } from './authentication.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    AuthenticationComponent
   ],
   imports: [
     BrowserModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  exports: [LoginComponent],
+  exports: [AuthenticationComponent],
   providers: [],
-  bootstrap: [LoginComponent]
+  bootstrap: [AuthenticationComponent]
 })
-export class LoginModule { }
+export class AuthenticationModule { }
