@@ -1,0 +1,16 @@
+{
+  "extends": "airbnb",
+  "plugins": [],
+  "rules": {
+    "indent": "off",
+    "no-underscore-dangle": "warn",
+    "no-console": "off",
+    "strict": ["warn", "never"],
+    "func-names": ["warn", "never"],
+    "consistent-return": ["warn", { "treatUndefinedAsUnspecified": false }],
+    "no-unused-vars": [
+      "warn",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ]
+  }
+}

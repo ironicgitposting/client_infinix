@@ -29,18 +29,27 @@
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    flex-direction: column;
     align-items: center;
   }
   
   #authentication, #register {
-    width: 400px;
     font-family: 'Roboto';
   }
 
+  #authentication{
+    width: 400px;
+  }
+
+  #register{
+    width: 500px;
+  }
+
   mat-form-field {
-    margin-top: 1em;
+    margin: 1em;
     width: 75%;
+    flex: 1 0 21%;
   }
 
   mat-card-title {
@@ -55,6 +64,11 @@
 
   mat-card-content {
     display: flex;
+    flex-direction: column;
+  }
+
+  .login-form-group {
+    display: flex;
     align-items: center;
     flex-direction: column;
     margin: 1em 0 !important;
@@ -64,8 +78,12 @@
     font-family: 'abster';
     font-size: 8em;
     color: #FFFFFF;
-    position: absolute;
-    top: 80px;
-    left: 550px;
     font-style:italic;
+    line-height: 1em;
+  }
+
+  .register-form-group {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1em 0 !important;
   }
