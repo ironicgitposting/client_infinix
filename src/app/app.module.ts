@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { UsersListModule } from './users-list/usersList.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -18,6 +19,7 @@ import { SidebarModule } from './sidebar/sidebar.module';
     BrowserModule,
     AppRoutingModule,
     AuthenticationModule,
+    UsersListModule,
     BrowserAnimationsModule,
     HttpClientModule,
     DashboardModule,

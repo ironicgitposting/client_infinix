@@ -1,0 +1,13 @@
+<mat-accordion *ngIf="!isEmptyUsers()">
+  <mat-expansion-panel class="expansion-panel" *ngFor="let user of users">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ user.email }}
+      </mat-panel-title>
+
+    </mat-expansion-panel-header>
+    <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+    <button class="action-btn" mat-raised-button color="primary">EDITER</button>
+    <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+  </mat-expansion-panel>
+</mat-accordion>
