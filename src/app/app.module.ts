@@ -7,10 +7,13 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { UsersListModule } from './users-list/usersList.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { HeaderModule } from './header/header.module';
+import { SidebarModule } from './sidebar/sidebar.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -18,7 +21,10 @@ import { HttpClientModule } from '@angular/common/http';
     AuthenticationModule,
     UsersListModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    DashboardModule,
+    HeaderModule,
+    SidebarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
