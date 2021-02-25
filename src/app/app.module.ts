@@ -6,19 +6,23 @@ import { AppComponent } from './app.component';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { HeaderModule } from './header/header.module';
+import { SidebarModule } from './sidebar/sidebar.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AuthenticationModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    DashboardModule,
+    HeaderModule,
+    SidebarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

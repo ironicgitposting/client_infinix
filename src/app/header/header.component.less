@@ -1,0 +1,57 @@
+#header{
+    background: white;
+    border: 1px solid rgb(128 0 128);
+    border-right: none;
+    border-left: none;
+    width:100%;
+    height:80px;
+    justify-content: space-between;
+    #header-right-part {
+        justify-content:space-between;
+        width: calc(100% - 120px);
+        #header-center {
+            width: calc(100% - 200px);
+            justify-content: space-between;
+            margin: 0 3em;
+        }
+        #user-part {
+            width: 200px;
+            #user-connected {
+                width: calc(100% - 30px);
+            }
+            #logout {
+                width: 30px;
+            }
+        }
+    }
+    h1 {
+        margin: 0;
+    }
+    #menu-user span:first-child {
+        display: flex;
+        flex-direction: column;
+        line-height: 18px;
+    }
+}
+#logo-infinix{
+    width: 120px;
+    height: 100%;
+    justify-content: center;
+    img {
+        width:75px;
+        height:75px;
+        border-radius: 15%;
+    }
+}
+
+.d-flex {
+    display:flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.flex-direction-row {
+    flex-direction: row;
+}
