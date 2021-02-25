@@ -6,13 +6,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard.component';
-import { HeaderModule } from '../header/header.module';
-import { SidebarModule } from '../sidebar/sidebar.module';
+import { SidebarComponent } from './sidebar.component';
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -20,12 +18,10 @@ import { SidebarModule } from '../sidebar/sidebar.module';
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    ReactiveFormsModule,
-    HeaderModule,
-    SidebarModule
+    ReactiveFormsModule
   ],
-  exports: [DashboardComponent],
+  exports: [SidebarComponent],
   providers: [],
-  bootstrap: [DashboardComponent]
+  bootstrap: [SidebarComponent]
 })
-export class DashboardModule { }
+export class SidebarModule { }

@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard.component';
-import { HeaderModule } from '../header/header.module';
-import { SidebarModule } from '../sidebar/sidebar.module';
+import { HeaderComponent } from './header.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    HeaderComponent
   ],
   imports: [
-    BrowserModule,
+    MatIconModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
+    MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
-    HeaderModule,
-    SidebarModule
+    MatMenuModule
   ],
-  exports: [DashboardComponent],
+  exports: [
+    HeaderComponent,
+    MatFormFieldModule],
   providers: [],
-  bootstrap: [DashboardComponent]
+  bootstrap: [HeaderComponent]
 })
-export class DashboardModule { }
+export class HeaderModule { }

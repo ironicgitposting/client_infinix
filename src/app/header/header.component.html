@@ -1,0 +1,35 @@
+<div id="header" class="d-flex align-items-center flex-direction-row">
+    <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+        <img src="../../assets/pictures/logoInfinix.png"/>
+    </div>
+    <div id="header-right-part" class="d-flex flex-direction-row">
+        <div id="header-center" class="d-flex align-items-center flex-direction-row">
+            <div>
+                <span>Lundi 15 novembre 2021</span>
+            </div>
+            <div id="header-title">
+                <h1>Tableau de bord</h1>
+            </div>
+            <div>
+                <mat-form-field class="header-search-wrapper">
+                    <mat-label>Rechercher</mat-label>
+                    <input matInput id="header-search">
+                </mat-form-field>
+            </div>
+        </div>
+        <div id="user-part" class="d-flex align-items-center flex-direction-row">
+            <div  id="user-connected">
+                <button mat-button [matMenuTriggerFor]="menu" id="menu-user">
+                    <span>Jules Corentin</span>
+                    <span style="font-size: 10px;">Administrateur</span>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Language : FR</button>
+                  </mat-menu>
+                </div>
+            <div id="logout">
+                <mat-icon aria-hidden="false" aria-label="Example home icon" style="color: purple;">power_settings_new</mat-icon>
+            </div>
+        </div>
+    </div>
+</div>
