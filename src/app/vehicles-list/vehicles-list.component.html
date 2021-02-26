@@ -1,0 +1,92 @@
+<div>
+  <app-header></app-header>
+</div>
+<div>
+  <mat-drawer-container class="drawer-container" autosize>
+    <mat-drawer #drawer class="drawer" mode="side" style="border-right: 1px solid #371a69;">
+      <app-sidebar></app-sidebar>
+    </mat-drawer>
+  </mat-drawer-container>
+</div>
+<div>
+  <mat-chip-list aria-label="Fish selection" style="position: absolute; left: 5px; top: 85px;z-index: 1;">
+    <mat-chip color="primary" selected (click)="drawer.toggle()" style="width: 105px; display: flex; justify-content: space-between; cursor: pointer; background: #371a69">
+      Menu
+    <mat-icon *ngIf="!drawer.opened" aria-hidden="false" aria-label="Example home icon" style="color: white;">keyboard_arrow_right</mat-icon>
+    <mat-icon *ngIf="drawer.opened" aria-hidden="false" aria-label="Example home icon" style="color: white;">keyboard_arrow_left</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</div>
+
+<div id="dashboard">
+  <mat-card id="vehicle-widget" class="widget">
+    <mat-card-header>
+      <mat-card-title>Véhicules disponibles</mat-card-title>
+    </mat-card-header>
+      <mat-card-content>
+      </mat-card-content>
+      <mat-accordion>
+        <mat-expansion-panel class="expansion-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Ford Fiesta 2.0 TDI
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+                  <img src="../../assets/pictures/ford.jpg"/>
+              </div>
+            <div>
+              <span>Les clés : YUP145 </span>
+              <span>Les doubles des clés : YUP146 </span>
+            </div>
+            <div>
+              <span>Le véhicule est emprunté par : Vincent David </span>
+              <span>Du 24 Février 2021 au 28 Février 2021</span>
+            </div>
+            <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+            <button class="action-btn" mat-raised-button color="primary">EDITER</button>
+            <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+        </mat-expansion-panel>
+        <mat-expansion-panel class="expansion-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Peugeot 406 2.0 TDI
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+                  <img src="../../assets/pictures/ford.jpg"/>
+              </div>
+            <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+            <button class="action-btn" mat-raised-button color="primary">EDITER</button>
+            <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+        </mat-expansion-panel>
+        <mat-expansion-panel class="expansion-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Citroën C3 2.0 TDI
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+                  <img src="../../assets/pictures/ford.jpg"/>
+              </div>
+            <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+            <button class="action-btn" mat-raised-button color="primary">EDITER</button>
+            <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+        </mat-expansion-panel>
+        <mat-expansion-panel class="expansion-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Renault Clio 2.0 TDI
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+                  <img src="../../assets/pictures/ford.jpg"/>
+              </div>
+            <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+            <button class="action-btn" mat-raised-button color="primary">EDITER</button>
+            <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+        </mat-expansion-panel>
+      </mat-accordion>
+  </mat-card>
+</div>
+

@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HeaderModule } from './header/header.module';
 import { SidebarModule } from './sidebar/sidebar.module';
+import { VehiclesListModule } from './vehicles-list/vehicles-list.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SidebarModule } from './sidebar/sidebar.module';
     HttpClientModule,
     DashboardModule,
     HeaderModule,
-    SidebarModule
+    SidebarModule,
+    VehiclesListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
