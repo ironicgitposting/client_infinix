@@ -1,3 +1,27 @@
 <div id="sidebar">
-
+    <button mat-raised-button (click)="redirectTo('users')">
+        <mat-icon aria-hidden="false" style="color: #371a69;">groups</mat-icon>
+        <div>Ressources</div>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-raised-button (click)="redirectTo('parc')">
+        <mat-icon aria-hidden="false" style="color: #371a69;">directions_car</mat-icon>
+        <div>Parc</div>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-raised-button (click)="redirectTo('planning')">
+        <mat-icon aria-hidden="false" style="color: #371a69;">date_range</mat-icon>
+        <div>Planning</div>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-raised-button (click)="redirectTo('loan')">
+        <mat-icon aria-hidden="false" style="color: #371a69;">car_rental</mat-icon>
+        <div>Prêt</div>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-raised-button (click)="redirectTo('settings')">
+        <mat-icon aria-hidden="false" style="color: #371a69;">settings</mat-icon>
+        <div>Paramètres</div>
+    </button>
+    <mat-divider></mat-divider>
 </div>

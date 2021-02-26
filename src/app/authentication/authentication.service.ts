@@ -50,7 +50,7 @@ export class AuthenticationService {
                 const expirationDate: Date = new Date(now.getTime() + expiresInDuration * 1000);
                 console.log(expirationDate);
                 this.saveAuthData(token, expirationDate);
-                this.router.navigate(['/']);
+                this.router.navigate(['/dashboard']);
             }
         });
     }
