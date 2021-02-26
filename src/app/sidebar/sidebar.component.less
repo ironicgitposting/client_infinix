@@ -1,8 +1,23 @@
 #sidebar{
     background: white;
-    border: 1px solid purple;
-    border-top: none;
-    border-bottom: none;
     width:120px;
-    height:100%;
+    margin-top: 3em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    mat-icon {
+        height: 75px;
+        width: 75px;
+        font-size: 75px;
+    }
+    mat-divider {
+        margin: 1em .5em;
+        width: calc(100% - 1em);
+    }
+    mat-raised-button .mat-button-wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+    }
 }

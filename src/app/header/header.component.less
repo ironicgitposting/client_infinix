@@ -1,6 +1,6 @@
 #header{
     background: white;
-    border: 1px solid rgb(128 0 128);
+    border: 1px solid #371a69;
     border-right: none;
     border-left: none;
     width:100%;
@@ -13,14 +13,28 @@
             width: calc(100% - 200px);
             justify-content: space-between;
             margin: 0 3em;
+            #header-title h1 {
+                font-size: 3em;
+            }
+            #header-date {
+                font-size: 1.3em;
+            }
         }
         #user-part {
             width: 200px;
-            #user-connected {
-                width: calc(100% - 30px);
+            justify-content: space-evenly;
+            #menu-user {
+                line-height: 18px;
+                text-align: right;
             }
             #logout {
-                width: 30px;
+                .mat-mini-fab {
+                    width: 35px;
+                    height: 35px;
+                }
+                .material-icons {
+                    font-size: 19px;
+                }
             }
         }
     }
@@ -30,7 +44,6 @@
     #menu-user span:first-child {
         display: flex;
         flex-direction: column;
-        line-height: 18px;
     }
 }
 #logo-infinix{

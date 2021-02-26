@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-
-import { MatCardModule } from '@angular/material/card';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarComponent } from './sidebar.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -14,11 +11,9 @@ import { SidebarComponent } from './sidebar.component';
   ],
   imports: [
     BrowserModule,
-    MatCardModule,
-    MatInputModule,
     MatButtonModule,
-    FormsModule,
-    ReactiveFormsModule
+    MatDividerModule,
+    MatIconModule
   ],
   exports: [SidebarComponent],
   providers: [],
