@@ -14,12 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   imports: [
     BrowserModule,
-    MatCardModule,
-    HeaderModule,
-    SidebarModule,
-    MatSidenavModule,
-    MatChipsModule,
-    MatIconModule
+    MatCardModule
   ],
   exports: [DashboardComponent],
   providers: [],

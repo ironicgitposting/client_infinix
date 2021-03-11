@@ -1,44 +1,18 @@
-#wrapper {
+#dashboard{
+  height:100%;
+  width:100%;
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  mat-chip-list {
-    position: absolute;
-    left: 5px;
-    top: 85px;
-    z-index: 2;
-    mat-chip {
-      width: 105px;
-      justify-content: space-between;
-      cursor: pointer;
-      background: #371a69;
-    }
-  }
-  #container {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    mat-drawer-container {
-      width: 100%;
-    }
-    #dashboard{
-      height:100%;
-      width:100%;
-      display: flex;
-      flex-wrap: wrap;
-      background: whitesmoke;
-      .widget {
-        margin: 3em;
-        border-radius: 1%;
-        width: 25%;
-        height: 300px;
-        flex-grow: 1;
-        min-width: 250px;
-        h2 {
-          margin: .5em;
-        }
-      }
+  flex-wrap: wrap;
+  background: whitesmoke;
+  .widget {
+    margin: 3em;
+    border-radius: 1%;
+    width: 25%;
+    height: 300px;
+    flex-grow: 1;
+    min-width: 250px;
+    h2 {
+      margin: .5em;
     }
   }
 }

@@ -1,56 +1,37 @@
-<div id="wrapper">
-    <mat-chip-list>
-        <mat-chip color="primary" selected (click)="drawer.toggle()" class="d-flex">
-            Menu
-            <mat-icon *ngIf="!drawer.opened" aria-hidden="false" style="color: white;">keyboard_arrow_right</mat-icon>
-            <mat-icon *ngIf="drawer.opened" aria-hidden="false" style="color: white;">keyboard_arrow_left</mat-icon>
-        </mat-chip>
-    </mat-chip-list>
-    <app-header></app-header>
-    <div id="container">
-        <mat-drawer-container class="drawer-container" autosize>
-            <mat-drawer #drawer class="drawer" mode="side" style="border-right: 1px solid #371a69;">
-              <app-sidebar></app-sidebar>
-            </mat-drawer>
-            <mat-drawer-content>
-                <div id="dashboard">
-                    <mat-card id="ask-loan-widget" class="widget">
-                        <mat-card-header>
-                            <mat-card-title>Mes demandes de prêt</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                        </mat-card-content>
-                    </mat-card>
-                    <mat-card id="loan-to-come-widget" class="widget">
-                        <mat-card-header>
-                            <mat-card-title>Mes emprunts à venir</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                        </mat-card-content>
-                    </mat-card>
-                    <mat-card id="news-widget" class="widget">
-                        <mat-card-header>
-                            <mat-card-title>Actualités</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                        </mat-card-content>
-                    </mat-card>
-                    <mat-card id="resources-widget" class="widget">
-                        <mat-card-header>
-                            <mat-card-title>Ressources</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                        </mat-card-content>
-                    </mat-card>
-                    <mat-card id="vehicle-widget" class="widget">
-                        <mat-card-header>
-                            <mat-card-title>Véhicules disponibles</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-            </mat-drawer-content>
-        </mat-drawer-container>
-    </div>
+<div id="dashboard">
+    <mat-card id="ask-loan-widget" class="widget">
+        <mat-card-header>
+            <mat-card-title>Mes demandes de prêt</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+        </mat-card-content>
+    </mat-card>
+    <mat-card id="loan-to-come-widget" class="widget">
+        <mat-card-header>
+            <mat-card-title>Mes emprunts à venir</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+        </mat-card-content>
+    </mat-card>
+    <mat-card id="news-widget" class="widget">
+        <mat-card-header>
+            <mat-card-title>Actualités</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+        </mat-card-content>
+    </mat-card>
+    <mat-card id="resources-widget" class="widget">
+        <mat-card-header>
+            <mat-card-title>Ressources</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+        </mat-card-content>
+    </mat-card>
+    <mat-card id="vehicle-widget" class="widget">
+        <mat-card-header>
+            <mat-card-title>Véhicules disponibles</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+        </mat-card-content>
+    </mat-card>
 </div>
