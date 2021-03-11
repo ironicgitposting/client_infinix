@@ -4,14 +4,15 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { UsersListComponent } from './users-list/usersList.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { VehiclesListComponent } from './vehicles-list/vehicles-list.component';
+import { LayoutComponent } from './layout/layout.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: AuthenticationComponent },
-  { path: 'users', component: UsersListComponent },
-  { path: 'dashboard', component: DashboardComponent},
-  { path: 'parc', component: VehiclesListComponent},
+  { path: 'users', component: LayoutComponent },
+  { path: 'dashboard', component: LayoutComponent },
+  { path: 'parc', component: LayoutComponent },
 ];
 
 @NgModule({

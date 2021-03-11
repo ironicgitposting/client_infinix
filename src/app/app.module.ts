@@ -11,6 +11,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { HeaderModule } from './header/header.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { VehiclesListModule } from './vehicles-list/vehicles-list.module';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { VehiclesListModule } from './vehicles-list/vehicles-list.module';
     DashboardModule,
     HeaderModule,
     SidebarModule,
-    VehiclesListModule
+    VehiclesListModule,
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
