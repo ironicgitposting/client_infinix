@@ -1,87 +1,92 @@
 #wrapper {
-    width: 100%;
-    height: 100vh;
-    background-color: #000;
-    background-image: radial-gradient(circle at top right, rgba(121, 68, 154, 0.23), transparent),
-      radial-gradient(circle at 20% 80%, rgba(103, 58, 183, 0.63), transparent)
-  }
-  canvas {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-  }
-  
-  a {
-    position: absolute;
-    bottom: 2vmin;
-    right: 2vmin;
-    color: rgba(255,255,255,0.2);
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color: #fff;
-  }
-  
-  #container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  #authentication, #register {
-    font-family: 'Roboto';
-  }
+  width: 100%;
+  height: 100vh;
+  background-color: #000;
+  background-image: radial-gradient(circle at top right, rgba(121, 68, 154, 0.23), transparent),
+    radial-gradient(circle at 20% 80%, rgba(103, 58, 183, 0.63), transparent)
+}
+canvas {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
 
-  #authentication{
-    width: 400px;
-  }
+a {
+  position: absolute;
+  bottom: 2vmin;
+  right: 2vmin;
+  color: rgba(255,255,255,0.2);
+  text-decoration: none;
+}
 
-  #register{
-    width: 500px;
-  }
+a:hover {
+  color: #fff;
+}
 
-  mat-form-field {
-    margin: 1em;
-    width: 75%;
-    flex: 1 0 21%;
-  }
+#container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+}
 
-  mat-card-title {
-    font-size: 2em !important;
-    padding: .5em 0;
-  }
+#authentication, #register {
+  font-family: 'Roboto';
+}
 
-  #connect-button {
-    padding: .3em 3em;
-    margin: 2em 0;
-  }
+#authentication{
+  width: 400px;
+}
 
-  mat-card-content {
-    display: flex;
-    flex-direction: column;
-  }
+#register{
+  width: 500px;
+}
 
-  .login-form-group {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin: 1em 0 !important;
-  }
+mat-form-field {
+  margin: 1em;
+  width: 75%;
+  flex: 1 0 21%;
+}
 
-  #app-name {
-    font-family: 'abster';
-    font-size: 8em;
-    color: #FFFFFF;
-    font-style:italic;
-    line-height: 1em;
-  }
+mat-card-title {
+  font-size: 2em !important;
+  padding: .5em 0;
+}
 
-  .register-form-group {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 1em 0 !important;
-  }
+#connect-button {
+  padding: .3em 3em;
+  margin: 2em 0;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form-group {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 1em 0 !important;
+}
+
+#app-name {
+  font-family: 'abster';
+  font-size: 8em;
+  color: #FFFFFF;
+  font-style:italic;
+  line-height: 1em;
+}
+
+.register-form-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1em 0 !important;
+}
+
+#login-error {
+  color: red;
+  text-align: center;
+}

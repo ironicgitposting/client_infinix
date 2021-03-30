@@ -27,6 +27,11 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
   public registerForm: FormGroup;
 
   /**
+   * Détermine l'affichage de l'erreur des identifiants incorrects
+   */
+  public wrongId: boolean = false;
+
+  /**
    * Getter des contrôles du formulaire d'inscription
    */
   get registerFormControls() {
@@ -110,6 +115,9 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit() {
+    this.authenticationService.getAuthStatusListener().subscribe(authStatus => {
+      this.wrongId = !authStatus;
+    });
   }
 
   public ngAfterViewInit() {
