@@ -46,4 +46,14 @@ export class UserService {
   getUserUpdateListener() {
     return this.usersUpdated.asObservable();
   }
+
+  updateUser(user: User) {
+    console.log(user.email);
+    console.log(user);
+    return this.http.put<any>('http://localhost:3000/api/v1/users/update/' + user.email, user).subscribe();
+  }
+
+  deleteUser(user: User) {
+    return this.http.post<any>('http://localhost:3000/api/v1/users/delete/' + user.email, user).subscribe();
+  }
 }
