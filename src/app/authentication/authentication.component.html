@@ -34,6 +34,9 @@
               <button mat-button>Mot de passe oublié ?</button>
             </div>
           </form>
+          <div class="error" id="login-error" *ngIf="wrongId">
+            Les identifiants de connexion sont incorrects
+          </div>
           <button mat-raised-button color="primary" id="connect-button" (click)="login()">Connexion</button>
           <button mat-button (click)="toggleRegisterForm()">Créer un compte</button>
         </mat-card-content>
