@@ -6,23 +6,26 @@
             <mat-icon *ngIf="drawer.opened" aria-hidden="false" style="color: white;">keyboard_arrow_left</mat-icon>
         </mat-chip>
     </mat-chip-list>
-    <app-header></app-header>
-    <div id="container">
-        <mat-drawer-container class="drawer-container" autosize>
-            <mat-drawer #drawer class="drawer" mode="side" style="border-right: 1px solid #371a69;">
-              <app-sidebar></app-sidebar>
-            </mat-drawer>
-            <mat-drawer-content>
+    <app-header [pageName]="getPageName()"></app-header>
+    <mat-drawer-container class="drawer-container" autosize>
+        <mat-drawer #drawer class="drawer" mode="side" style="border-right: 1px solid #371a69;">
+            <app-sidebar></app-sidebar>
+        </mat-drawer>
+        <mat-drawer-content>
+            <div id="container">
                 <ng-template [ngIf]="componentToLoad === 'dashboard'">
-                    <app-dashboard></app-dashboard>
+                    <app-dashboard style="width: 100%"></app-dashboard>
                 </ng-template>
                 <ng-template [ngIf]="componentToLoad === 'users'">
-                    <usersList></usersList>
+                    <usersList style="width: 100%; margin: 4em;"></usersList>
                 </ng-template>
                 <ng-template [ngIf]="componentToLoad === 'parc'">
-                    <app-vehicles-list></app-vehicles-list>
+                    <app-vehicles-list style="width: 100%; margin: 4em;"></app-vehicles-list>
                 </ng-template>
-            </mat-drawer-content>
-        </mat-drawer-container>
-    </div>
+                <ng-template [ngIf]="componentToLoad === 'loan'">
+                    <app-loan style="width: 100%; margin: 4em;"></app-loan>
+                </ng-template>
+            </div>
+        </mat-drawer-content>
+    </mat-drawer-container>
 </div>

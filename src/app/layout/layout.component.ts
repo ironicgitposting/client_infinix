@@ -8,6 +8,10 @@ import { Router } from '@angular/router';
 })
 export class LayoutComponent implements OnInit {
 
+  private static USERS_COMPONENT = 'users';
+  private static PARC_COMPONENT = 'parc';
+  private static LOAN_COMPONENT = 'loan';
+
   /**
    * Composant à charger, nom récupéré à partir de la route
    */
@@ -16,6 +20,25 @@ export class LayoutComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  /**
+   * Retourne le nom de la page en fonction de l'url
+   */
+  public getPageName(): string {
+    let pageName = 'Tableau de bord';
+    switch (this.componentToLoad) {
+      case LayoutComponent.USERS_COMPONENT:
+        pageName = 'Utilisateurs';
+        break;
+      case LayoutComponent.PARC_COMPONENT:
+        pageName = 'Parc';
+        break;
+      case LayoutComponent.LOAN_COMPONENT:
+        pageName = 'Prêts';
+        break;
+    }
+    return pageName;
   }
 
 }
