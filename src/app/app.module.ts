@@ -12,10 +12,13 @@ import { HeaderModule } from './header/header.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { VehiclesListModule } from './vehicles-list/vehicles-list.module';
 import { LayoutModule } from './layout/layout.module';
+import { LoanModule } from './loan/loan.module';
+import { SnackBarModule } from './snackbar/snackbar.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +31,10 @@ import { LayoutModule } from './layout/layout.module';
     HeaderModule,
     SidebarModule,
     VehiclesListModule,
-    LayoutModule
+    LayoutModule,
+    LoanModule,
+    SnackBarModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

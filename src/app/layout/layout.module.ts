@@ -12,6 +12,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { UsersListModule } from '../users-list/usersList.module';
 import { VehiclesListModule } from '../vehicles-list/vehicles-list.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { LoanModule } from '../loan/loan.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BrowserModule } from '@angular/platform-browser';
     HeaderModule,
     SidebarModule,
     UsersListModule,
-    VehiclesListModule
+    VehiclesListModule,
+    LoanModule
   ],
   exports: [
     LayoutComponent],
