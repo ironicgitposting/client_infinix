@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { SnackbarComponent } from './snackbar.component';
 
@@ -7,7 +8,8 @@ import { SnackbarComponent } from './snackbar.component';
     SnackbarComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    MatIconModule
   ],
   exports: [
     SnackbarComponent],
