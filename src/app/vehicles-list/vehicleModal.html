@@ -1,0 +1,108 @@
+<form (submit)="onConfirmClick(updateForm)" #updateForm="ngForm">
+    <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+        <img src="../../assets/pictures/ford.jpg"/>
+      </div>
+    <mat-form-field>
+        <input
+            matInput
+            name="immatriculation"
+            [ngModel]="modalVehicle.immatriculation"
+            type="text"
+            immatriculation
+            #immatriculationInput="ngModel"
+        />
+        <mat-hint>Immatriculation</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input
+            matInput
+            name="libelle"
+            [ngModel]="modalVehicle.libelle"
+            type="text"
+            immatriculation
+            #immatriculationInput="ngModel"
+        />
+        <mat-hint>Libellé</mat-hint>
+    </mat-form-field>
+
+    <!-- TODO: REMPLACER PAR UN SELECT-->
+    <mat-form-field>
+        <input
+            matInput
+            name="model"
+            [ngModel]="modalVehicle.model"
+            type="text"
+            immatriculation
+            #immatriculationInput="ngModel"
+        />
+        <mat-hint>Modèle</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input
+            matInput
+            name="type"
+            [ngModel]="modalVehicle.type"
+            type="text"
+            immatriculation
+            #immatriculationInput="ngModel"
+        />
+        <mat-hint>Type</mat-hint>
+    </mat-form-field>
+
+    <!-- TODO: REMPLACER PAR UN SELECT-->
+    <mat-form-field>
+        <input
+            matInput
+            name="site"
+            [ngModel]="modalVehicle.site"
+            type="text"
+            immatriculation
+            #immatriculationInput="ngModel"
+        />
+        <mat-hint>Site</mat-hint>
+    </mat-form-field>
+
+    <!-- TODO: REMPLACER PAR UN SELECT-->
+    <mat-form-field>
+        <input
+            matInput
+            name="status"
+            [ngModel]="modalVehicle.status"
+            type="text"
+            immatriculation
+            #immatriculationInput="ngModel"
+        />
+        <mat-hint>Status</mat-hint>
+    </mat-form-field>
+
+    <!-- TODO: REMPLACER PAR UN SELECT-->
+    <mat-form-field>
+        <input
+            matInput
+            name="state"
+            [ngModel]="modalVehicle.state"
+            type="text"
+            immatriculation
+            #immatriculationInput="ngModel"
+        />
+        <mat-hint>Etat</mat-hint>
+    </mat-form-field>
+
+    <!-- TODO: REMPLACER PAR UN SLIDE TOGGLE-->
+    <mat-form-field>
+        <input
+            matInput
+            name="flagService"
+            [ngModel]="modalVehicle.flagService"
+            type="text"
+            immatriculation
+            #immatriculationInput="ngModel"
+        />
+        <mat-hint>flagService : </mat-hint>
+    </mat-form-field>
+
+    <button class="btn-modal" mat-raised-button color="primary" type="submit">Confirmer</button>
+    <button class="btn-modal" mat-raised-button color="accent" (click)="onNoClick()">Annuler</button>
+</form>
