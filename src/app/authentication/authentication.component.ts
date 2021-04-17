@@ -1,19 +1,25 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { Common } from '../common/common';
 import { AuthenticationDataModel } from './authentication.data.model';
 import { AuthenticationService } from './authentication.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'authentication',
   templateUrl: './authentication.component.html',
-  styleUrls: ['./authentication.component.less']
+  styleUrls: ['./authentication.component.less'],
 })
 export class AuthenticationComponent implements OnInit, AfterViewInit {
-
-  public static readonly PASSWORD_REGEXP: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,}$';
+  public static readonly PASSWORD_REGEXP: string =
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,}$';
 
   /**
    * Conditionne l'affichage du formulaire d'inscription ou de connexion
@@ -55,29 +61,31 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
         const matchingInput = control.parent.get(matchingControlName);
 
         if (input === null || matchingInput === null) {
-            return null;
+          return null;
         }
 
         if (matchingInput?.errors && !matchingInput.errors.confirmedValidator) {
-            return null;
+          return null;
         }
 
         if (input.value !== matchingInput.value) {
-            matchingInput.setErrors({ confirmedValidator: true });
-            return ({ confirmedValidator: true });
+          matchingInput.setErrors({ confirmedValidator: true });
+          return { confirmedValidator: true };
         } else {
-            matchingInput.setErrors(null);
-            return null;
+          matchingInput.setErrors(null);
+          return null;
         }
       } else {
         return null;
       }
     };
-}
+  };
 
-  public constructor(private fb: FormBuilder,
-                      private authenticationService: AuthenticationService,
-                      private _snackBar: MatSnackBar) {
+  public constructor(
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private _snackBar: MatSnackBar,
+  ) {
     this.registerForm = this.fb.group({
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
@@ -92,38 +100,34 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
         AuthenticationComponent.confirmed('password', 'passwordConfirm'),
         Validators.pattern(AuthenticationComponent.PASSWORD_REGEXP),
       ]),
-      email: new FormControl('', [
-        Validators.email,
-        Validators.required
-      ]),
+      email: new FormControl('', [Validators.email, Validators.required]),
       emailConfirm: new FormControl('', [
         Validators.email,
         Validators.required,
-        AuthenticationComponent.confirmed('email', 'emailConfirm')
+        AuthenticationComponent.confirmed('email', 'emailConfirm'),
       ]),
       phone: new FormControl('', [
         Validators.required,
         Validators.minLength(10),
-        Validators.maxLength(10)
-      ])
+        Validators.maxLength(10),
+      ]),
     });
     this.loginForm = this.fb.group({
-      email: new FormControl('', [
-        Validators.email,
-        Validators.required
-      ]),
+      email: new FormControl('', [Validators.email, Validators.required]),
       password: new FormControl('', [
         Validators.minLength(8),
         Validators.required,
         Validators.pattern(AuthenticationComponent.PASSWORD_REGEXP),
-      ])
+      ]),
     });
   }
 
   public ngOnInit() {
-    this.authenticationService.getAuthStatusListener().subscribe(authStatus => {
-      this.wrongId = !authStatus;
-    });
+    this.authenticationService
+      .getAuthStatusListener()
+      .subscribe((authStatus) => {
+        this.wrongId = !authStatus;
+      });
   }
 
   public ngAfterViewInit() {
@@ -136,8 +140,8 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
   public login() {
     const user: AuthenticationDataModel = {
       email: this.loginForm.value.email,
-      password: this.loginForm.value.password
-    }
+      password: this.loginForm.value.password,
+    };
     this.authenticationService.login(user);
   }
 
@@ -150,8 +154,8 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
       surname: this.registerForm.value.surname,
       email: this.registerForm.value.email,
       password: this.registerForm.value.password,
-      phone: this.registerForm.value.phone
-    }
+      phone: this.registerForm.value.phone,
+    };
     this.authenticationService.createUser(user);
     this.openSnackBar();
     this.toggleRegisterForm();
@@ -174,7 +178,7 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     this._snackBar.openFromComponent(SnackbarComponent, {
       duration: this.durationInSeconds * 1000,
       horizontalPosition: 'end',
-      verticalPosition: 'top'
+      verticalPosition: 'top',
     });
   }
 }

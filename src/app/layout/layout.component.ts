@@ -4,10 +4,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.less']
+  styleUrls: ['./layout.component.less'],
 })
 export class LayoutComponent implements OnInit {
-
   private static USERS_COMPONENT = 'users';
   private static PARC_COMPONENT = 'parc';
   private static LOAN_COMPONENT = 'loan';
@@ -17,10 +16,9 @@ export class LayoutComponent implements OnInit {
    */
   public componentToLoad: string = this.router.url.split('/')[1];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * Retourne le nom de la page en fonction de l'url
@@ -40,5 +38,4 @@ export class LayoutComponent implements OnInit {
     }
     return pageName;
   }
-
 }

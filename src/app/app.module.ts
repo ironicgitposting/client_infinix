@@ -15,11 +15,10 @@ import { LayoutModule } from './layout/layout.module';
 import { LoanModule } from './loan/loan.module';
 import { SnackBarModule } from './snackbar/snackbar.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AdminPanelModule } from './admin-panel/adminPanel.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -34,9 +33,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     LayoutModule,
     LoanModule,
     SnackBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    AdminPanelModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
