@@ -3,8 +3,9 @@ import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from
 import { Common } from '../common/common';
 import { AuthenticationDataModel } from './authentication.data.model';
 import { AuthenticationService } from './authentication.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { MessageService } from '../common/services/message.service';
 
 @Component({
   selector: 'authentication',
@@ -32,8 +33,6 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
    * Détermine l'affichage de l'erreur des identifiants incorrects
    */
   public wrongId: boolean = false;
-
-  public durationInSeconds = 5;
 
   /**
    * Getter des contrôles du formulaire d'inscription
@@ -76,8 +75,9 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
 }
 
   public constructor(private fb: FormBuilder,
-                      private authenticationService: AuthenticationService,
-                      private _snackBar: MatSnackBar) {
+                     private authenticationService: AuthenticationService,
+                     private _snackBar: MatSnackBar,
+                     private msgService: MessageService) {
     this.registerForm = this.fb.group({
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
@@ -153,7 +153,7 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
       phone: this.registerForm.value.phone
     }
     this.authenticationService.createUser(user);
-    this.openSnackBar();
+    this.openSnackBar('success', 'Demande de création de compte enregistrée');
     this.toggleRegisterForm();
   }
 
@@ -170,11 +170,7 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     this.isRegisterForm = !this.isRegisterForm;
   }
 
-  openSnackBar() {
-    this._snackBar.openFromComponent(SnackbarComponent, {
-      duration: this.durationInSeconds * 1000,
-      horizontalPosition: 'end',
-      verticalPosition: 'top'
-    });
+  public openSnackBar(type: string, message: string) {
+    this.msgService.snackbar(message, type);
   }
 }

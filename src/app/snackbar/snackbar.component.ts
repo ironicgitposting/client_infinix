@@ -11,10 +11,10 @@ export class SnackbarComponent implements OnInit {
   /**
    * Différents types d'alerte
    */
-  private static WARNING_TYPE = 'warning';
-  private static INFO_TYPE = 'info';
-  private static SUCCESS_TYPE = 'success';
-  private static ERROR_TYPE = 'error';
+  private static readonly WARNING_TYPE = 'warning';
+  private static readonly INFO_TYPE = 'info';
+  private static readonly SUCCESS_TYPE = 'success';
+  private static readonly ERROR_TYPE = 'error';
 
   constructor(private _snackRef: MatSnackBarRef<SnackbarComponent>,
     @Inject(MAT_SNACK_BAR_DATA) public data: {
@@ -23,6 +23,12 @@ export class SnackbarComponent implements OnInit {
   }) { }
 
   ngOnInit(): void {
+    if (!this.data.message) {
+      this.data.message = 'Succès';
+    }
+    if (!this.data.type) {
+      this.data.type = 'success';
+    }
   }
 
   /**
