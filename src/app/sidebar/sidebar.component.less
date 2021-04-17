@@ -1,23 +1,39 @@
 #sidebar{
-    background: white;
-    width:120px;
-    margin-top: 3em;
+  width: 300px;
+  margin-top: 4em;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  mat-divider {
+    margin: 1em .5em;
+    width: calc(100% - 1em);
+  }
+  mat-icon {
+    color: white;
+  }
+  ::ng-deep .mat-button {
+    width: 90%;
+    color: white;
+    & div {
+      display: flex;
+      align-items: center;
+      mat-icon {
+        height: 30px;
+        width: 30px;
+        font-size: 30px;
+        margin-right: .5em;
+      }
+    }
+    &:hover span > mat-icon:last-child {
+      opacity: 1;
+    }
+    & span > mat-icon {
+      opacity: 0;
+    }
+  }
+  ::ng-deep .mat-button-wrapper {
     display: flex;
     align-items: center;
-    flex-direction: column;
-    mat-icon {
-        height: 75px;
-        width: 75px;
-        font-size: 75px;
-    }
-    mat-divider {
-        margin: 1em .5em;
-        width: calc(100% - 1em);
-    }
-    mat-raised-button .mat-button-wrapper {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-    }
+    justify-content: space-between;
+  }
 }
