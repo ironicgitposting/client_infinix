@@ -1,0 +1,9 @@
+<div class="snackbar-container" (click)="close()">
+    <mat-icon *ngIf="isTypeWarning()" class="icon-warning">warning_amber</mat-icon>
+    <mat-icon *ngIf="isTypeError()" class="icon-error">error_outline</mat-icon>
+    <mat-icon *ngIf="isTypeInfo()" class="icon-info">info_outline</mat-icon>
+    <mat-icon *ngIf="isTypeSuccess()" class="icon-success">done</mat-icon>
+    <span class="message">
+        {{ data.message }}
+    </span>
+</div>

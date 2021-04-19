@@ -1,72 +1,98 @@
-<div id="dashboard">
-  <mat-card id="vehicle-widget" class="widget">
-    <mat-card-header>
-      <mat-card-title>Véhicules disponibles</mat-card-title>
-    </mat-card-header>
-      <mat-card-content>
-      </mat-card-content>
-      <mat-accordion>
-        <mat-expansion-panel class="expansion-panel">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Ford Fiesta 2.0 TDI
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
-                  <img src="../../assets/pictures/ford.jpg"/>
-              </div>
-            <div>
-              <span>Les clés : YUP145 </span>
-              <span>Les doubles des clés : YUP146 </span>
-            </div>
-            <div>
-              <span>Le véhicule est emprunté par : Vincent David </span>
-              <span>Du 24 Février 2021 au 28 Février 2021</span>
-            </div>
-            <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
-            <button class="action-btn" mat-raised-button color="primary">EDITER</button>
-            <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
-        </mat-expansion-panel>
-        <mat-expansion-panel class="expansion-panel">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Peugeot 406 2.0 TDI
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
-                  <img src="../../assets/pictures/ford.jpg"/>
-              </div>
-            <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
-            <button class="action-btn" mat-raised-button color="primary">EDITER</button>
-            <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
-        </mat-expansion-panel>
-        <mat-expansion-panel class="expansion-panel">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Citroën C3 2.0 TDI
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
-                  <img src="../../assets/pictures/ford.jpg"/>
-              </div>
-            <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
-            <button class="action-btn" mat-raised-button color="primary">EDITER</button>
-            <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
-        </mat-expansion-panel>
-        <mat-expansion-panel class="expansion-panel">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Renault Clio 2.0 TDI
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
-                  <img src="../../assets/pictures/ford.jpg"/>
-              </div>
-            <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
-            <button class="action-btn" mat-raised-button color="primary">EDITER</button>
-            <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
-        </mat-expansion-panel>
-      </mat-accordion>
-  </mat-card>
-</div>
+<mat-card id="vehicle-widget" class="widget">
+  <mat-card-header>
+  <mat-card-title>Véhicules disponibles</mat-card-title>
+  </mat-card-header>
+  <mat-accordion *ngIf="!isEmptyVehicles()">
+    <mat-expansion-panel class="expansion-panel" *ngFor="let vehicle of vehicles">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ vehicle.libelle }}
+        </mat-panel-title>
 
+      </mat-expansion-panel-header>
+      <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+        <img src="../../assets/pictures/ford.jpg"/>
+      </div>
+      <div class="d-flex align-items-center flex-direction-row">
+        <span>Immatriculation : {{ vehicle.immatriculation }}</span>
+      </div>
+      <div>
+        <span>Les clés : YUP145 </span>
+        <span>Les doubles des clés : YUP146 </span>
+      </div>
+      <div>
+        <span>Le véhicule est emprunté par : Vincent David </span>
+        <span>Du 24 Février 2021 au 28 Février 2021</span>
+      </div>
+      <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+      <button class="action-btn" mat-raised-button color="primary" (click)="openDialog(vehicle)">PLUS D'INFORMATIONS</button>
+      <button class="action-btn" mat-raised-button color="warn" (click)="deleteVehicle(vehicle)">SUPPRIMER</button>
+    </mat-expansion-panel>
+  </mat-accordion>
+    <!--
+    <mat-accordion *ngIf="!isEmptyVehicles()">
+      <mat-expansion-panel class="expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Ford Fiesta 2.0 TDI
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+                <img src="../../assets/pictures/ford.jpg"/>
+            </div>
+          <div>
+            <span>Les clés : YUP145 </span>
+            <span>Les doubles des clés : YUP146 </span>
+          </div>
+          <div>
+            <span>Le véhicule est emprunté par : Vincent David </span>
+            <span>Du 24 Février 2021 au 28 Février 2021</span>
+          </div>
+          <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+          <button class="action-btn" mat-raised-button color="primary">PLUS D'INFORMATIONS</button>
+          <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Peugeot 406 2.0 TDI
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+                <img src="../../assets/pictures/ford.jpg"/>
+            </div>
+          <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+          <button class="action-btn" mat-raised-button color="primary">PLUS D'INFORMATIONS</button>
+          <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Citroën C3 2.0 TDI
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+                <img src="../../assets/pictures/ford.jpg"/>
+            </div>
+          <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+          <button class="action-btn" mat-raised-button color="primary">PLUS D'INFORMATIONS</button>
+          <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+      </mat-expansion-panel>
+      <mat-expansion-panel class="expansion-panel">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Renault Clio 2.0 TDI
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+                <img src="../../assets/pictures/ford.jpg"/>
+            </div>
+          <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+          <button class="action-btn" mat-raised-button color="primary">PLUS D'INFORMATIONS</button>
+          <button class="action-btn" mat-raised-button color="warn">SUPPRIMER</button>
+      </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>
+
+-->

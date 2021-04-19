@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { VehiclesListComponent } from './vehicles-list.component';
+import { DialogVehicle, VehiclesListComponent } from './vehicles-list.component';
 import { HeaderModule } from '../header/header.module';
 import { SidebarModule } from '../sidebar/sidebar.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -17,7 +17,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
-    VehiclesListComponent
+    VehiclesListComponent,
+    DialogVehicle
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from '../common/services/message.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   exports: [AuthenticationComponent],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AuthenticationComponent]
 })
 export class AuthenticationModule { }
