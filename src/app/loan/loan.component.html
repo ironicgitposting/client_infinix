@@ -1,4 +1,7 @@
 <div id="loan-container">
+  <button mat-raised-button color="primary" class="add-loan" (click)="openLoanModal(false, 'new')">
+    Faire une demande de prêt
+  </button>
     <mat-card style="margin-bottom: 0;">
         <mat-card-header>
             <mat-card-title>
@@ -22,47 +25,51 @@
                     <mat-form-field>
                         <mat-label>États</mat-label>
                         <mat-select>
-                            <mat-option *ngFor="let etat of etats" [value]="etat">
+                            <mat-option *ngFor="let etat of status" [value]="etat" (onSelectionChange)='filterByStatus($event)'>
                             {{etat}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-                        <mat-icon>add</mat-icon>
-                    </button>
                 </div>
                 <mat-divider></mat-divider>
             </mat-card-title>
         </mat-card-header>
-        <mat-card-content style="margin: 2em">
+        <mat-card-content style="margin: 2em; position: relative;">
             <div class="mat-elevation-z8">
                 <table mat-table
                 [dataSource]="dataSource" multiTemplateDataRows
                 matSort>
                     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columsName[column]}} </th>
+                      <ng-template [ngIf]="column !== 'startDate' && column !== 'endDate' && column !== 'driver' && column !== 'departureSite'" [ngIfElse]='notCommonValues'>
                         <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                      </ng-template>
+                      <ng-template #notCommonValues [ngIf]="column === 'driver' || column === 'departureSite'" [ngIfElse]='isDateValue'>
+                        <ng-template [ngIf]="column === 'driver'" [ngIfElse]='notUser'>
+                          <td mat-cell *matCellDef="let element"> {{element['User'].name}} </td>
+                        </ng-template>
+                        <ng-template #notUser [ngIf]="column === 'departureSite'">
+                          <td mat-cell *matCellDef="let element"> {{element['Site'].label}} </td>
+                        </ng-template>
+                      </ng-template>
+                      <ng-template #isDateValue [ngIf]="column === 'startDate' || column === 'endDate'">
+                        <td mat-cell *matCellDef="let element"> {{element[column] | date: 'fullDate' }} </td>
+                      </ng-template>
                     </ng-container>
-                    
+
                     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
                     <ng-container matColumnDef="expandedDetail">
                         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
                         <div class="example-element-detail"
                                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                            <div class="example-element-diagram">
-                            <div class="example-element-position"> {{element.position}} </div>
-                            <div class="example-element-symbol"> {{element.symbol}} </div>
-                            <div class="example-element-name"> {{element.name}} </div>
-                            <div class="example-element-weight"> {{element.weight}} </div>
-                            </div>
-                            <div class="example-element-description">
-                            {{element.description}}
-                            <span class="example-element-description-attribution"> -- Wikipedia </span>
+                            <div style='display: flex; align-items: center; justify-content: space-evenly; flex-direction: column'>
+                              <button mat-button color="primary" (click)="openLoanModal(false, 'update')">Modifier</button>
+                              <button mat-button color="warn">Clôturer</button>
                             </div>
                         </div>
                         </td>
                     </ng-container>
-                    
+
                     <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
                     <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
                         class="example-element-row"

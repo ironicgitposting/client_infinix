@@ -1,0 +1,49 @@
+<div class='modal-header'>
+  <div>
+    <h1 *ngIf="isNewMode()">Nouvelle demande de réservation</h1>
+    <h1 *ngIf="isReadMode() || isUpdateMode()">Réservation du</h1>
+  </div>
+  <button mat-icon-button class='close-button' (click)='close()'>
+    <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
+  </button>
+</div>
+<mat-divider></mat-divider>
+<form [formGroup]="loanForm">
+  <div>
+    <mat-form-field style='width: 100%'>
+        <mat-label>Conducteur</mat-label>
+        <input type="text"
+                aria-label="Conducteur"
+                matInput
+                formControlName="driver"
+                [matAutocomplete]="auto">
+      <mat-icon>arrow_drop_down</mat-icon>
+        <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let driver of drivers" [value]="driver">
+            {{ driver.surname }} {{ driver.name }}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div>
+  <mat-form-field style='margin-right: 1em'>
+    <mat-label>Date de début</mat-label>
+    <input matInput [matDatepicker]="startPicker"formControlName="start">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker #startPicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Date de fin</mat-label>
+    <input matInput [matDatepicker]="endPicker" formControlName="end">
+    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker #endPicker></mat-datepicker>
+  </mat-form-field>
+  </div>
+  <div>
+    <mat-checkbox color='primary' class='acceptPassengers' formControlName='acceptPassengers'>Accepter de covoiturer</mat-checkbox>
+  </div>
+  <div class='actions'>
+    <button mat-raised-button (click)='close()'>Annuler</button>
+    <button mat-raised-button color='primary' [disabled]='!isSaveDisabled()' (click)='close(true)'>Valider</button>
+  </div>
+</form>

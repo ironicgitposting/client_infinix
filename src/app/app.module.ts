@@ -16,6 +16,7 @@ import { LoanModule } from './loan/loan.module';
 import { SnackBarModule } from './snackbar/snackbar.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminPanelModule } from './admin-panel/adminPanel.module';
+import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +36,7 @@ import { AdminPanelModule } from './admin-panel/adminPanel.module';
     SnackBarModule,
     MatSnackBarModule,
     AdminPanelModule,
+    LoanModalModule
   ],
   providers: [],
   bootstrap: [AppComponent],

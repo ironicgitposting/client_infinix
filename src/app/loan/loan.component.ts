@@ -2,6 +2,17 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoanModalComponent } from './loan-modal/loan-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { MessageService } from '../common/services/message.service';
+import { LoanService } from './loan.service';
+import { BookingDataModel } from './loan.data.model';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { UserService } from '../users-list/usersList.service';
+import { User } from '../users-list/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-loan',
@@ -17,111 +28,135 @@ import {MatSort} from '@angular/material/sort';
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')) ]),
   ],
 })
-export class LoanComponent implements OnInit, AfterViewInit {
+export class LoanComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   ELEMENT_DATA = [
     {
-      position: 1,
-      name: 'Hydrogen',
-      weight: 1.0079,
-      symbol: 'H',
-      description: `Hydrogen is a chemical element with symbol H and atomic number 1. With a standard
-          atomic weight of 1.008, hydrogen is the lightest element on the periodic table.`
+      start: 1,
+      status: 'En cours',
+      driver: 'Jules Corentin',
+      site: 'H'
     }, {
-      position: 2,
-      name: 'Helium',
-      weight: 4.0026,
-      symbol: 'He',
-      description: `Helium is a chemical element with symbol He and atomic number 2. It is a
-          colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas
-          group in the periodic table. Its boiling point is the lowest among all the elements.`
+      start: 2,
+      status: 'Clôturé',
+      driver: 'Richard Patrick',
+      site: 'He'
     }, {
-      position: 3,
-      name: 'Lithium',
-      weight: 6.941,
-      symbol: 'Li',
-      description: `Lithium is a chemical element with symbol Li and atomic number 3. It is a soft,
-          silvery-white alkali metal. Under standard conditions, it is the lightest metal and the
-          lightest solid element.`
+      start: 3,
+      status: 'En validation',
+      driver: 'Menard Romain',
+      site: 'Li'
     }, {
-      position: 4,
-      name: 'Beryllium',
-      weight: 9.0122,
-      symbol: 'Be',
-      description: `Beryllium is a chemical element with symbol Be and atomic number 4. It is a
-          relatively rare element in the universe, usually occurring as a product of the spallation of
-          larger atomic nuclei that have collided with cosmic rays.`
+      start: 4,
+      status: 'Validé',
+      driver: 'Bedjaï Romain',
+      site: 'Be'
     }, {
-      position: 5,
-      name: 'Boron',
-      weight: 10.811,
-      symbol: 'B',
-      description: `Boron is a chemical element with symbol B and atomic number 5. Produced entirely
-          by cosmic ray spallation and supernovae and not by stellar nucleosynthesis, it is a
-          low-abundance element in the Solar system and in the Earth's crust.`
+      start: 5,
+      status: 'En retard',
+      driver: 'Oujdari Mourad',
+      site: 'B'
     }, {
-      position: 6,
-      name: 'Carbon',
-      weight: 12.0107,
-      symbol: 'C',
-      description: `Carbon is a chemical element with symbol C and atomic number 6. It is nonmetallic
-          and tetravalent—making four electrons available to form covalent chemical bonds. It belongs
-          to group 14 of the periodic table.`
+      start: 6,
+      status: 'En validation',
+      driver: 'Dupont Jean',
+      site: 'C'
     }, {
-      position: 7,
-      name: 'Nitrogen',
-      weight: 14.0067,
-      symbol: 'N',
-      description: `Nitrogen is a chemical element with symbol N and atomic number 7. It was first
-          discovered and isolated by Scottish physician Daniel Rutherford in 1772.`
+      start: 7,
+      status: 'En cours',
+      driver: 'Doe John',
+      site: 'N'
     }, {
-      position: 8,
-      name: 'Oxygen',
-      weight: 15.9994,
-      symbol: 'O',
-      description: `Oxygen is a chemical element with symbol O and atomic number 8. It is a member of
-           the chalcogen group on the periodic table, a highly reactive nonmetal, and an oxidizing
-           agent that readily forms oxides with most elements as well as with other compounds.`
+      start: 8,
+      status: 'Validé',
+      driver: 'Doe Jane',
+      site: 'O'
     }, {
-      position: 9,
-      name: 'Fluorine',
-      weight: 18.9984,
-      symbol: 'F',
-      description: `Fluorine is a chemical element with symbol F and atomic number 9. It is the
-          lightest halogen and exists as a highly toxic pale yellow diatomic gas at standard
-          conditions.`
+      start: 9,
+      status: 'Validé',
+      driver: 'Toto',
+      site: 'F'
     }, {
-      position: 10,
-      name: 'Neon',
-      weight: 20.1797,
-      symbol: 'Ne',
-      description: `Neon is a chemical element with symbol Ne and atomic number 10. It is a noble gas.
-          Neon is a colorless, odorless, inert monatomic gas under standard conditions, with about
-          two-thirds the density of air.`
+      start: 10,
+      status: 'Clôturé',
+      driver: 'Tutu',
+      site: 'Ne'
     },
   ];
 
-  columnsToDisplay = ['name', 'weight', 'symbol', 'position', 'Actions'];
+  columnsToDisplay: string[] = ['status', 'driver', 'departureSite', 'startDate', 'endDate'];
 
-  expandedElement: {position: number, name: string, weight: number, symbol: string, description: string} | null;
+  columsName: {
+    [status: string]: string;
+    driver: string;
+    departureSite: string;
+    startDate: string;
+    endDate: string; } = {
+    status: 'Statut',
+    driver: 'Conducteur',
+    departureSite: 'site de départ',
+    startDate: 'Date du prêt',
+    endDate: 'Date de rendu'};
 
-  etats = ['En validation', 'Validé', 'En cours', 'En retard', 'Clôturé']
+  expandedElement: BookingDataModel | null;
+
+  status = ['Tous', 'En validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
 
   dataSource: MatTableDataSource<any>;
 
-  constructor() {
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  constructor(private _snackBar: MatSnackBar,
+              public dialog: MatDialog,
+              private msgService: MessageService,
+              private loanService: LoanService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.loanService.getAllBookings().subscribe(booking => {
+      this.ELEMENT_DATA = booking.booking;
+      console.log(this.ELEMENT_DATA);
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      console.log(this.dataSource);
+      this.dataSource.sort = this.sort;
+    });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
-  applyFilter(event: Event) {
+  public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  public openSnackBar(type: string, message: string) {
+    this.msgService.snackbar(message, type);
+  }
+
+  public openLoanModal(isReadOnly: boolean, mode: string): void {
+    const dialogRef = this.dialog.open(LoanModalComponent, {
+      data: { isReadOnly: isReadOnly, mode: mode, loan: '' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result && result.saved) {
+        this.openSnackBar('success', 'Demande de réservation enregistrée');
+        const booking: BookingDataModel = {};
+        booking.driver = 1;
+        booking.lentVehicule = 1;
+        booking.startDate = new Date();
+        booking.endDate = null;
+        booking.status = 1;
+        booking.departureSite = 1;
+        this.loanService.createBooking(booking);
+      }
+    });
+  }
+
+  public filterByStatus(status: MatOptionSelectionChange): void {
+    if (status.isUserInput) {
+      if (status.source.value === this.status[0]) {
+        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      } else {
+        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA.filter(loan => loan.status === status.source.value));
+      }
+    }
+  }
 }

@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   /**
    * Date du jour au format string
    */
-  public today: string = moment().locale('fr').format("dddd Do MMMM YYYY");;
+  public today: string = moment().locale('fr').format('dddd Do MMMM YYYY');
 
   constructor(
     private authenticationService: AuthenticationService
@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
   /**
    * Déconnexion
    */
-  public logout() {
+  public logout(): void {
     this.authenticationService.logout();
   }
 
