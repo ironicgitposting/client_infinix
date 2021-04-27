@@ -1,15 +1,15 @@
-<div id="header" class="d-flex align-items-center flex-direction-row">
-    <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
+<div id="header" class="header d-flex align-items-center flex-direction-row">
+    <div id="logo-infinix" class="logo-infinix d-flex align-items-center flex-direction-row">
         <a href="/dashboard" class="d-flex">
             <img src="../../assets/pictures/logoInfinix.png"/>
         </a>
     </div>
-    <div id="header-right-part" class="d-flex flex-direction-row">
-        <div id="header-center" class="d-flex align-items-center flex-direction-row">
+    <div id="header-right-part" class="header-right-part d-flex flex-direction-row">
+        <div id="header-center" class="header-center d-flex align-items-center flex-direction-row">
             <div>
-                <span id="header-date">{{ today }}</span>
+                <span id="header-date" class="header-date">{{ today }}</span>
             </div>
-            <div id="header-title">
+            <div id="header-title" class="header-title">
                 <h1>{{ pageName }}</h1>
             </div>
             <div>
@@ -19,9 +19,9 @@
                 </mat-form-field>
             </div>
         </div>
-        <div id="user-part" class="d-flex align-items-center flex-direction-row">
+        <div id="user-part" class="user-part d-flex align-items-center flex-direction-row">
             <div  id="user-connected">
-                <button mat-button [matMenuTriggerFor]="menu" id="menu-user">
+                <button mat-button [matMenuTriggerFor]="menu" id="menu-user" class="menu-user"> 
                     <span>{{ connectedUser.name }} {{ connectedUser.surname }}</span>
                     <span style="font-size: 10px;">Administrateur</span>
                 </button>
@@ -29,7 +29,7 @@
                     <button mat-menu-item>Language : FR</button>
                 </mat-menu>
             </div>
-            <div id="logout">
+            <div id="logout" class="logout">
                 <button mat-mini-fab color="primary" (click)="logout()">
                     <mat-icon aria-hidden="false" style="color: white;">power_settings_new</mat-icon>
                 </button>

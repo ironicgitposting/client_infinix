@@ -1,4 +1,4 @@
-<div id="wrapper">
+<div id="wrapper" class="wrapper">
     <mat-chip-list>
         <mat-chip color="primary" selected (click)="drawer.toggle()" class="d-flex">
             Menu
@@ -8,11 +8,11 @@
     </mat-chip-list>
     <app-header [pageName]="getPageName()"></app-header>
     <mat-drawer-container class="drawer-container" autosize>
-        <mat-drawer #drawer class="drawer" mode="side" style="border-right: 1px solid #673ab7;">
+        <mat-drawer #drawer class="drawer" mode="side">
             <app-sidebar></app-sidebar>
         </mat-drawer>
         <mat-drawer-content>
-            <div id="container">
+            <div id="container" class="container">
                 <ng-template [ngIf]="componentToLoad === 'dashboard'">
                     <app-dashboard style="width: 100%"></app-dashboard>
                 </ng-template>
