@@ -1,92 +1,97 @@
-#wrapper {
+@import "../common/common.less";
+
+.wrapper {
   width: 100%;
   height: 100vh;
-  background-color: #000;
+  background-color: @color-black;
   background-image: radial-gradient(circle at top right, rgba(121, 68, 154, 0.23), transparent),
-    radial-gradient(circle at 20% 80%, rgba(103, 58, 183, 0.63), transparent)
-}
-canvas {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-}
+    radial-gradient(circle at 20% 80%, rgba(103, 58, 183, 0.63), transparent);
 
-a {
-  position: absolute;
-  bottom: 2vmin;
-  right: 2vmin;
-  color: rgba(255,255,255,0.2);
-  text-decoration: none;
-}
+  canvas {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
 
-a:hover {
-  color: #fff;
-}
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+  
 
-#container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  align-items: center;
-}
 
-#authentication, #register {
-  font-family: 'Roboto';
-}
+    a {
+      position: absolute;
+      bottom: 2vmin;
+      right: 2vmin;
+      color: rgba(255,255,255,0.2);
+      text-decoration: none;
+      &:hover {
+        color: @color-white;
+      }
+    }
 
-#authentication{
-  width: 400px;
-}
 
-#register{
-  width: 500px;
-}
+    .authentification, .register {
+      font-family: @family-font;
+    }
 
-mat-form-field {
-  margin: 1em;
-  width: 75%;
-  flex: 1 0 21%;
-}
+    .authentification{
+      width: 400px;
+    }
 
-mat-card-title {
-  font-size: 2em !important;
-  padding: .5em 0;
-}
+    .register{
+      width: 500px;
+    }
 
-#connect-button {
-  padding: .3em 3em;
-  margin: 2em 0;
-}
+    mat-form-field {
+      margin: 1em;
+      width: 75%;
+      flex: 1 0 21%;
+    }
 
-mat-card-content {
-  display: flex;
-  flex-direction: column;
-}
+    mat-card-title {
+      font-size: 2em !important;
+      padding: .5em 0;
+    }
 
-.login-form-group {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  margin: 1em 0 !important;
-}
+    .connect-button {
+      padding: .3em 3em;
+      margin: 2em 0;
+    }
 
-#app-name {
-  font-family: 'abster';
-  font-size: 8em;
-  color: #FFFFFF;
-  font-style:italic;
-  line-height: 1em;
-}
+    mat-card-content {
+      display: flex;
+      flex-direction: column;
+    }
 
-.register-form-group {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 1em 0 !important;
-}
+    .login-form-group {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 1em 0 !important;
+    }
 
-#login-error {
-  color: red;
-  text-align: center;
+    .app-name {
+      font-family: @font-app-name-family;
+      font-size: 8em;
+      color: @color-app-name;
+      font-style: italic;
+      line-height: 1em;
+    }
+
+    .register-form-group {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 1em 0 !important;
+    }
+
+    #login-error {
+      color: @color-red;
+      text-align: center;
+    }
+  }
 }

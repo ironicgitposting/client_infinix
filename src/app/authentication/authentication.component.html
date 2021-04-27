@@ -1,10 +1,10 @@
-<div id="wrapper">
+<div id="wrapper" class="wrapper">
     <canvas #canvas></canvas>
-    <div id="container">
-      <span id="app-name">
+    <div id="container" class="container">
+      <span id="app-name" class="app-name">
         INFINIX FLEET
       </span>
-      <mat-card id="authentication" *ngIf="!isRegisterForm">
+      <mat-card id="authentication" class="authentification" *ngIf="!isRegisterForm">
         <mat-card-header>
           <mat-card-title>Connexion</mat-card-title>
         </mat-card-header>
@@ -41,7 +41,7 @@
           <button mat-button (click)="toggleRegisterForm()">Créer un compte</button>
         </mat-card-content>
       </mat-card>
-      <mat-card id="register" *ngIf="isRegisterForm">
+      <mat-card id="register" class="register" *ngIf="isRegisterForm">
         <mat-card-header>
           <mat-card-title>Création de compte</mat-card-title>
         </mat-card-header>
@@ -115,7 +115,7 @@
               </mat-error>
             </mat-form-field>
           </form>
-          <button mat-raised-button color="primary" id="connect-button" (click)="register()">Créer mon compte</button>
+          <button mat-raised-button color="primary" id="connect-button" class="connect-button" (click)="register()">Créer mon compte</button>
           <button mat-button (click)="toggleRegisterForm()">J'ai déjà un compte</button>
       </mat-card-content>
       </mat-card>
