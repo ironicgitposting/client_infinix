@@ -8,6 +8,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import { Inject } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
+import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 @Component({
   selector: 'usersList',
   templateUrl: './usersList.component.html',
@@ -55,6 +56,11 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (user.email) {
       this.userService.deleteUser(user);
     }
+  }
+
+  onUserSwitchToggle($event: MatSlideToggleChange, user: User): void {
+    user.enabled = $event.checked;
+    this.userService.updateUser(user);
   }
 }
 

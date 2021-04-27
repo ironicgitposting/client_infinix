@@ -6,7 +6,7 @@
       </mat-panel-title>
 
     </mat-expansion-panel-header>
-    <mat-slide-toggle class="slide-toggle">Activé</mat-slide-toggle>
+    <mat-slide-toggle class="slide-toggle" [checked]="user.enabled" (change)="onUserSwitchToggle($event, user)">Activé</mat-slide-toggle>
     <button class="action-btn" mat-raised-button color="primary"(click)="openDialog(user)">EDITER</button>
     <button class="action-btn" mat-raised-button color="warn" (click)="deleteUser(user)" >SUPPRIMER</button>
   </mat-expansion-panel>

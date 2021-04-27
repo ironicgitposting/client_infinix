@@ -1,10 +1,10 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { map } from 'rxjs/operators'
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 
-import { Router } from "@angular/router";
-import { User } from "./user.model";
-import { Subject } from "rxjs";
+import { Router } from '@angular/router';
+import { User } from './user.model';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router ) {}
 
-  getUsers() {
+  getUsers(): void {
     this.http.get<{users: any}>('http://localhost:3000/api/v1/users')
     .pipe(map((postData) => {
       return {users: postData.users.map((user: any) => {
@@ -30,20 +30,21 @@ export class UserService {
           dateLastSeen: user.dateLastSeen,
           site: user.site,
           language: user.language,
-          archived: user.archived
-        }
-      })}
+          archived: user.archived,
+          enabled: user.enabled
+        };
+      })};
     }))
     .subscribe((transformedUserData) => {
       this.users = transformedUserData.users;
       this.usersUpdated.next({
         users: [...this.users]
-      })
+      });
       console.log(this.users);
-    })
+    });
   }
 
-  getUserUpdateListener() {
+  getUserUpdateListener(): Observable<any> {
     return this.usersUpdated.asObservable();
   }
 
