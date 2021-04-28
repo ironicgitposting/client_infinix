@@ -16,9 +16,9 @@
                 aria-label="Conducteur"
                 matInput
                 formControlName="driver"
-                [matAutocomplete]="auto">
+                [matAutocomplete]="driver">
       <mat-icon>arrow_drop_down</mat-icon>
-        <mat-autocomplete #auto="matAutocomplete">
+        <mat-autocomplete #driver="matAutocomplete">
             <mat-option *ngFor="let driver of drivers" [value]="driver.surname + ' ' + driver.name" (onSelectionChange)='setDriverId($event, driver)'>
             {{ driver.surname }} {{ driver.name }}
             </mat-option>
@@ -32,9 +32,9 @@
              aria-label="Site de départ"
              matInput
              formControlName="departureSite"
-             [matAutocomplete]="auto">
+             [matAutocomplete]="site">
       <mat-icon>arrow_drop_down</mat-icon>
-      <mat-autocomplete #auto="matAutocomplete">
+      <mat-autocomplete #site="matAutocomplete">
         <mat-option *ngFor="let site of sites" [value]="site" (onSelectionChange)='setSiteId($event, site)'>
           {{ site.libelle }}
         </mat-option>
