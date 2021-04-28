@@ -8,11 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MessageService } from '../common/services/message.service';
 import { LoanService } from './loan.service';
-import { BookingDataModel } from './loan.data.model';
-import { AuthenticationService } from '../authentication/authentication.service';
-import { UserService } from '../users-list/usersList.service';
-import { User } from '../users-list/user.model';
-import { Subscription } from 'rxjs';
+import { LoanDataModel } from './loan.data.model';
 
 @Component({
   selector: 'app-loan',
@@ -98,7 +94,7 @@ export class LoanComponent implements OnInit {
     startDate: 'Date du prêt',
     endDate: 'Date de rendu'};
 
-  expandedElement: BookingDataModel | null;
+  expandedElement: LoanDataModel | null;
 
   status = ['Tous', 'En validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
 
@@ -111,8 +107,8 @@ export class LoanComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.loanService.getAllBookings().subscribe(booking => {
-      this.ELEMENT_DATA = booking.booking;
+    this.loanService.getAllLoans().subscribe(loan => {
+      this.ELEMENT_DATA = loan.booking;
       console.log(this.ELEMENT_DATA);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       console.log(this.dataSource);
@@ -129,23 +125,18 @@ export class LoanComponent implements OnInit {
     this.msgService.snackbar(message, type);
   }
 
-  public openLoanModal(isReadOnly: boolean, mode: string): void {
+  public openLoanModal(isReadOnly: boolean, mode: string, loan: LoanDataModel): void {
     const dialogRef = this.dialog.open(LoanModalComponent, {
-      data: { isReadOnly: isReadOnly, mode: mode, loan: '' }
+      data: { isReadOnly: isReadOnly, mode: mode, loan: loan }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result && result.saved) {
-        this.openSnackBar('success', 'Demande de réservation enregistrée');
-        const booking: BookingDataModel = {};
-        booking.driver = 1;
-        booking.lentVehicule = 1;
-        booking.startDate = new Date();
-        booking.endDate = null;
-        booking.status = 1;
-        booking.departureSite = 1;
-        this.loanService.createBooking(booking);
+        this.loanService.createLoan(result.loan).subscribe(response => {
+          console.log(response);
+          this.openSnackBar('success', 'Demande de réservation enregistrée');
+        });
       }
     });
   }

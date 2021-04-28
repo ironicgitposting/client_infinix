@@ -1,4 +1,4 @@
-export class BookingDataModel {
+export class LoanDataModel {
   driver?: any;
   lentVehicule?: any;
   startDate?: any;
