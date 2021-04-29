@@ -21,12 +21,12 @@
         </div>
         <div id="user-part" class="user-part d-flex align-items-center flex-direction-row">
             <div  id="user-connected">
-                <button mat-button [matMenuTriggerFor]="menu" id="menu-user" class="menu-user"> 
+                <button mat-button [matMenuTriggerFor]="menu" id="menu-user" class="menu-user">
                     <span>{{ connectedUser.name }} {{ connectedUser.surname }}</span>
                     <span style="font-size: 10px;">Administrateur</span>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Language : FR</button>
+                    <button mat-menu-item>Language : {{ locale }}</button>
                 </mat-menu>
             </div>
             <div id="logout" class="logout">

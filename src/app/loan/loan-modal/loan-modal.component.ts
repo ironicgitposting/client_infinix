@@ -14,10 +14,6 @@ import { LoanDataModel } from '../loan.data.model';
 })
 export class LoanModalComponent implements OnInit {
 
-  public get isReadOnlyMode(): boolean {
-    return this.data.isReadOnly;
-  }
-
   public loanForm: FormGroup;
 
   public drivers: User[] = [];
@@ -39,11 +35,11 @@ export class LoanModalComponent implements OnInit {
               loan: any;
   }) {
       this.loanForm = this.fb.group({
-      driver: new FormControl('', Validators.required),
-      departureSite: new FormControl('', Validators.required),
-      start: new FormControl('', [Validators.required]),
-      end: new FormControl('', []),
-      acceptPassengers: new FormControl('', [])
+      driver: new FormControl({value: '', disabled: this.isReadMode()}, Validators.required),
+      departureSite: new FormControl({value: '', disabled: this.isReadMode()}, Validators.required),
+      start: new FormControl({value: '', disabled: this.isReadMode()}, [Validators.required]),
+      end: new FormControl({value: '', disabled: this.isReadMode()}, []),
+      acceptPassengers: new FormControl({value: '', disabled: this.isReadMode()}, [])
     });
   }
 
@@ -54,26 +50,40 @@ export class LoanModalComponent implements OnInit {
         this.drivers = userData.users;
       });
     if (this.data.loan) {
-      console.log(this.data.loan);
-      this.loanForm.controls['driver'].setValue(this.data.loan['User'].surname + ' ' + this.data.loan['User'].name);
-      this.loanForm.controls['departureSite'].setValue(this.data.loan['Site'].label);
+      // On alimente le formgroup avec les valeurs de la réservation
+      this.loanForm.controls['driver'].setValue(this.data.loan.User.surname + ' ' + this.data.loan.User.name);
+      this.loanForm.controls['departureSite'].setValue(this.data.loan.Site.label);
       this.loanForm.controls['start'].setValue(this.data.loan.startDate);
       this.loanForm.controls['end'].setValue(this.data.loan.endDate);
     }
   }
 
+  /**
+   * Est-on en mode création
+   */
   public isNewMode(): boolean {
     return this.data.mode === 'new';
   }
 
+  /**
+   * Est-on en mode lecture
+   */
   public isReadMode(): boolean {
     return this.data.mode === 'read';
   }
 
+  /**
+   * Est-on en mode modification
+   */
   public isUpdateMode(): boolean {
     return this.data.mode === 'update';
   }
 
+  /**
+   * Ferme la modale sans enregistrer si on ferme depuis Annuler ou la croix
+   * Sinon alimente l'objet loan et l'envoi au composant parent pour sauvegarde
+   * @param saved On sauvegarde ou non
+   */
   public close(saved: boolean = false): void {
     const loan: LoanDataModel = {};
     if (saved) {
@@ -91,16 +101,29 @@ export class LoanModalComponent implements OnInit {
     this.dialogRef.close({ saved: saved, loan: loan });
   }
 
+  /**
+   * Détermine l'état du bouton de sauvegarde
+   */
   public isSaveDisabled(): boolean {
     return this.loanForm.touched && this.loanForm.valid;
   }
 
+  /**
+   * On récupère l'id du choix car le matSelect ne contient pas l'objet mais que du texte
+   * @param status Evènement du matSelect pour qu'il ne se déclenche qu'une fois
+   * @param driver Conducteur choisi
+   */
   public setDriverId(status: MatOptionSelectionChange, driver: any): void {
     if (status.isUserInput) {
       this.driverId = driver.id;
     }
   }
 
+  /**
+   * On récupère l'id du choix car le matSelect ne contient pas l'objet mais que du texte
+   * @param status Evènement du matSelect pour qu'il ne se déclenche qu'une fois
+   * @param site Site choisi
+   */
   public setSiteId(status: MatOptionSelectionChange, site: any): void {
     if (status.isUserInput) {
       this.siteId = site.id;

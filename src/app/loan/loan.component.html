@@ -1,5 +1,5 @@
 <div id="loan-container">
-  <button mat-raised-button color="primary" class="add-loan" (click)="openLoanModal(false, 'new', {})">
+  <button mat-raised-button color="primary" class="add-loan" (click)="openLoanModal('new', null)">
     Faire une demande de prêt
   </button>
     <mat-card style="margin-bottom: 0;" class="wrapper-card">
@@ -24,7 +24,7 @@
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>États</mat-label>
-                        <mat-select>
+                        <mat-select [value]='status[0]'>
                             <mat-option *ngFor="let etat of status" [value]="etat" (onSelectionChange)='filterByStatus($event)'>
                             {{etat}}
                             </mat-option>
@@ -43,13 +43,13 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columsName[column]}} </th>
                       <ng-container [ngSwitch]='column'>
                         <ng-container *ngSwitchCase="'status'">
-                          <td  mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                          <td  mat-cell *matCellDef="let element"> {{element.Status.label}} </td>
                         </ng-container>
                         <ng-container *ngSwitchCase="'driver'">
-                          <td mat-cell *matCellDef="let element"> {{element['User'].surname}} {{element['User'].name}} </td>
+                          <td mat-cell *matCellDef="let element"> {{element.User.surname}} {{element['User'].name}} </td>
                         </ng-container>
                         <ng-container *ngSwitchCase="'departureSite'">
-                          <td mat-cell *matCellDef="let element"> {{element['Site'].label}} </td>
+                          <td mat-cell *matCellDef="let element"> {{element.Site.label}} </td>
                         </ng-container>
                         <ng-container *ngSwitchCase="'startDate'">
                           <td mat-cell *matCellDef="let element"> {{element[column] | date: 'fullDate' }} </td>
@@ -125,8 +125,9 @@
                             </mat-card>
                           </div>
                           <div style='display: flex; align-items: center; justify-content: space-evenly; flex-direction: column'>
-                            <button mat-button color="primary" (click)="openLoanModal(false, 'update', element)">Modifier</button>
-                            <button mat-button color="warn">Clôturer</button>
+                            <button mat-button color="primary" *ngIf='!isLoanActive(element)' (click)="this.openLoanModal('update', element)">Modifier</button>
+                            <button mat-button color="primary" *ngIf='isLoanActive(element)' (click)="this.openLoanModal('read', element)">Consulter</button>
+                            <button mat-button color="warn" *ngIf="!isEndDatePassed(element)">Clôturer</button>
                           </div>
                         </div>
                         </td>

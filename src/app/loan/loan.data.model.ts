@@ -5,4 +5,7 @@ export class LoanDataModel {
   endDate?: any;
   status?: any;
   departureSite?: any;
+  Status?: any;
+  User?: any;
+  Site?: any;
 }

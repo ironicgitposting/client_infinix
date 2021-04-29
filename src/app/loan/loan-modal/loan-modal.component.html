@@ -1,7 +1,7 @@
 <div class='modal-header'>
   <div>
     <h1 *ngIf="isNewMode()">Nouvelle demande de réservation</h1>
-    <h1 *ngIf="isReadMode() || isUpdateMode()">Réservation du</h1>
+    <h1 *ngIf="isReadMode() || isUpdateMode()">Réservation du {{ data.loan.startDate | date: 'dd/MM/YYYY' }}</h1>
   </div>
   <button mat-icon-button class='close-button' (click)='close()'>
     <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
@@ -53,13 +53,15 @@
     <input matInput [matDatepicker]="endPicker" formControlName="end">
     <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
     <mat-datepicker #endPicker></mat-datepicker>
+    <mat-hint>La date de de rendu n'est pas obligatore</mat-hint>
   </mat-form-field>
   </div>
   <div>
     <mat-checkbox color='primary' class='acceptPassengers' formControlName='acceptPassengers'>Accepter de covoiturer</mat-checkbox>
   </div>
   <div class='actions'>
-    <button mat-raised-button (click)='close()'>Annuler</button>
-    <button mat-raised-button color='primary' [disabled]='!isSaveDisabled()' (click)='close(true)'>Valider</button>
+    <button mat-stroked-button *ngIf='!isReadMode()' (click)='close()'>Annuler</button>
+    <button mat-raised-button *ngIf='!isReadMode()' color='primary' [disabled]='!isSaveDisabled()' (click)='close(true)'>Valider</button>
+    <button mat-raised-button *ngIf='isReadMode()' color='primary' (click)='close()'>Fermer</button>
   </div>
 </form>

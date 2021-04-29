@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { User } from '../users-list/user.model';
 import * as moment from 'moment';
@@ -25,7 +25,8 @@ export class HeaderComponent implements OnInit {
   public today: string = moment().locale('fr').format('dddd Do MMMM YYYY');
 
   constructor(
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    @Inject(LOCALE_ID) public locale: string
   ) { }
 
   ngOnInit(): void {

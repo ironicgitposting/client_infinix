@@ -26,59 +26,8 @@ import { LoanDataModel } from './loan.data.model';
 })
 export class LoanComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
-  ELEMENT_DATA = [
-    {
-      start: 1,
-      status: 'En cours',
-      driver: 'Jules Corentin',
-      site: 'H'
-    }, {
-      start: 2,
-      status: 'Clôturé',
-      driver: 'Richard Patrick',
-      site: 'He'
-    }, {
-      start: 3,
-      status: 'En validation',
-      driver: 'Menard Romain',
-      site: 'Li'
-    }, {
-      start: 4,
-      status: 'Validé',
-      driver: 'Bedjaï Romain',
-      site: 'Be'
-    }, {
-      start: 5,
-      status: 'En retard',
-      driver: 'Oujdari Mourad',
-      site: 'B'
-    }, {
-      start: 6,
-      status: 'En validation',
-      driver: 'Dupont Jean',
-      site: 'C'
-    }, {
-      start: 7,
-      status: 'En cours',
-      driver: 'Doe John',
-      site: 'N'
-    }, {
-      start: 8,
-      status: 'Validé',
-      driver: 'Doe Jane',
-      site: 'O'
-    }, {
-      start: 9,
-      status: 'Validé',
-      driver: 'Toto',
-      site: 'F'
-    }, {
-      start: 10,
-      status: 'Clôturé',
-      driver: 'Tutu',
-      site: 'Ne'
-    },
-  ];
+
+  ELEMENT_DATA: LoanDataModel[];
 
   columnsToDisplay: string[] = ['status', 'driver', 'departureSite', 'startDate', 'endDate'];
 
@@ -109,25 +58,29 @@ export class LoanComponent implements OnInit {
   public ngOnInit(): void {
     this.loanService.getAllLoans().subscribe(loan => {
       this.ELEMENT_DATA = loan.booking;
-      console.log(this.ELEMENT_DATA);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      console.log(this.dataSource);
       this.dataSource.sort = this.sort;
     });
   }
 
+  /**
+   * Applique le filtre saisie
+   * @param event
+   */
   public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  public openSnackBar(type: string, message: string) {
-    this.msgService.snackbar(message, type);
-  }
-
-  public openLoanModal(isReadOnly: boolean, mode: string, loan: LoanDataModel): void {
+  /**
+   * Ouverture de la modale de réservation
+   * @param isReadOnly En lecture seule ou non
+   * @param mode Mode d'ouverture => Création / modification
+   * @param loan
+   */
+  public openLoanModal(mode: string, loan: LoanDataModel | null): void {
     const dialogRef = this.dialog.open(LoanModalComponent, {
-      data: { isReadOnly: isReadOnly, mode: mode, loan: loan }
+      data: { mode: mode, loan: loan }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -135,19 +88,51 @@ export class LoanComponent implements OnInit {
       if (result && result.saved) {
         this.loanService.createLoan(result.loan).subscribe(response => {
           console.log(response);
-          this.openSnackBar('success', 'Demande de réservation enregistrée');
+          this.msgService.snackbar('Demande de réservation enregistrée', 'success');
         });
       }
     });
   }
 
+  /**
+   * Filtrer le tableau par la colonne statut
+   * @param status
+   */
   public filterByStatus(status: MatOptionSelectionChange): void {
     if (status.isUserInput) {
       if (status.source.value === this.status[0]) {
         this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       } else {
-        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA.filter(loan => loan.status === status.source.value));
+        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA.filter(loan => loan.Status.label === status.source.value));
       }
     }
+  }
+
+  /**
+   * Affiche ou non le bouton pour clôturer la réservation
+   * @param loan Réservation
+   */
+  public isEndDatePassed(loan: LoanDataModel): boolean {
+    let ret: boolean = false;
+    if (loan && loan.endDate !== '' && loan.endDate) {
+      if (new Date(loan.endDate) < new Date()) {
+        ret = true;
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Affiche le bouton modifier ou consulter
+   * @param loan Réservation
+   */
+  public isLoanActive(loan: LoanDataModel): boolean {
+    let ret: boolean = false;
+    if (loan && loan.startDate !== '' && loan.startDate) {
+      if (new Date(loan.startDate) < new Date()) {
+        ret = true;
+      }
+    }
+    return ret;
   }
 }
