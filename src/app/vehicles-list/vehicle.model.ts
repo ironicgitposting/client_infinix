@@ -1,5 +1,3 @@
-import { Moment } from 'moment';
-
 export interface Vehicle {
   type?: number;
   libelle?: string;

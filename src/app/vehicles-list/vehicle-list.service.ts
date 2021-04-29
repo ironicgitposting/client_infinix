@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators'
 
 import { Router } from "@angular/router";
 import { Vehicle } from "./vehicle.model";
-import { Subject } from "rxjs";
+import { Observable, Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,8 @@ export class VehicleService {
 
   constructor(private http: HttpClient, private router: Router ) {}
 
-  getVehicles() {
+  getVehicles(): Observable<any> {
+    /*
     this.http.get<{vehicules: any}>('http://localhost:3000/api/v1/vehicules')
     .pipe(map((postData) => {
       return {vehicules: postData.vehicules.map((vehicle: any) => {
@@ -37,7 +38,8 @@ export class VehicleService {
             vehicles: [...this.vehicles]
         })
         
-      })
+      }) */
+      return this.http.get('http://localhost:3000/api/v1/vehicules/');
   }
 
   getVehicleUpdateListener() {

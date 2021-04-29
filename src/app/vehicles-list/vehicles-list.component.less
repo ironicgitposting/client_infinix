@@ -1,3 +1,4 @@
+@import "../common/common.less";
 #dashboard{
       height:100%;
       width:100%;
@@ -39,7 +40,7 @@
 
 
 
-mat-form-field,
+
 textarea {
   width: 100%;
 }
@@ -47,3 +48,77 @@ textarea {
 .btn-modal {
   margin-top: 10px;
 }
+
+
+ 
+.modal-vehicle{
+  mat-form-field{
+    display: block;
+  }
+}
+
+
+#filters{
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  mat-form-field{
+    margin-left: 2em;
+    font-size: 16px;    
+  }
+  button{
+    margin-left: 2em;
+  }
+}
+
+.mat-dialog-container{
+  max-width : none;
+}
+
+
+table {
+  width: 100%;
+  tr{
+    &.vehicle-detail-row {
+      height: 0px;
+      td{
+        border-bottom-width: 0;
+      }
+    }
+    .example-element-row:not(.example-expanded-row){
+      &:hover {
+        background: @loan-whitesmoke-hover-color;
+      }
+      &:active{
+        background-color: @loan-whitesmoke-active-color;
+      }
+    }   
+  }
+  td{  
+    .example-element-detail {
+    overflow: hidden;
+    display: flex;    
+      .example-element-diagram {
+        min-width: 80px;
+        border: 2px solid black;
+        padding: 8px;
+        font-weight: lighter;
+        margin: 8px 0;
+        height: 104px;
+      }
+      .example-element-symbol {
+        font-weight: bold;
+        font-size: 40px;
+        line-height: normal;
+      }
+      
+      .example-element-description {
+        padding: 16px;
+      }
+      .example-element-description-attribution {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
