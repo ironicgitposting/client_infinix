@@ -29,7 +29,7 @@ export class LoanComponent implements OnInit {
 
   ELEMENT_DATA: LoanDataModel[];
 
-  columnsToDisplay: string[] = ['status', 'driver', 'departureSite', 'startDate', 'endDate'];
+  columnsToDisplay: string[] = ['status', 'driver', 'departureSite', 'startDate', 'endDate', 'actions'];
 
   columsName: {
     [status: string]: string;
