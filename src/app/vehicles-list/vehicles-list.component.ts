@@ -79,7 +79,7 @@ export class VehiclesListComponent implements OnInit {
   }*/
 
   ngOnDestroy(): void {
-    this.vehiclesSub.unsubscribe();
+    
   }
 
   isEmptyVehicles() {
