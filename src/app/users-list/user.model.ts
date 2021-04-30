@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 
 export interface User {
+  id?: number;
   surname?: string;
   name?: string;
   profession?: number;

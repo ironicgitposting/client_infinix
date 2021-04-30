@@ -1,0 +1,67 @@
+<div class='modal-header'>
+  <div>
+    <h1 *ngIf="isNewMode()">Nouvelle demande de réservation</h1>
+    <h1 *ngIf="isReadMode() || isUpdateMode()">Réservation du {{ data.loan.startDate | date: 'dd/MM/YYYY' }}</h1>
+  </div>
+  <button mat-icon-button class='close-button' (click)='close()'>
+    <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
+  </button>
+</div>
+<mat-divider></mat-divider>
+<form [formGroup]="loanForm">
+  <div>
+    <mat-form-field style='width: 100%'>
+        <mat-label>Conducteur</mat-label>
+        <input type="text"
+                aria-label="Conducteur"
+                matInput
+                formControlName="driver"
+                [matAutocomplete]="driver">
+      <mat-icon>arrow_drop_down</mat-icon>
+        <mat-autocomplete #driver="matAutocomplete">
+            <mat-option *ngFor="let driver of drivers" [value]="driver.surname + ' ' + driver.name" (onSelectionChange)='setDriverId($event, driver)'>
+            {{ driver.surname }} {{ driver.name }}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style='width: 100%'>
+      <mat-label>Site de départ</mat-label>
+      <input type="text"
+             aria-label="Site de départ"
+             matInput
+             formControlName="departureSite"
+             [matAutocomplete]="site">
+      <mat-icon>arrow_drop_down</mat-icon>
+      <mat-autocomplete #site="matAutocomplete">
+        <mat-option *ngFor="let site of sites" [value]="site" (onSelectionChange)='setSiteId($event, site)'>
+          {{ site.libelle }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div>
+  <mat-form-field style='margin-right: 1em'>
+    <mat-label>Date de début</mat-label>
+    <input matInput [matDatepicker]="startPicker"formControlName="start">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker #startPicker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Date de fin</mat-label>
+    <input matInput [matDatepicker]="endPicker" formControlName="end">
+    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker #endPicker></mat-datepicker>
+    <mat-hint>La date de de rendu n'est pas obligatore</mat-hint>
+  </mat-form-field>
+  </div>
+  <div>
+    <mat-checkbox color='primary' class='acceptPassengers' formControlName='acceptPassengers'>Accepter de covoiturer</mat-checkbox>
+  </div>
+  <div class='actions'>
+    <button mat-stroked-button *ngIf='!isReadMode()' (click)='close()'>Annuler</button>
+    <button mat-raised-button *ngIf='!isReadMode()' color='primary' [disabled]='!isSaveDisabled()' (click)='close(true)'>Valider</button>
+    <button mat-raised-button *ngIf='isReadMode()' color='primary' (click)='close()'>Fermer</button>
+  </div>
+</form>

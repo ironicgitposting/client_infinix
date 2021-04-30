@@ -1,6 +1,9 @@
 <div id="loan-container">
-    <mat-card style="margin-bottom: 0;">
-        <mat-card-header>
+  <button mat-raised-button color="primary" class="add-loan" (click)="openLoanModal('new', null)">
+    Faire une demande de prêt
+  </button>
+    <mat-card style="margin-bottom: 0;" class="wrapper-card">
+        <mat-card-header class="wrapper-card-header">
             <mat-card-title>
                 <div id="filters" class="filters">
                     <mat-form-field class="login-wrapper">
@@ -21,55 +24,129 @@
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>États</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let etat of etats" [value]="etat">
+                        <mat-select [value]='status[0]'>
+                            <mat-option *ngFor="let etat of status" [value]="etat" (onSelectionChange)='filterByStatus($event)'>
                             {{etat}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-                        <mat-icon>add</mat-icon>
-                    </button>
                 </div>
                 <mat-divider></mat-divider>
             </mat-card-title>
         </mat-card-header>
-        <mat-card-content style="margin: 2em">
+        <mat-card-content style="margin: 2em; position: relative;" class="wrapper-card-content">
             <div class="mat-elevation-z8">
                 <table mat-table
                 [dataSource]="dataSource" multiTemplateDataRows
                 matSort>
                     <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
-                        <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columsName[column]}} </th>
+                      <ng-container [ngSwitch]='column'>
+                        <ng-container *ngSwitchCase="'status'">
+                          <td  mat-cell *matCellDef="let element"> {{element.Status.label}} </td>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'driver'">
+                          <td mat-cell *matCellDef="let element"> {{element.User.surname}} {{element['User'].name}} </td>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'departureSite'">
+                          <td mat-cell *matCellDef="let element"> {{element.Site.label}} </td>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'startDate'">
+                          <td mat-cell *matCellDef="let element"> {{element[column] | date: 'fullDate' }} </td>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'endDate'">
+                          <td mat-cell *matCellDef="let element"> {{element[column] | date: 'fullDate' }} </td>
+                        </ng-container>
+                        <ng-container *ngSwitchDefault>
+                          <td mat-cell *matCellDef="let element" style="text-align: right"> <mat-icon style="cursor: pointer">arrow_drop_down</mat-icon> </td>
+                        </ng-container>
+                      </ng-container>
                     </ng-container>
-                    
+
                     <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
                     <ng-container matColumnDef="expandedDetail">
                         <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-                        <div class="example-element-detail"
+                        <div class='element-detail'
                                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                            <div class="example-element-diagram">
-                            <div class="example-element-position"> {{element.position}} </div>
-                            <div class="example-element-symbol"> {{element.symbol}} </div>
-                            <div class="example-element-name"> {{element.name}} </div>
-                            <div class="example-element-weight"> {{element.weight}} </div>
-                            </div>
-                            <div class="example-element-description">
-                            {{element.description}}
-                            <span class="example-element-description-attribution"> -- Wikipedia </span>
-                            </div>
+                          <div class="element-vehicule-picture">
+                          </div>
+                          <div class='element-description'>
+                            <mat-card class='vehicule-detail'>
+                              <mat-card-header>
+                                <mat-card-title>
+                                  <div class="detail-card-title">
+                                    <mat-icon aria-hidden="false" color='primary'>directions_car</mat-icon>
+                                    Véhicule
+                                  </div>
+                                </mat-card-title>
+                              </mat-card-header>
+                              <mat-card-content>
+                                <div *ngIf='element.Vehicule; else noVehicule'>
+                                  {{ element.Vehicule.libelle }}
+                                  {{ element.Vehicule.model }}
+                                </div>
+                                <ng-template #noVehicule>
+                                  <div>Aucun véhicule n'est affecté à cette réservation</div>
+                                </ng-template>
+                              </mat-card-content>
+                            </mat-card>
+                            <mat-card class='site-detail'>
+                              <mat-card-header>
+                                <mat-card-title>
+                                  <div class="detail-card-title">
+                                    <mat-icon aria-hidden="false" color='primary'>home_work</mat-icon>
+                                    Intinéraire
+                                  </div>
+                                </mat-card-title>
+                              </mat-card-header>
+                              <mat-card-content>
+                                <div *ngIf='element.Site; else noSite'>
+                                  Départ :
+                                  {{ element.Site.adress }}
+                                  {{ element.Site.postalCode }}
+                                  {{ element.Site.city }}
+                                </div>
+                                <ng-template #noSite>
+                                  <div>Aucun véhicule n'est affecté à cette réservation</div>
+                                </ng-template>
+                                <div>
+                                  Arrivée :
+                                </div>
+                              </mat-card-content>
+                            </mat-card>
+                            <mat-card class='other-detail'>
+                              <mat-card-header>
+                                <mat-card-title>
+                                  <div class="detail-card-title">
+                                    <mat-icon aria-hidden="false" color='primary'>info</mat-icon>
+                                    Autres
+                                  </div>
+                                </mat-card-title>
+                              </mat-card-header>
+                              <mat-card-content>
+                                <div>
+                                  <div>Conducteur : {{ element.User.surname }} {{ element.User.name }}</div>
+                                  <div>Covoitureur :</div>
+                                </div>
+                              </mat-card-content>
+                            </mat-card>
+                          </div>
+                          <div style='display: flex; align-items: center; justify-content: space-evenly; flex-direction: column'>
+                            <button mat-button color="primary" *ngIf='!isLoanActive(element)' (click)="this.openLoanModal('update', element)">Modifier</button>
+                            <button mat-button color="primary" *ngIf='isLoanActive(element)' (click)="this.openLoanModal('read', element)">Consulter</button>
+                            <button mat-button color="warn" *ngIf="!isEndDatePassed(element)">Clôturer</button>
+                          </div>
                         </div>
                         </td>
                     </ng-container>
-                    
+
                     <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
                     <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-                        class="example-element-row"
-                        [class.example-expanded-row]="expandedElement === element"
+                        class='element-row'
+                        [class.expanded-row]="expandedElement === element"
                         (click)="expandedElement = expandedElement === element ? null : element">
                     </tr>
-                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class='detail-row'></tr>
                     <tr class="mat-row" *matNoDataRow>
                         <td class="mat-cell" colspan="4">Aucune donnée ne correspond à  "{{input.value}}"</td>
                     </tr>

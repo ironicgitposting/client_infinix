@@ -4,22 +4,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserModule } from '@angular/platform-browser';
-import { LoanComponent } from './loan.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import {MatTableModule} from '@angular/material/table';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSortModule } from '@angular/material/sort';
+import { LoanModalComponent } from './loan-modal.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Common } from '../../common/common';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { Common } from '../common/common';
-import { MessageService } from '../common/services/message.service';
-import { LoanService } from './loan.service';
 
 @NgModule({
   declarations: [
-    LoanComponent
+    LoanModalComponent
   ],
   imports: [
     BrowserModule,
@@ -29,20 +28,21 @@ import { LoanService } from './loan.service';
     MatMenuModule,
     MatCardModule,
     MatDividerModule,
-    MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatSortModule,
+    MatAutocompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatCheckboxModule
   ],
   exports: [
-    LoanComponent],
+    LoanModalComponent],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: Common.MY_FORMATS},
-    MessageService,
-    LoanService
   ],
-  bootstrap: [LoanComponent]
+  bootstrap: [LoanModalComponent]
 })
-export class LoanModule { }
+export class LoanModalModule { }

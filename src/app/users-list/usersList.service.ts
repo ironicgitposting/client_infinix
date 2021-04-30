@@ -21,6 +21,7 @@ export class UserService {
     .pipe(map((postData) => {
       return {users: postData.users.map((user: any) => {
         return {
+          id: user.id,
           surname: user.surname,
           name: user.name,
           profession: user.profession,
