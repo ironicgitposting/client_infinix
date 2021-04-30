@@ -49,6 +49,12 @@ export class UserService {
     return this.usersUpdated.asObservable();
   }
 
+  enableOrDisableUser(user: User) {
+    console.log(user.email);
+    console.log(user);
+    return this.http.put<any>('http://localhost:3000/api/v1/users/toggleUser/' + user.email, user).subscribe();
+  }
+
   updateUser(user: User) {
     console.log(user.email);
     console.log(user);
