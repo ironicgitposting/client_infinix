@@ -1,21 +1,22 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { Subject } from "rxjs";
-import { AuthenticationDataModel } from "./authentication.data.model";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { AuthenticationDataModel } from './authentication.data.model';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService {
 
-    private isAuthenticated: boolean = false;
-    private token: any;
-    private tokenTimer: any;
+    private isAuthenticated = false;
+    private token: string | null;
+    private tokenTimer: number;
     private authStatusListener = new Subject<boolean>();
 
-    getToken() {
+    getToken(): string | null {
         return this.token;
     }
 
+  // tslint:disable-next-line:typedef
     getAuthStatusListener() {
         return this.authStatusListener.asObservable();
     }
@@ -28,17 +29,17 @@ export class AuthenticationService {
 
     }
 
-    public createUser(authenticationData: AuthenticationDataModel) {
+    public createUser(authenticationData: AuthenticationDataModel): void {
         this.httpClient.post('http://localhost:3000/api/v1/users/signup', authenticationData).subscribe((response) => {
-            console.log(response)
+            console.log(response);
             // TODO: redirect to confirmation page
             this.router.navigate(['/']);
         });
     }
 
-    public login(authenticationData: AuthenticationDataModel) {
+    public login(authenticationData: AuthenticationDataModel): void {
         this.httpClient.post('http://localhost:3000/api/v1/users/login', authenticationData).subscribe((response: any) => {
-            console.log(response)
+            console.log(response);
             const token = response.token;
             this.token = token;
             if (token) {
@@ -66,7 +67,7 @@ export class AuthenticationService {
         this.router.navigate(['/']);
     }
 
-    autoAuthUser() {
+    autoAuthUser(): void {
       const authInformation = this.getAuthData();
       console.log(authInformation);
       if (!authInformation) {
@@ -77,19 +78,19 @@ export class AuthenticationService {
       // In Ms
       const expiresIn = authInformation.expirationDate.getTime()
        - now.getTime();
-       console.log(authInformation, expiresIn);
+      console.log(authInformation, expiresIn);
       if (expiresIn > 0) {
         this.token = authInformation.token;
         this.isAuthenticated = true;
         // Works with seconds so we have to divide by 1000
-        this.setAuthTimer(expiresIn / 1000)
+        this.setAuthTimer(expiresIn / 1000);
         this.authStatusListener.next(true);
       }
     }
 
-    private saveAuthData(token: string, expirationDate: Date) {
+    private saveAuthData(token: string, expirationDate: Date): void {
       localStorage.setItem('token', token);
-      localStorage.setItem('expirationDate', expirationDate.toISOString())
+      localStorage.setItem('expirationDate', expirationDate.toISOString());
     }
 
     private setAuthTimer(duration: number) {
@@ -105,7 +106,7 @@ export class AuthenticationService {
       if (!token || !expirationDate) {
         return;
       }
-      return {token, expirationDate: new Date(expirationDate)}
+      return {token, expirationDate: new Date(expirationDate)};
     }
 
     private clearAuthData() {
