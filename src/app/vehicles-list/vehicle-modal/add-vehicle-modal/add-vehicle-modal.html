@@ -1,10 +1,45 @@
 <div class='modal-header'>
   <div>
-    <h1>Ajouter un véhicule</h1>
+    <h1 >Ajouter un véhicule</h1>
   </div>
   <button mat-icon-button class='close-button' (click)='close()'>
     <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
   </button>
 </div>
-
-
+<mat-divider></mat-divider>
+ <form [formGroup]="vehicleForm">
+  <div>
+    <mat-form-field style='margin-right: 1em'>
+      <input
+        matInput
+        name="libelle"
+        type="libelle"
+      />
+      <mat-hint>Marque du véhicule</mat-hint>
+    </mat-form-field>
+    <mat-form-field style='margin-right: 1em'>
+      <input
+        matInput
+        name="model"
+        type="model"
+      />
+      <mat-hint>Modèle</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="immatriculation"
+        type="immatriculation"
+      />
+      <mat-hint>Immatriculation</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+  </div>
+  <div class='actions'>
+    <button mat-stroked-button (click)='close()'>Annuler</button>
+    <!-- <button mat-raised-button *ngIf='!isReadMode()' color='primary' [disabled]='!isSaveDisabled()' (click)='close(true)'>Valider</button> -->
+    <button mat-raised-button color='primary' (click)='close()'>Valider</button>
+    <button mat-raised-button color='primary' (click)='close()'>Fermer</button>
+  </div>
+</form>

@@ -3,6 +3,7 @@ import { Vehicle } from "../../vehicle.model";
 import { VehicleService } from "../../vehicle-list.service";
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'dialog-modal',
@@ -12,6 +13,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   export class AddVehicleModal implements OnInit {
   
     public modalVehicle: Vehicle;
+
+    public vehicleForm: FormGroup;
   
     constructor(
       private vehicleService: VehicleService,
