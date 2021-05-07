@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: 'dashboard', component: LayoutComponent },
   { path: 'parc', component: LayoutComponent },
   { path: 'loan', component: LayoutComponent },
-  { path: 'admin', component: AdminPanelComponent },
+  { path: 'site', component: LayoutComponent },
+  { path: 'admin', component: LayoutComponent },
 ];
 
 @NgModule({

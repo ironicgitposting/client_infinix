@@ -25,6 +25,12 @@
                 <ng-template [ngIf]="componentToLoad === 'loan'">
                     <app-loan style="width: 100%; margin: 4em;"></app-loan>
                 </ng-template>
+                <ng-template [ngIf]="componentToLoad === 'site'">
+                    <app-site style="width: 100%; margin: 4em;"></app-site>
+                </ng-template>
+                <ng-template [ngIf]="componentToLoad === 'admin'">
+                    <admin-panel style="width: 100%; margin: 4em;"></admin-panel>
+                </ng-template>
             </div>
         </mat-drawer-content>
     </mat-drawer-container>

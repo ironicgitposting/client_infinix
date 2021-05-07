@@ -13,10 +13,12 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { VehiclesListModule } from './vehicles-list/vehicles-list.module';
 import { LayoutModule } from './layout/layout.module';
 import { LoanModule } from './loan/loan.module';
+import { SiteModule } from './site/site.module';
 import { SnackBarModule } from './snackbar/snackbar.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminPanelModule } from './admin-panel/adminPanel.module';
 import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
+import { SiteModalModule } from './site/site-modal/site-modal.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,10 +35,12 @@ import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
     VehiclesListModule,
     LayoutModule,
     LoanModule,
+    SiteModule,
     SnackBarModule,
     MatSnackBarModule,
     AdminPanelModule,
-    LoanModalModule
+    LoanModalModule,
+    SiteModalModule
   ],
   providers: [],
   bootstrap: [AppComponent],
