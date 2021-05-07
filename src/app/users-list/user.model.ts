@@ -13,4 +13,5 @@ export interface User {
   language?: number;
   archived?: boolean;
   enabled?: boolean;
+  profile?: boolean;
 }
