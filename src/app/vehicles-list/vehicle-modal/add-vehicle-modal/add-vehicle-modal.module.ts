@@ -4,9 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { VehiclesListComponent } from './vehicles-list.component';
-import { HeaderModule } from '../header/header.module';
-import { SidebarModule } from '../sidebar/sidebar.module';
+import { HeaderModule } from '../../../header/header.module';
+import { SidebarModule } from '../../../sidebar/sidebar.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,10 +14,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
+import { AddVehicleModal } from './add-vehicle-modal.component';
+
 
 @NgModule({
   declarations: [
-    VehiclesListComponent,    
+    AddVehicleModal
   ],
   imports: [
     BrowserModule,
@@ -38,8 +39,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatTableModule,
     MatDividerModule
   ],
-  exports: [VehiclesListComponent],
+  exports: [AddVehicleModal],
   providers: [],
-  bootstrap: [VehiclesListComponent]
+  bootstrap: [AddVehicleModal]
 })
-export class VehiclesListModule { }
+export class AddVehicleModule { }

@@ -4,10 +4,13 @@ import { VehicleService } from "./vehicle-list.service";
 import { Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
+import { AddVehicleModal } from './vehicle-modal/add-vehicle-modal/add-vehicle-modal.component';
+import { HistoricalVehicleModal } from './vehicle-modal/historical-vehicle-modal/historical-vehicule-modal.component';
+import { UpdateVehicleModal } from './vehicle-modal/update-vehicle-modal/update-vehicle-modal.component';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -43,7 +46,7 @@ export class VehiclesListComponent implements OnInit {
     immatriculation: 'Immatriculation',
     state: 'Etat',
     status: 'Statut',
-    libelle: 'Libelle'
+    libelle: 'Marque'
   };
 
   expandedElement: Vehicle | null;
@@ -67,16 +70,6 @@ export class VehiclesListComponent implements OnInit {
       
     });
   }
-  /*
-  ngOnInit() {
-    console.log(this.vehicleService.getVehicles);
-    this.vehicleService.getVehicles();
-    this.vehiclesSub = this.vehicleService.getVehicleUpdateListener()
-      .subscribe((vehicleData: {vehicles: Vehicle[]}) => {
-        this.vehicles = vehicleData.vehicles;
-        
-      });
-  }*/
 
   ngOnDestroy(): void {
     
@@ -93,7 +86,7 @@ export class VehiclesListComponent implements OnInit {
   }
 
   openDialog(vehicle: Vehicle): void {
-    const dialogRef = this.dialog.open(DialogVehicle, {
+    const dialogRef = this.dialog.open(UpdateVehicleModal, {
       data: {
         vehicle
       },
@@ -102,7 +95,7 @@ export class VehiclesListComponent implements OnInit {
   }
 
   historicalVehicle(vehicle: Vehicle): void {
-    const dialogRef = this.dialog.open(HistoricalVehicle, {
+    const dialogRef = this.dialog.open(HistoricalVehicleModal, {
       data: {
         vehicle
       },
@@ -115,76 +108,9 @@ export class VehiclesListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  addVehicle(): void {
+    const dialogRef = this.dialog.open(AddVehicleModal, {
 
-}
-
-@Component({
-  selector: 'dialog-modal',
-  templateUrl: './vehicleModal.html',
-  styleUrls: ['./vehicles-list.component.less']
-})
-export class DialogVehicle implements OnInit {
-  public modalVehicle: Vehicle;
-
-  constructor(
-    private vehicleService: VehicleService,
-    public dialogRef: MatDialogRef<DialogVehicle>,
-    private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ){}
-
-  ngOnInit(){
-    this.modalVehicle = this.data.vehicle;
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  onConfirmClick(ngForm: NgForm){
-    console.log(ngForm.form.value.status);
-    if (ngForm.valid){
-      const lastImmatriculation = this.modalVehicle.immatriculation;
-      const newVehicle: Vehicle = {
-        type: ngForm.form.value.type,
-        libelle: ngForm.form.value.libelle,
-        site: ngForm.form.value.site,
-        model: ngForm.form.value.model, 
-        flagService: ngForm.form.value.flagService, 
-        status: ngForm.form.value.status,
-        immatriculation: ngForm.form.value.immatriculation,
-        state: ngForm.form.value.state 
-
-        //TO DO: a compléter pour les images vehicles
-      }
-      
-      this.vehicleService.updateVehicle(newVehicle, lastImmatriculation);
-      this.dialogRef.close();
-    }
-  }
-
-}
-
-@Component({
-  selector: 'dialog-modal',
-  templateUrl: './historicalVehicleModal.html',
-  styleUrls: ['./vehicles-list.component.less']
-})
-export class HistoricalVehicle implements OnInit {
-  public modalVehicle : Vehicle;
-
-  constructor(
-    private vehicleService: VehicleService,
-    public dialogRef: MatDialogRef<DialogVehicle>,
-    private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ){}
-
-  ngOnInit(){
-    this.modalVehicle = this.data.vehicle;
-  }
-  
-  onNoClick(): void {
-    this.dialogRef.close();
+    });
   }
 }

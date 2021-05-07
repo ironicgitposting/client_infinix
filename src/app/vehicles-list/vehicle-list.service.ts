@@ -17,29 +17,7 @@ export class VehicleService {
   constructor(private http: HttpClient, private router: Router ) {}
 
   getVehicles(): Observable<any> {
-    /*
-    this.http.get<{vehicules: any}>('http://localhost:3000/api/v1/vehicules')
-    .pipe(map((postData) => {
-      return {vehicules: postData.vehicules.map((vehicle: any) => {
-        return {
-          type: vehicle.type,
-          libelle: vehicle.libelle,
-          site: vehicle.site,
-          model: vehicle.model,
-          flagService: vehicle.flagService,
-          status: vehicle.status,
-          immatriculation: vehicle.immatriculation,
-          state: vehicle.state
-        }
-      })}
-    })).subscribe((transformedUserData) => {
-        this.vehicles = transformedUserData.vehicules;
-        this.vehiclesUpdated.next({
-            vehicles: [...this.vehicles]
-        })
-        
-      }) */
-      return this.http.get('http://localhost:3000/api/v1/vehicules/');
+    return this.http.get('http://localhost:3000/api/v1/vehicules/');
   }
 
   getVehicleUpdateListener() {

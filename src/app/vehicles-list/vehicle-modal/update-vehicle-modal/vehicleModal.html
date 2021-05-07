@@ -1,7 +1,5 @@
 <form (submit)="onConfirmClick(updateForm)" #updateForm="ngForm">
-    <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
-        <img src="../../assets/pictures/ford.jpg"/>
-      </div>
+    
     <div class='modal-vehicle'>
         <mat-form-field>
             <input
@@ -57,7 +55,7 @@
             <input
                 matInput
                 name="site"
-                [ngModel]="modalVehicle.site"
+                [ngModel]="modalVehicle.Site"
                 type="text"
                 immatriculation
                 #immatriculationInput="ngModel"
@@ -104,6 +102,8 @@
             <mat-hint>flagService</mat-hint>
         </mat-form-field>
     </div>
-    <button class="btn-modal" mat-raised-button color="primary" type="submit">Confirmer</button>
-    <button class="btn-modal" mat-raised-button color="accent" (click)="onNoClick()">Annuler</button>
+    <div class='actions'>
+        <button class="btn-modal" mat-raised-button color="primary" type="submit">Confirmer</button>
+        <button class="btn-modal" mat-raised-button color="accent" (click)="onNoClick()">Annuler</button>
+    </div>
 </form>

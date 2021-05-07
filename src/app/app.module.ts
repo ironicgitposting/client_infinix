@@ -20,6 +20,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminPanelModule } from './admin-panel/adminPanel.module';
 import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
 import { SiteModalModule } from './site/site-modal/site-modal.module';
+import { AddVehicleModule } from './vehicles-list/vehicle-modal/add-vehicle-modal/add-vehicle-modal.module';
+import { HistoricalVehicleModule } from './vehicles-list/vehicle-modal/historical-vehicle-modal/historical-vehicle-modal.module';
+import { UpdateVehicleModule } from './vehicles-list/vehicle-modal/update-vehicle-modal/update-vehicle-modal.module';
 
 registerLocaleData(localeFr);
 
@@ -43,7 +46,10 @@ registerLocaleData(localeFr);
     MatSnackBarModule,
     AdminPanelModule,
     LoanModalModule,
-    SiteModalModule
+    SiteModalModule,
+    AddVehicleModule,
+    HistoricalVehicleModule,
+    UpdateVehicleModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'fr-FR' }],
   bootstrap: [AppComponent],

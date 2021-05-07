@@ -1,30 +1,35 @@
-<mat-card id="vehicle-widget" class="widget">
-  <mat-card-header>
-  <mat-card-title>Rechercher</mat-card-title>
-  
+<div id='vehicle-container'>
+<button mat-raised-button color="primary" class="add-vehicle" (click)='addVehicle()'>
+  Ajouter un véhicule
+</button>
+<mat-card class="wrapper-card">
+  <mat-card-header class='wrapper-card-header'>
+    <mat-card-title>
+      <div id="filters" class="filters">
+        <mat-form-field class="login-wrapper">
+          <mat-label>Rechercher</mat-label>
+          <input matInput id="search"(keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+        
+        <mat-form-field>
+          <mat-label>Status</mat-label>
+          <mat-select>
+              <mat-option *ngFor="let etat of etats" [value]="etat">
+              {{etat}}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+      </div>
+    </mat-card-title>
   </mat-card-header>
-  <div id="filters">
-    <mat-form-field class="login-wrapper">
-      <mat-label>Rechercher</mat-label>
-      <input matInput id="search"(keyup)="applyFilter($event)" #input>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>États</mat-label>
-        <mat-select>
-            <mat-option *ngFor="let etat of etats" [value]="etat">
-            {{etat}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
-    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-</mat-card>
-<mat-card>
-  <table mat-table
-    [dataSource]="dataSource" multiTemplateDataRows
-    matSort>
+ 
+  <mat-divider></mat-divider>
+  
+  <mat-card-content class="wrapper-card-content">
+    <div class="mat-elevation-z8">
+      <table mat-table
+      [dataSource]="dataSource" multiTemplateDataRows
+      matSort>
         <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnsName[column]}} </th>
           <ng-container [ngSwitch]='column'>
@@ -49,37 +54,106 @@
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
         <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let vehicle" [attr.colspan]="columnsToDisplay.length">
-            <div class='example-element-detail'
+            <div class='element-detail'
                     [@detailExpand]="vehicle === expandedElement ? 'expanded' : 'collapsed'">
-              
-              
-                    <div id="logo-infinix" class="d-flex align-items-center flex-direction-row">
-                      <img src="../../assets/pictures/ford.jpg"/>
-                    </div>
-                    <div class="d-flex align-items-right flex-direction-column">
-                      <span>Site : {{ vehicle.site }}</span>
+                <div class="element-vehicule-picture">
+                    <img class="img-vehicle" src="../../assets/pictures/ford.jpg"/>
+                </div>
+                <div class="element-description">
+                  <mat-card class='vehicule-detail'>
+                    <mat-card-header>
+                      <mat-card-title>
+                        <div class="detail-card-title">
+                          <mat-icon aria-hidden="false" color='primary'>directions_car</mat-icon>
+                          Véhicule
+                        </div>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div *ngIf='vehicle.flagService === true; else usedVehicle'>
+                        Disponibilité : Le véhicule est libre
+                      </div>
+                      <ng-template #usedVehicle>
+                        <div>Disponibilité : Le véhicule est en cours d'utilisation</div>
+                      </ng-template>
+                      <div>
+                        Etat : Ici seront listé les sinistres / etat du véhicule
+                      </div>
+                      <div>
+
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+
+                  <mat-card class='site-detail'>
+                    <mat-card-header>
+                      <mat-card-title>
+                        <div class="detail-card-title">
+                          <mat-icon aria-hidden="false" color='primary'>home_work</mat-icon>
+                          Localisation
+                        </div>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div>
+                        Le véhicule se trouve à cet endroit : {{ vehicle.Site.label }}
+                      </div>
+                      <div>
+                        Les clés :
+                      </div>
+                      <div>
+                        Le double des clés :
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+
+                  <mat-card class='other-detail'>
+                    <mat-card-header>
+                      <mat-card-title>
+                        <div class="detail-card-title">
+                          <mat-icon aria-hidden="false" color='primary'>info</mat-icon>
+                          Autres
+                        </div>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      
+                      <div class="btn-action-vehicle">                      
+                        <button class="action-btn" mat-raised-button color="primary" (click)="openDialog(vehicle)">MODIFICATION</button>
+                      </div>
+                      <div class="btn-action-vehicle">                      
+                        <button class="action-btn" mat-raised-button color="warn" (click)="deleteVehicle(vehicle)">SUPPRIMER</button>
+                      </div>
+                      <div class="btn-action-vehicle">                       
+                        <button class="action-btn" mat-raised-button color="warn" (click)="historicalVehicle(vehicle)">HISTORIQUE DES PRÊTS</button>
+                      </div>
                     
-                      <span>Les clés : YUP145 </span>
-                      <span>Les doubles des clés : YUP146 </span>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+                <!--
+                <div class="d-flex align-items-right flex-direction-column">
+                  <span>Site : {{ vehicle.site }}</span>
                     
-                      <span>Emprunté par : Vincent David </span>
-                      <span>Du 24 Février 2021 au 28 Février 2021</span>
-                    </div>
-                    <div class="d-flex align-items-center flex-direction-row">
-                      <button class="action-btn" mat-raised-button color="primary" (click)="openDialog(vehicle)">PLUS D'INFORMATIONS</button>
-                      <button class="action-btn" mat-raised-button color="warn" (click)="deleteVehicle(vehicle)">SUPPRIMER</button>
-                      <button class="action-btn" mat-raised-button color="warn" (click)="historicalVehicle(vehicle)">HISTORIQUE DES PRÊTS</button>
-                    </div>
-              
-              
+                  <span>Les clés : YUP145 </span>
+                  <span>Les doubles des clés : YUP146 </span>
+                    
+                  <span>Emprunté par : Vincent David </span>
+                  <span>Du 24 Février 2021 au 28 Février 2021</span>
+                </div>
+                <div class="d-flex align-items-center flex-direction-row">
+                  <button class="action-btn" mat-raised-button color="primary" (click)="openDialog(vehicle)">PLUS D'INFORMATIONS</button>
+                  <button class="action-btn" mat-raised-button color="warn" (click)="deleteVehicle(vehicle)">SUPPRIMER</button>
+                  <button class="action-btn" mat-raised-button color="warn" (click)="historicalVehicle(vehicle)">HISTORIQUE DES PRÊTS</button>
+                </div> -->
             </div>
             </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let vehicle; columns: columnsToDisplay;"
-            class='example-element-row'
-            [class.example-expanded-row]="expandedElement === vehicle"
+            class='vehicle-element-row'
+            [class.vehicle-expanded-row]="expandedElement === vehicle"
             (click)="expandedElement = expandedElement === vehicle ? null : vehicle">
         </tr>
         <tr mat-row *matRowDef="let vehicle; columns: ['expandedDetail']" class='vehicle-detail-row'></tr>
@@ -88,10 +162,9 @@
             <td class="mat-cell" colspan="4">Aucune donnée ne correspond à  "{{input.value}}"</td>
         </tr>
     </table>
+  </div>
+  </mat-card-content>
 </mat-card>
 
-<mat-card-content style="margin: 2em; position: relative;" class="wrapper-card-content">
-  <div class="mat-elevation-z8">
-    
-  </div>
-</mat-card-content>
+
+</div>
