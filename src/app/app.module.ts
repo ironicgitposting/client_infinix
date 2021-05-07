@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import localeFr from '@angular/common/locales/fr';
+import { registerLocaleData } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -19,6 +20,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminPanelModule } from './admin-panel/adminPanel.module';
 import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
 import { SiteModalModule } from './site/site-modal/site-modal.module';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,7 +45,7 @@ import { SiteModalModule } from './site/site-modal/site-modal.module';
     LoanModalModule,
     SiteModalModule
   ],
-  providers: [],
+  providers: [{provide: LOCALE_ID, useValue: 'fr-FR' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

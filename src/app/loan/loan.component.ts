@@ -45,7 +45,7 @@ export class LoanComponent implements OnInit {
 
   expandedElement: LoanDataModel | null;
 
-  status = ['Tous', 'En validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
+  status = ['Tous', 'En attente de validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
 
   dataSource: MatTableDataSource<any>;
 

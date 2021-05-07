@@ -19,6 +19,8 @@ export class HeaderComponent implements OnInit {
    */
   @Input() connectedUser: User;
 
+  public userProfile: string;
+
   /**
    * Date du jour au format string
    */
@@ -30,19 +32,11 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // TODO: Supprimer et récupérer l'utilisateur connecté
-    this.connectedUser = {
-      surname: 'Corentin',
-      name: 'Jules',
-      profession: 1,
-      email: 'test@test.com',
-      telephone: '0101010101',
-      authorizationAccess: '',
-      dateLastSeen: moment(),
-      site: 1,
-      language: 1,
-      archived: false
-    };
+    const localStorageUser: string = localStorage.getItem('connectedUser') || '';
+    this.connectedUser = JSON.parse(localStorageUser);
+    if (!this.connectedUser.profile) {
+      this.userProfile = 'Administrateur';
+    }
   }
 
   /**
