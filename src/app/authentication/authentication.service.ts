@@ -9,7 +9,7 @@ export class AuthenticationService {
 
     private isAuthenticated = false;
     private token: string | null;
-    private tokenTimer: number;
+    private tokenTimer: any;
     private authStatusListener = new Subject<boolean>();
 
     getToken(): string | null {
