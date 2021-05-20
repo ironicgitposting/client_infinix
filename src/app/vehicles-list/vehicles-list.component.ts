@@ -2,15 +2,14 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Vehicle } from "./vehicle.model";
 import { VehicleService } from "./vehicle-list.service";
 import { Subscription } from 'rxjs';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
-import { AddVehicleModal } from './vehicle-modal/add-vehicle-modal/add-vehicle-modal.component';
+
 import { HistoricalVehicleModal } from './vehicle-modal/historical-vehicle-modal/historical-vehicule-modal.component';
-import { UpdateVehicleModal } from './vehicle-modal/update-vehicle-modal/update-vehicle-modal.component';
+import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
+import { MessageService } from '../common/services/message.service';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -55,7 +54,9 @@ export class VehiclesListComponent implements OnInit {
 
   dataSource: MatTableDataSource<any>;
     
-  constructor(private vehicleService: VehicleService, public dialog: MatDialog) { 
+  constructor(private vehicleService: VehicleService, 
+              public dialog: MatDialog,
+              private msgService: MessageService,) { 
     
   }
 
@@ -63,11 +64,8 @@ export class VehiclesListComponent implements OnInit {
   ngOnInit() {
     this.vehicleService.getVehicles().subscribe(vehicle => {
       this.ELEMENT_DATA = vehicle.vehicules;
-     
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      
       this.dataSource.sort = this.sort;
-      
     });
   }
 
@@ -86,7 +84,7 @@ export class VehiclesListComponent implements OnInit {
   }
 
   openDialog(vehicle: Vehicle): void {
-    const dialogRef = this.dialog.open(UpdateVehicleModal, {
+    const dialogRef = this.dialog.open(VehicleModal, {
       data: {
         vehicle
       },
@@ -108,9 +106,30 @@ export class VehiclesListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  addVehicle(): void {
-    const dialogRef = this.dialog.open(AddVehicleModal, {
-
+   /**
+   * Ouverture de la modale d'ajout de véhicule
+   * @param isReadOnly En lecture seule ou non
+   * @param mode Mode d'ouverture => Création / modification
+   */
+    openVehicleModal(mode: string, vehicle: Vehicle | null, lastImmatriculation: string | null): void {
+    const dialogRef = this.dialog.open(VehicleModal, {
+      data:{ mode: mode, vehicle: vehicle }
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result && result.saved && !lastImmatriculation) {
+        this.vehicleService.createVehicle(result.vehicle).subscribe(response => {
+          console.log(response);
+          this.msgService.snackbar('Véhicule enregistré', 'success');
+        });
+      } else if(result && result.saved && lastImmatriculation) {
+        this.vehicleService.updateVehicle(result.vehicle, lastImmatriculation).subscribe(response => {
+          console.log(response);
+          this.msgService.snackbar('Véhicule modifié');
+        })
+      }
+    });
+
   }
 }

@@ -4,8 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HeaderModule } from '../../../header/header.module';
-import { SidebarModule } from '../../../sidebar/sidebar.module';
+import { HeaderModule } from '../../header/header.module';
+import { SidebarModule } from '../../sidebar/sidebar.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,12 +14,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
-import { UpdateVehicleModal } from './update-vehicle-modal.component';
-
+import { VehicleModal } from './vehicle-modal.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
-    UpdateVehicleModal
+    VehicleModal
   ],
   imports: [
     BrowserModule,
@@ -37,10 +37,11 @@ import { UpdateVehicleModal } from './update-vehicle-modal.component';
     MatExpansionModule,
     MatSelectModule,
     MatTableModule,
-    MatDividerModule
+    MatDividerModule,
+    MatAutocompleteModule
   ],
-  exports: [UpdateVehicleModal],
+  exports: [VehicleModal],
   providers: [],
-  bootstrap: [UpdateVehicleModal]
+  bootstrap: [VehicleModal]
 })
-export class UpdateVehicleModule { }
+export class VehicleModule { }

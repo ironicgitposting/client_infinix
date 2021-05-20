@@ -1,0 +1,31 @@
+@import "../../common/common.less";
+
+::ng-deep .mat-form-field-infix {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-form-field, mat-checkbox {
+  padding-top: 2em;
+}
+
+.close-button {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+}
+
+.modal-header {
+  position: relative;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  & button {
+    margin-left: 1em;
+  }
+}

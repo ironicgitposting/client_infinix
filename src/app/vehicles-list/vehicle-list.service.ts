@@ -27,14 +27,16 @@ export class VehicleService {
   updateVehicle(vehicle: Vehicle, lastImmatriculation: any){
     console.log(lastImmatriculation);
     console.log(vehicle);
-    return this.http.put<any>('http://localhost:3000/api/v1/vehicules/update/'+ lastImmatriculation, vehicle).subscribe(data => {
-      this.getVehicles();
-    });
+    return this.http.put<any>('http://localhost:3000/api/v1/vehicules/update/'+ lastImmatriculation, vehicle);
   }
 
   deleteVehicle(vehicle: Vehicle) {
     return this.http.post<any>('http://localhost:3000/api/v1/vehicules/delete/' + vehicle.immatriculation, vehicle).subscribe(data => {
       this.getVehicles();
     });
+  }
+
+  createVehicle(vehicleData: Vehicle): Observable<any> {
+    return this.http.post('http://localhost:3000/api/v1/vehicules/add/', vehicleData);
   }
 }
