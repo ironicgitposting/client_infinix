@@ -10,6 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { HistoricalVehicleModal } from './vehicle-modal/historical-vehicle-modal/historical-vehicule-modal.component';
 import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
 import { MessageService } from '../common/services/message.service';
+import { last } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -62,11 +63,7 @@ export class VehiclesListComponent implements OnInit {
 
   
   ngOnInit() {
-    this.vehicleService.getVehicles().subscribe(vehicle => {
-      this.ELEMENT_DATA = vehicle.vehicules;
-      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      this.dataSource.sort = this.sort;
-    });
+    this.fetchData();
   }
 
   ngOnDestroy(): void {
@@ -78,9 +75,21 @@ export class VehiclesListComponent implements OnInit {
   }
 
   deleteVehicle(vehicle: Vehicle): void {
-    if (vehicle.immatriculation) {
-      this.vehicleService.deleteVehicle(vehicle);
+    if(confirm("Are you sure to delete ")) {
+      if (vehicle.immatriculation) {
+        this.vehicleService.deleteVehicle(vehicle).subscribe(() => {
+          this.fetchData();
+        });
+      }
     }
+  }
+
+  fetchData(){
+    this.vehicleService.getVehicles().subscribe(vehicle => {
+      this.ELEMENT_DATA = vehicle.vehicules;
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      this.dataSource.sort = this.sort;
+    });
   }
 
   openDialog(vehicle: Vehicle): void {
@@ -110,23 +119,24 @@ export class VehiclesListComponent implements OnInit {
    * Ouverture de la modale d'ajout de véhicule
    * @param isReadOnly En lecture seule ou non
    * @param mode Mode d'ouverture => Création / modification
+   * @param lastImmatriculation En cas de modification de l'immatriculation il nous faut l'ancienne pour update
    */
     openVehicleModal(mode: string, vehicle: Vehicle | null, lastImmatriculation: string | null): void {
-    const dialogRef = this.dialog.open(VehicleModal, {
-      data:{ mode: mode, vehicle: vehicle }
+      const dialogRef = this.dialog.open(VehicleModal, {
+      data:{ mode: mode, vehicle: vehicle, lastImmatriculation: lastImmatriculation }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result && result.saved && !lastImmatriculation) {
         this.vehicleService.createVehicle(result.vehicle).subscribe(response => {
-          console.log(response);
           this.msgService.snackbar('Véhicule enregistré', 'success');
+          this.fetchData();
         });
       } else if(result && result.saved && lastImmatriculation) {
         this.vehicleService.updateVehicle(result.vehicle, lastImmatriculation).subscribe(response => {
-          console.log(response);
           this.msgService.snackbar('Véhicule modifié');
+          this.fetchData();
         })
       }
     });

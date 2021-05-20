@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map } from 'rxjs/operators'
 
 import { Router } from "@angular/router";
 import { Vehicle } from "./vehicle.model";
@@ -25,15 +24,11 @@ export class VehicleService {
   }
 
   updateVehicle(vehicle: Vehicle, lastImmatriculation: any){
-    console.log(lastImmatriculation);
-    console.log(vehicle);
     return this.http.put<any>('http://localhost:3000/api/v1/vehicules/update/'+ lastImmatriculation, vehicle);
   }
 
   deleteVehicle(vehicle: Vehicle) {
-    return this.http.post<any>('http://localhost:3000/api/v1/vehicules/delete/' + vehicle.immatriculation, vehicle).subscribe(data => {
-      this.getVehicles();
-    });
+    return this.http.post<any>('http://localhost:3000/api/v1/vehicules/delete/' + vehicle.immatriculation, vehicle);
   }
 
   createVehicle(vehicleData: Vehicle): Observable<any> {

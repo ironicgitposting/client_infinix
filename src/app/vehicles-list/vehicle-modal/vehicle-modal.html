@@ -3,7 +3,7 @@
       <h1 *ngIf="isNewMode()">Création d'un véhicule</h1>
       <h1 *ngIf="isUpdateMode()">Consultation d'un véhicule</h1>
     </div>
-    <button mat-icon-button class='close-button' (click)='close(false, null)'>
+    <button mat-icon-button class='close-button' (click)='close(false)'>
       <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
     </button>
 </div>
@@ -54,6 +54,7 @@
         </mat-form-field>
     </div>
 
+    <!-- TODO : AJOUTER LES SITES DYNAMIQUES -->
     <div>
         <mat-form-field style='width: 100%'>
           <mat-label>Site</mat-label>
@@ -71,9 +72,9 @@
         </mat-form-field>
       </div>
 
-    <!-- AJOUTER LE FLAG SERVICE QD ON EST EN LECTURE -->
+    <!-- AJOUTER LE FLAG SERVICE QD ON EST EN UPDATE -->
     <div class='actions'>
-        <button mat-stroked-button (click)='close(false, null)'>Annuler</button>
-        <button mat-raised-button color='primary' (click)='close(true, null)'>Valider</button>
+        <button mat-stroked-button (click)='close(false)'>Annuler</button>
+        <button mat-raised-button color='primary' (click)='close(true)'>Valider</button>
     </div>
 </form>

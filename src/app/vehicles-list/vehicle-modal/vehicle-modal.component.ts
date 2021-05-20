@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Vehicle } from "../vehicle.model";
-import { VehicleService } from "../vehicle-list.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core';
@@ -29,6 +28,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
         isReadOnly: boolean;
         mode: string;
         vehicle: any;
+        lastImmatriculation: string;
       }){
       this.vehicleForm = this.fb.group({
         immatriculation: new FormControl({value: '', disabled: this.isReadMode()}, Validators.required),
@@ -84,10 +84,9 @@ import { MatOptionSelectionChange } from '@angular/material/core';
     
   }
 
-  public close(saved: boolean = false, lastImmatriculation: string | null): void {
+  public close(saved: boolean = false): void {
     const vehicle: Vehicle = {};
-    console.log('saved : '+saved);
-    console.log('mode : '+this.data.mode);
+    
     if (saved) {
       vehicle.immatriculation = this.vehicleForm.controls['immatriculation'].value;
       vehicle.model = this.vehicleForm.controls['model'].value;
@@ -95,10 +94,10 @@ import { MatOptionSelectionChange } from '@angular/material/core';
       vehicle.type = this.vehicleForm.controls['type'].value;
       vehicle.flagService = this.vehicleForm.controls['flagService'].value;
       vehicle.state = this.vehicleForm.controls['state'].value;
-      vehicle.site = this.vehicleForm.controls['site'].value;
+      vehicle.site = 1;
       vehicle.flagService = false;
     }
-    this.dialogRef.close({ saved: saved, vehicle: vehicle, mode: this.data.mode, lastImmatriculation: lastImmatriculation });
+    this.dialogRef.close({ saved: saved, vehicle: vehicle, mode: this.data.mode, lastImmatriculation: this.data.lastImmatriculation });
   }
 
   public setSiteId(status: MatOptionSelectionChange, site: any): void {
