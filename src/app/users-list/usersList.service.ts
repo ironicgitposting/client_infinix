@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { User } from './user.model';
 import {Observable, Subject} from 'rxjs';
+import { Deserialize } from 'cerialize';
+import { LoanDataModel } from '../loan/loan.data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,33 +18,10 @@ export class UserService {
 
   constructor(private http: HttpClient, private router: Router ) {}
 
-  getUsers(): void {
-    this.http.get<{users: any}>('http://localhost:3000/api/v1/users')
-    .pipe(map((postData) => {
-      return {users: postData.users.map((user: any) => {
-        return {
-          id: user.id,
-          surname: user.surname,
-          name: user.name,
-          profession: user.profession,
-          email: user.email,
-          telephone: user.telephone,
-          authorizationnAccess: user.authorizationnAccess,
-          dateLastSeen: user.dateLastSeen,
-          site: user.site,
-          language: user.language,
-          archived: user.archived,
-          enabled: user.enabled
-        };
-      })};
-    }))
-    .subscribe((transformedUserData) => {
-      this.users = transformedUserData.users;
-      this.usersUpdated.next({
-        users: [...this.users]
-      });
-      console.log(this.users);
-    });
+  public getUsers(): Observable<any> {
+    return this.http.get('http://localhost:3000/api/v1/users').pipe(
+      map((response: any) => Deserialize(response.users, User))
+    );
   }
 
   getUserUpdateListener(): Observable<any> {

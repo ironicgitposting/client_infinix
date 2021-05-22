@@ -19,7 +19,7 @@
                 [matAutocomplete]="driver">
       <mat-icon>arrow_drop_down</mat-icon>
         <mat-autocomplete #driver="matAutocomplete">
-            <mat-option *ngFor="let driver of drivers" [value]="driver.surname + ' ' + driver.name" (onSelectionChange)='setDriverId($event, driver)'>
+            <mat-option *ngFor="let driver of drivers" [value]="driver.surname + ' ' + driver.name" (onSelectionChange)='setDriver($event, driver)'>
             {{ driver.surname }} {{ driver.name }}
             </mat-option>
         </mat-autocomplete>
@@ -35,7 +35,7 @@
              [matAutocomplete]="site">
       <mat-icon>arrow_drop_down</mat-icon>
       <mat-autocomplete #site="matAutocomplete">
-        <mat-option *ngFor="let site of sites" [value]="site" (onSelectionChange)='setSiteId($event, site)'>
+        <mat-option *ngFor="let site of sites" [value]="site" (onSelectionChange)='setSite($event, site)'>
           {{ site.libelle }}
         </mat-option>
       </mat-autocomplete>

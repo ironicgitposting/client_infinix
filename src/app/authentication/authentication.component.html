@@ -9,7 +9,7 @@
           <mat-card-title>Connexion</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <form class="login-form-group" [formGroup]="loginForm">
+          <form class="login-form-group" [formGroup]="loginForm" (keydown)="sendForm($event)">
             <mat-form-field class="login-wrapper">
               <mat-label>Adresse mail</mat-label>
               <input matInput id="login" formControlName="email">
@@ -37,7 +37,7 @@
           <div class="error" id="login-error" *ngIf="wrongId">
             Les identifiants de connexion sont incorrects
           </div>
-          <button mat-raised-button color="primary" id="connect-button" (click)="login()">Connexion</button>
+          <button mat-raised-button color="primary" class='connect-button' (click)="login()" #loginButton>Connexion</button>
           <button mat-button (click)="toggleRegisterForm()">Créer un compte</button>
         </mat-card-content>
       </mat-card>
@@ -46,7 +46,7 @@
           <mat-card-title>Création de compte</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <form class="register-form-group" [formGroup]="registerForm">
+          <form class="register-form-group" [formGroup]="registerForm" (keydown)="sendForm($event)">
             <mat-form-field>
               <mat-label>Nom</mat-label>
               <input matInput id="surname" formControlName="surname">
@@ -115,7 +115,7 @@
               </mat-error>
             </mat-form-field>
           </form>
-          <button mat-raised-button color="primary" id="connect-button" class="connect-button" (click)="register()">Créer mon compte</button>
+          <button mat-raised-button color="primary" class="connect-button" (click)="register()" #registerButton>Créer mon compte</button>
           <button mat-button (click)="toggleRegisterForm()">J'ai déjà un compte</button>
       </mat-card-content>
       </mat-card>

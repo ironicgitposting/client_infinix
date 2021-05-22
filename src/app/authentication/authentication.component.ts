@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Common } from '../common/common';
 import { AuthenticationDataModel } from './authentication.data.model';
 import { AuthenticationService } from './authentication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarComponent } from '../snackbar/snackbar.component';
 import { MessageService } from '../common/services/message.service';
 
 @Component({
@@ -37,13 +36,13 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
   /**
    * Getter des contrôles du formulaire d'inscription
    */
-  get registerFormControls() {
+  get registerFormControls(): {[p: string]: AbstractControl} {
     return this.registerForm.controls;
   }
   /**
    * Getter des contrôles du formulaire de connexion
    */
-  get loginFormControls() {
+  get loginFormControls(): {[p: string]: AbstractControl} {
     return this.loginForm.controls;
   }
 
@@ -120,38 +119,36 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.authenticationService.getAuthStatusListener().subscribe(authStatus => {
       this.wrongId = !authStatus;
     });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     Common.loadScript('../assets/js/login-background.js');
   }
 
   /**
    * Connexion utilisateur
    */
-  public login() {
-    const user: AuthenticationDataModel = {
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password
-    }
+  public login(): void {
+    const user: AuthenticationDataModel = new AuthenticationDataModel();
+    user.email = this.loginForm.value.email;
+    user.password = this.loginForm.value.password;
     this.authenticationService.login(user);
   }
 
   /**
    * Inscription utlisateur
    */
-  public register() {
-    const user: AuthenticationDataModel = {
-      name: this.registerForm.value.name,
-      surname: this.registerForm.value.surname,
-      email: this.registerForm.value.email,
-      password: this.registerForm.value.password,
-      phone: this.registerForm.value.phone
-    }
+  public register(): void {
+    const user: AuthenticationDataModel = new AuthenticationDataModel();
+    user.name = this.registerForm.value.name;
+    user.surname = this.registerForm.value.surname;
+    user.email = this.registerForm.value.email;
+    user.password = this.registerForm.value.password;
+    user.phone = this.registerForm.value.phone;
     this.authenticationService.createUser(user);
     this.openSnackBar('success', 'Demande de création de compte enregistrée');
     this.toggleRegisterForm();
@@ -161,16 +158,26 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
    * Inverse la valeur pour passer du formulaire d'inscription à celui de connexion
    * Et réinitialisation des formulaires
    */
-  public toggleRegisterForm() {
+  public toggleRegisterForm(): void {
     if (this.isRegisterForm) {
       this.registerForm.reset();
     } else if (!this.isRegisterForm) {
       this.loginForm.reset();
+      this.wrongId = false;
     }
     this.isRegisterForm = !this.isRegisterForm;
   }
 
-  public openSnackBar(type: string, message: string) {
+  public openSnackBar(type: string, message: string): void {
     this.msgService.snackbar(message, type);
+  }
+
+  public sendForm(event: KeyboardEvent): void {
+    console.log(event.code);
+    if (event.code.toLowerCase() === 'enter' && !this.isRegisterForm) {
+      this.login();
+    } else if (event.code.toLowerCase() === 'enter' && this.isRegisterForm) {
+      this.register();
+    }
   }
 }

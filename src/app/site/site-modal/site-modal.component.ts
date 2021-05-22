@@ -14,11 +14,13 @@ import { SiteDataModel } from '../site.data.model';
 })
 export class SiteModalComponent implements OnInit {
 
+  // TODO / FIXME: A ADAPTER - Components copiés depuis celui des prêts
+
   public siteForm: FormGroup;
 
   public drivers: User[] = [];
 
-  public sites: any[] = [];
+  public sites: SiteDataModel[] = [];
 
   private usersSub: Subscription;
 
@@ -32,7 +34,7 @@ export class SiteModalComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: {
               isReadOnly: boolean;
               mode: string;
-              site: any;
+              site: SiteDataModel;
   }) {
       this.siteForm = this.fb.group({
       driver: new FormControl({value: '', disabled: this.isReadMode()}, Validators.required),
@@ -44,18 +46,16 @@ export class SiteModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUsers();
-    this.usersSub = this.userService.getUserUpdateListener()
-      .subscribe((userData: {users: User[]}) => {
-        this.drivers = userData.users;
-      });
-    if (this.data.site) {
+    this.userService.getUsers().subscribe(users => {
+      this.drivers = users;
+    });
+    /*if (this.data.site) {
       // On alimente le formgroup avec les valeurs de la réservation
       this.siteForm.controls['driver'].setValue(this.data.site.User.surname + ' ' + this.data.site.User.name);
       this.siteForm.controls['departureSite'].setValue(this.data.site.Site.label);
       this.siteForm.controls['start'].setValue(this.data.site.startDate);
       this.siteForm.controls['end'].setValue(this.data.site.endDate);
-    }
+    }*/
   }
 
   /**
@@ -85,8 +85,8 @@ export class SiteModalComponent implements OnInit {
    * @param saved On sauvegarde ou non
    */
   public close(saved: boolean = false): void {
-    const site: SiteDataModel = {};
-    if (saved) {
+    const site: SiteDataModel = new SiteDataModel();
+    /*if (saved) {
       site.driver = this.driverId;
       site.departureSite = this.siteId;
       site.lentVehicule = null;
@@ -97,7 +97,7 @@ export class SiteModalComponent implements OnInit {
         site.endDate = null;
       }
       site.status = 1;
-    }
+    }*/
     this.dialogRef.close({ saved: saved, site: site });
   }
 
@@ -113,7 +113,7 @@ export class SiteModalComponent implements OnInit {
    * @param status Evènement du matSelect pour qu'il ne se déclenche qu'une fois
    * @param driver Conducteur choisi
    */
-  public setDriverId(status: MatOptionSelectionChange, driver: any): void {
+  public setDriverId(status: MatOptionSelectionChange, driver: User): void {
     if (status.isUserInput) {
       this.driverId = driver.id;
     }
@@ -124,7 +124,7 @@ export class SiteModalComponent implements OnInit {
    * @param status Evènement du matSelect pour qu'il ne se déclenche qu'une fois
    * @param site Site choisi
    */
-  public setSiteId(status: MatOptionSelectionChange, site: any): void {
+  public setSiteId(status: MatOptionSelectionChange, site: User): void {
     if (status.isUserInput) {
       this.siteId = site.id;
     }

@@ -1,70 +1,70 @@
 <div id='vehicle-container'>
-<button mat-raised-button color="primary" class="add-vehicle" (click)="openVehicleModal('new', null, null)">
-  Ajouter un véhicule
-</button>
-<mat-card class="wrapper-card">
-  <mat-card-header class='wrapper-card-header'>
-    <mat-card-title>
-      <div id="filters" class="filters">
-        <mat-form-field class="login-wrapper">
-          <mat-label>Rechercher</mat-label>
-          <input matInput id="search"(keyup)="applyFilter($event)" #input>
-        </mat-form-field>
-        
-        <mat-form-field>
-          <mat-label>Status</mat-label>
-          <mat-select>
-              <mat-option *ngFor="let etat of etats" [value]="etat">
-              {{etat}}
+  <button mat-raised-button color='primary' class='add-vehicle' (click)="openVehicleModal('new', null, null)">
+    Ajouter un véhicule
+  </button>
+  <mat-card class='wrapper-card'>
+    <mat-card-header class='wrapper-card-header'>
+      <mat-card-title>
+        <div id='filters' class='filters'>
+          <mat-form-field class='login-wrapper'>
+            <mat-label>Rechercher</mat-label>
+            <input matInput id='search' (keyup)='applyFilter($event)' #input>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select>
+              <mat-option *ngFor='let etat of etats' [value]='etat'>
+                {{etat}}
               </mat-option>
-          </mat-select>
-      </mat-form-field>
-      </div>
-    </mat-card-title>
-  </mat-card-header>
- 
-  <mat-divider></mat-divider>
-  
-  <mat-card-content class="wrapper-card-content">
-    <div class="mat-elevation-z8">
-      <table mat-table
-      [dataSource]="dataSource" multiTemplateDataRows
-      matSort>
-        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content class='wrapper-card-content'>
+      <div class='mat-elevation-z8'>
+        <table mat-table
+               [dataSource]='dataSource' multiTemplateDataRows
+               matSort>
+          <ng-container matColumnDef='{{column}}' *ngFor='let column of columnsToDisplay'>
             <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnsName[column]}} </th>
-          <ng-container [ngSwitch]='column'>
-            <ng-container *ngSwitchCase="'model'">
-              <td  mat-cell *matCellDef="let vehicle"> {{vehicle.model}} </td>
-            </ng-container>
-            <ng-container *ngSwitchCase="'libelle'">
-              <td mat-cell *matCellDef="let vehicle"> {{vehicle.libelle}}</td>
-            </ng-container>
-            <ng-container *ngSwitchCase="'immatriculation'">
-              <td mat-cell *matCellDef="let vehicle"> {{vehicle.immatriculation}} </td>
-            </ng-container>
-            <ng-container *ngSwitchCase="'state'">
-              <td mat-cell *matCellDef="let vehicle"> {{vehicle.state}} </td>
-            </ng-container>
-            <ng-container *ngSwitchCase="'status'">
-              <td mat-cell *matCellDef="let vehicle"> {{vehicle.status }} </td>
+            <ng-container [ngSwitch]='column'>
+              <ng-container *ngSwitchCase="'model'">
+                <td mat-cell *matCellDef='let vehicle'> {{vehicle.model}} </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'libelle'">
+                <td mat-cell *matCellDef='let vehicle'> {{vehicle.libelle}}</td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'immatriculation'">
+                <td mat-cell *matCellDef='let vehicle'> {{vehicle.immatriculation}} </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'state'">
+                <td mat-cell *matCellDef='let vehicle'> {{vehicle.state}} </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'status'">
+                <td mat-cell *matCellDef='let vehicle'> {{vehicle.status }} </td>
+              </ng-container>
             </ng-container>
           </ng-container>
-        </ng-container>
 
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let vehicle" [attr.colspan]="columnsToDisplay.length">
-            <div class='element-detail'
-                    [@detailExpand]="vehicle === expandedElement ? 'expanded' : 'collapsed'">
-                <div class="element-vehicule-picture">
-                    
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef='expandedDetail'>
+            <td mat-cell *matCellDef='let vehicle' [attr.colspan]='columnsToDisplay.length'>
+              <div class='element-detail'
+                   [@detailExpand]="vehicle === expandedElement ? 'expanded' : 'collapsed'">
+                <div class='element-vehicule-picture'>
+
                 </div>
-                <div class="element-description">
+                <div class='element-description'>
                   <mat-card class='vehicule-detail'>
                     <mat-card-header>
                       <mat-card-title>
-                        <div class="detail-card-title">
-                          <mat-icon aria-hidden="false" color='primary'>directions_car</mat-icon>
+                        <div class='detail-card-title'>
+                          <mat-icon aria-hidden='false' color='primary'>directions_car</mat-icon>
                           Véhicule
                         </div>
                       </mat-card-title>
@@ -88,15 +88,15 @@
                   <mat-card class='site-detail'>
                     <mat-card-header>
                       <mat-card-title>
-                        <div class="detail-card-title">
-                          <mat-icon aria-hidden="false" color='primary'>home_work</mat-icon>
+                        <div class='detail-card-title'>
+                          <mat-icon aria-hidden='false' color='primary'>home_work</mat-icon>
                           Localisation
                         </div>
                       </mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
                       <div>
-                        Le véhicule se trouve à cet endroit : {{ vehicle.Site.label }}
+                        Le véhicule se trouve à cet endroit : {{ vehicle.site.label }}
                       </div>
                       <div>
                         Les clés :
@@ -110,34 +110,40 @@
                   <mat-card class='other-detail'>
                     <mat-card-header>
                       <mat-card-title>
-                        <div class="detail-card-title">
-                          <mat-icon aria-hidden="false" color='primary'>info</mat-icon>
+                        <div class='detail-card-title'>
+                          <mat-icon aria-hidden='false' color='primary'>info</mat-icon>
                           Autres
                         </div>
                       </mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
-                      
-                      <div class="btn-action-vehicle">                      
-                        <button class="action-btn" mat-raised-button color="primary" (click)="openVehicleModal('update', vehicle, vehicle.immatriculation)">Modifier</button>
+
+                      <div class='btn-action-vehicle'>
+                        <button class='action-btn' mat-raised-button color='primary'
+                                (click)="openVehicleModal('update', vehicle, vehicle.immatriculation)">Modifier
+                        </button>
                       </div>
-                      <div class="btn-action-vehicle">                      
-                        <button class="action-btn" mat-raised-button color="warn" (click)="deleteVehicle(vehicle)">SUPPRIMER</button>
+                      <div class='btn-action-vehicle'>
+                        <button class='action-btn' mat-raised-button color='warn' (click)='deleteVehicle(vehicle)'>
+                          SUPPRIMER
+                        </button>
                       </div>
-                      <div class="btn-action-vehicle">                       
-                        <button class="action-btn" mat-raised-button color="warn" (click)="historicalVehicle(vehicle)">HISTORIQUE DES PRÊTS</button>
+                      <div class='btn-action-vehicle'>
+                        <button class='action-btn' mat-raised-button color='warn' (click)='historicalVehicle(vehicle)'>
+                          HISTORIQUE DES PRÊTS
+                        </button>
                       </div>
-                    
+
                     </mat-card-content>
                   </mat-card>
                 </div>
                 <!--
                 <div class="d-flex align-items-right flex-direction-column">
                   <span>Site : {{ vehicle.site }}</span>
-                    
+
                   <span>Les clés : YUP145 </span>
                   <span>Les doubles des clés : YUP146 </span>
-                    
+
                   <span>Emprunté par : Vincent David </span>
                   <span>Du 24 Février 2021 au 28 Février 2021</span>
                 </div>
@@ -146,25 +152,23 @@
                   <button class="action-btn" mat-raised-button color="warn" (click)="deleteVehicle(vehicle)">SUPPRIMER</button>
                   <button class="action-btn" mat-raised-button color="warn" (click)="historicalVehicle(vehicle)">HISTORIQUE DES PRÊTS</button>
                 </div> -->
-            </div>
+              </div>
             </td>
-        </ng-container>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row *matRowDef="let vehicle; columns: columnsToDisplay;"
-            class='vehicle-element-row'
-            [class.vehicle-expanded-row]="expandedElement === vehicle"
-            (click)="expandedElement = expandedElement === vehicle ? null : vehicle">
-        </tr>
-        <tr mat-row *matRowDef="let vehicle; columns: ['expandedDetail']" class='vehicle-detail-row'></tr>
+          <tr mat-header-row *matHeaderRowDef='columnsToDisplay'></tr>
+          <tr mat-row *matRowDef='let vehicle; columns: columnsToDisplay;'
+              class='vehicle-element-row'
+              [class.vehicle-expanded-row]='expandedElement === vehicle'
+              (click)='expandedElement = expandedElement === vehicle ? null : vehicle'>
+          </tr>
+          <tr mat-row *matRowDef="let vehicle; columns: ['expandedDetail']" class='vehicle-detail-row'></tr>
 
-        <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">Aucune donnée ne correspond à  "{{input.value}}"</td>
-        </tr>
-    </table>
-  </div>
-  </mat-card-content>
-</mat-card>
-
-
+          <tr class='mat-row' *matNoDataRow>
+            <td class='mat-cell' colspan='4'>Aucune donnée ne correspond à "{{input.value}}"</td>
+          </tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

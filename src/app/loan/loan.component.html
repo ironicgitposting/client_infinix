@@ -43,13 +43,13 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columsName[column]}} </th>
                       <ng-container [ngSwitch]='column'>
                         <ng-container *ngSwitchCase="'status'">
-                          <td  mat-cell *matCellDef="let element"> {{element.Status.label}} </td>
+                          <td  mat-cell *matCellDef="let element"> {{element.status.label}} </td>
                         </ng-container>
                         <ng-container *ngSwitchCase="'driver'">
-                          <td mat-cell *matCellDef="let element"> {{element.User.surname}} {{element['User'].name}} </td>
+                          <td mat-cell *matCellDef="let element"> {{element.driver.surname}} {{element.driver.name}} </td>
                         </ng-container>
                         <ng-container *ngSwitchCase="'departureSite'">
-                          <td mat-cell *matCellDef="let element"> {{element.Site.label}} </td>
+                          <td mat-cell *matCellDef="let element"> {{element.site.label}} </td>
                         </ng-container>
                         <ng-container *ngSwitchCase="'startDate'">
                           <td mat-cell *matCellDef="let element"> {{element[column] | date: 'fullDate' }} </td>
@@ -81,9 +81,9 @@
                                 </mat-card-title>
                               </mat-card-header>
                               <mat-card-content>
-                                <div *ngIf='element.Vehicule; else noVehicule'>
-                                  {{ element.Vehicule.libelle }}
-                                  {{ element.Vehicule.model }}
+                                <div *ngIf='element.lentVehicule; else noVehicule'>
+                                  {{ element.lentVehicule.libelle }}
+                                  {{ element.lentVehicule.model }}
                                 </div>
                                 <ng-template #noVehicule>
                                   <div>Aucun véhicule n'est affecté à cette réservation</div>
@@ -100,11 +100,11 @@
                                 </mat-card-title>
                               </mat-card-header>
                               <mat-card-content>
-                                <div *ngIf='element.Site; else noSite'>
+                                <div *ngIf='element.site; else noSite'>
                                   Départ :
-                                  {{ element.Site.adress }}
-                                  {{ element.Site.postalCode }}
-                                  {{ element.Site.city }}
+                                  {{ element.site.adress }}
+                                  {{ element.site.postalCode }}
+                                  {{ element.site.city }}
                                 </div>
                                 <ng-template #noSite>
                                   <div>Aucun véhicule n'est affecté à cette réservation</div>
@@ -125,7 +125,7 @@
                               </mat-card-header>
                               <mat-card-content>
                                 <div>
-                                  <div>Conducteur : {{ element.User.surname }} {{ element.User.name }}</div>
+                                  <div>Conducteur : {{ element.driver.surname }} {{ element.driver.name }}</div>
                                   <div>Covoitureur :</div>
                                 </div>
                               </mat-card-content>

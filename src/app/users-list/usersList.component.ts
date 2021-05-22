@@ -1,14 +1,15 @@
-import { OnDestroy } from "@angular/core";
-import { AfterViewInit, Component } from "@angular/core";
-import { OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
-import { User } from "./user.model";
-import { UserService } from "./usersList.service";
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { Inject } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
-import {MatSlideToggleChange} from '@angular/material/slide-toggle';
+import { OnDestroy } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { User } from './user.model';
+import { UserService } from './usersList.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Inject } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+
 @Component({
   selector: 'usersList',
   templateUrl: './usersList.component.html',
@@ -17,23 +18,19 @@ import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   users: User[] = [];
-  private usersSub: Subscription;
 
   constructor(private userService: UserService, public dialog: MatDialog) {
 
   }
 
   public ngOnInit() {
-    this.userService.getUsers();
-    this.usersSub = this.userService.getUserUpdateListener()
-      .subscribe((userData: {users: User[]}) => {
-        this.users = userData.users;
-      });
-
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+    });
   }
 
   ngOnDestroy(): void {
-    this.usersSub.unsubscribe();
+
   }
 
   public ngAfterViewInit() {
@@ -47,8 +44,8 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
   openDialog(user: User): void {
     const dialogRef = this.dialog.open(DialogUser, {
       data: {
-        user
-      }
+        user,
+      },
     });
   }
 
@@ -67,7 +64,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnDestroy {
 @Component({
   selector: 'dialog-modal',
   templateUrl: './userModal.html',
-  styleUrls: ['./usersList.component.less']
+  styleUrls: ['./usersList.component.less'],
 })
 export class DialogUser implements OnInit {
 
@@ -77,7 +74,8 @@ export class DialogUser implements OnInit {
     private userService: UserService,
     public dialogRef: MatDialogRef<DialogUser>,
     private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
 
   ngOnInit() {
     this.modalUser = this.data.user;
@@ -91,15 +89,13 @@ export class DialogUser implements OnInit {
   onConfirmClick(ngForm: NgForm) {
 
     if (ngForm.valid) {
-      const newUser: User = {
-        email: ngForm.form.value.email,
-        surname: ngForm.form.value.surname,
-        name: ngForm.form.value.name,
-        profession: ngForm.form.value.profession,
-        telephone: ngForm.form.value.telephone
-        // TODO: A COMPLETER
-
-      }
+      const newUser: User = new User();
+      newUser.email = ngForm.form.value.email;
+      newUser.surname = ngForm.form.value.surname;
+      newUser.name = ngForm.form.value.name;
+      newUser.profession = ngForm.form.value.profession;
+      newUser.telephone = ngForm.form.value.telephone;
+      // TODO: A COMPLETER
       console.log(ngForm);
       this.userService.updateUser(newUser);
       this.router.navigate(['/users']);

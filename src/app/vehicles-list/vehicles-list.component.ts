@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Vehicle } from "./vehicle.model";
-import { VehicleService } from "./vehicle-list.service";
+import { Vehicle } from './vehicle.model';
+import { VehicleService } from './vehicle-list.service';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -10,7 +10,6 @@ import { MatSort } from '@angular/material/sort';
 import { HistoricalVehicleModal } from './vehicle-modal/historical-vehicle-modal/historical-vehicule-modal.component';
 import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
 import { MessageService } from '../common/services/message.service';
-import { last } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -18,25 +17,25 @@ import { last } from 'rxjs/operators';
   styleUrls: ['./vehicles-list.component.less'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight:'0px' })),
+      state('collapsed', style({ height: '0px', minHeight: '0px' })),
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed',
-      animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
       transition('expanded <=> void',
-      animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')) ]),
-],
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))]),
+  ],
 })
 export class VehiclesListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
-  
+
   vehicles: Vehicle[] = [];
   private vehiclesSub: Subscription;
 
-  ELEMENT_DATA : Vehicle[];
+  ELEMENT_DATA: Vehicle[];
   columnsToDisplay: string[] = ['model', 'libelle', 'immatriculation', 'state', 'status'];
 
   columnsName: {
-    [model : string]: string;
+    [model: string]: string;
     immatriculation: string;
     state: string;
     status: string;
@@ -46,36 +45,36 @@ export class VehiclesListComponent implements OnInit {
     immatriculation: 'Immatriculation',
     state: 'Etat',
     status: 'Statut',
-    libelle: 'Marque'
+    libelle: 'Marque',
   };
 
   expandedElement: Vehicle | null;
 
-  etats = ['En validation', 'Validé', 'En cours', 'En retard', 'Clôturé']
+  etats = ['En validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
 
-  dataSource: MatTableDataSource<any>;
-    
-  constructor(private vehicleService: VehicleService, 
+  dataSource: MatTableDataSource<Vehicle>;
+
+  constructor(private vehicleService: VehicleService,
               public dialog: MatDialog,
-              private msgService: MessageService,) { 
-    
+              private msgService: MessageService) {
+
   }
 
-  
+
   ngOnInit() {
     this.fetchData();
   }
 
   ngOnDestroy(): void {
-    
+
   }
 
   isEmptyVehicles() {
-    return this.vehicles.length == 0;
+    return this.vehicles.length === 0;
   }
 
   deleteVehicle(vehicle: Vehicle): void {
-    if(confirm("Are you sure to delete ")) {
+    if (confirm('Are you sure to delete ')) {
       if (vehicle.immatriculation) {
         this.vehicleService.deleteVehicle(vehicle).subscribe(() => {
           this.fetchData();
@@ -84,10 +83,12 @@ export class VehiclesListComponent implements OnInit {
     }
   }
 
-  fetchData(){
-    this.vehicleService.getVehicles().subscribe(vehicle => {
-      this.ELEMENT_DATA = vehicle.vehicules;
+  fetchData() {
+    this.vehicleService.getVehicles().subscribe(vehicles => {
+      this.ELEMENT_DATA = vehicles;
+      console.log(this.ELEMENT_DATA);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      console.log(this.dataSource);
       this.dataSource.sort = this.sort;
     });
   }
@@ -95,7 +96,7 @@ export class VehiclesListComponent implements OnInit {
   openDialog(vehicle: Vehicle): void {
     const dialogRef = this.dialog.open(VehicleModal, {
       data: {
-        vehicle
+        vehicle,
       },
       width: '512px',
     });
@@ -104,9 +105,9 @@ export class VehiclesListComponent implements OnInit {
   historicalVehicle(vehicle: Vehicle): void {
     const dialogRef = this.dialog.open(HistoricalVehicleModal, {
       data: {
-        vehicle
+        vehicle,
       },
-      
+
     });
   }
 
@@ -115,15 +116,15 @@ export class VehiclesListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-   /**
+  /**
    * Ouverture de la modale d'ajout de véhicule
    * @param isReadOnly En lecture seule ou non
    * @param mode Mode d'ouverture => Création / modification
    * @param lastImmatriculation En cas de modification de l'immatriculation il nous faut l'ancienne pour update
    */
-    openVehicleModal(mode: string, vehicle: Vehicle | null, lastImmatriculation: string | null): void {
-      const dialogRef = this.dialog.open(VehicleModal, {
-      data:{ mode: mode, vehicle: vehicle, lastImmatriculation: lastImmatriculation }
+  openVehicleModal(mode: string, vehicle: Vehicle | null, lastImmatriculation: string | null): void {
+    const dialogRef = this.dialog.open(VehicleModal, {
+      data: { mode: mode, vehicle: vehicle, lastImmatriculation: lastImmatriculation },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -133,11 +134,11 @@ export class VehiclesListComponent implements OnInit {
           this.msgService.snackbar('Véhicule enregistré', 'success');
           this.fetchData();
         });
-      } else if(result && result.saved && lastImmatriculation) {
+      } else if (result && result.saved && lastImmatriculation) {
         this.vehicleService.updateVehicle(result.vehicle, lastImmatriculation).subscribe(response => {
           this.msgService.snackbar('Véhicule modifié');
           this.fetchData();
-        })
+        });
       }
     });
 

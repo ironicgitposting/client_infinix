@@ -1,11 +1,23 @@
+import { autoserializeAs } from 'cerialize';
+import { StatusModel } from '../common/models/StatusModel';
+
 export class SiteDataModel {
-  driver?: any;
-  lentVehicule?: any;
-  startDate?: any;
-  endDate?: any;
-  status?: any;
-  departureSite?: any;
-  Status?: any;
-  User?: any;
-  Site?: any;
+  @autoserializeAs('id')
+  id: number;
+  @autoserializeAs('label')
+  libelle: string;
+  @autoserializeAs('adress')
+  adress: string;
+  @autoserializeAs('postalCode')
+  postalCode: string;
+  @autoserializeAs('city')
+  city: string;
+  @autoserializeAs('phone')
+  phone: string;
+  @autoserializeAs('mail')
+  mail: string;
+  @autoserializeAs('pays')
+  pays: string;
+  @autoserializeAs('status')
+  status: StatusModel;
 }
