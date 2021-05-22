@@ -1,80 +1,80 @@
 <div class='modal-header'>
-    <div>
-      <h1 *ngIf="isNewMode()">Création d'un véhicule</h1>
-      <h1 *ngIf="isUpdateMode()">Consultation d'un véhicule</h1>
-    </div>
-    <button mat-icon-button class='close-button' (click)='close(false)'>
-      <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
-    </button>
+  <div>
+    <h1 *ngIf='isNewMode()'>Création d'un véhicule</h1>
+    <h1 *ngIf='isUpdateMode()'>Consultation d'un véhicule</h1>
+  </div>
+  <button mat-icon-button class='close-button' (click)='close(false)'>
+    <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
+  </button>
 </div>
 <mat-divider></mat-divider>
-<form [formGroup]="vehicleForm">   
-    <div>
-        <mat-form-field style='width: 100%'>
-            <mat-label>Immatriculation</mat-label>
-            <input type="text"
-                    matInput 
-                    formControlName="immatriculation">
-            <mat-hint>Numéro de plaque d'immatriculation</mat-hint>
-        </mat-form-field>
-    </div>
-    <div>
-        <mat-form-field style='width: 100%'>
-            <mat-label>Type</mat-label>
-            <input type="number"
-                    matInput 
-                    formControlName="type">
-            <mat-hint>Type de véhicule</mat-hint>
-        </mat-form-field>
-    </div>
-    <div>
-        <mat-form-field style='margin-right: 1em;'>
-            <mat-label>Marque</mat-label>
-            <input type="text"
-                    matInput 
-                    formControlName="libelle">
-            <mat-hint>Marque du véhicule</mat-hint>
-        </mat-form-field>
+<form [formGroup]='vehicleForm'>
+  <div>
+    <mat-form-field style='width: 100%'>
+      <mat-label>Immatriculation</mat-label>
+      <input type='text'
+             matInput
+             formControlName='immatriculation'>
+      <mat-hint>Numéro de plaque d'immatriculation</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style='width: 100%'>
+      <mat-label>Type</mat-label>
+      <input type='number'
+             matInput
+             formControlName='type'>
+      <mat-hint>Type de véhicule</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style='margin-right: 1em;'>
+      <mat-label>Marque</mat-label>
+      <input type='text'
+             matInput
+             formControlName='libelle'>
+      <mat-hint>Marque du véhicule</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Modèle</mat-label>
-            <input type="text" 
-                    matInput 
-                    formControlName="model">
-            <mat-hint>Modèle du véhicule</mat-hint>
-        </mat-form-field>
-    </div>
-    <div>
-        <mat-form-field>
-            <mat-label>Etat</mat-label>
-            <input  type="number" 
-                    matInput 
-                    formControlName="state">
-            <mat-hint>Etat physique du véhicule (entretien)</mat-hint>
-        </mat-form-field>
-    </div>
+    <mat-form-field>
+      <mat-label>Modèle</mat-label>
+      <input type='text'
+             matInput
+             formControlName='model'>
+      <mat-hint>Modèle du véhicule</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Etat</mat-label>
+      <input type='number'
+             matInput
+             formControlName='state'>
+      <mat-hint>Etat physique du véhicule (entretien)</mat-hint>
+    </mat-form-field>
+  </div>
 
-    <!-- TODO : AJOUTER LES SITES DYNAMIQUES -->
-    <div>
-        <mat-form-field style='width: 100%'>
-          <mat-label>Site</mat-label>
-          <input type="number"
-                 aria-label="Site"
-                 matInput
-                 formControlName="site"
-                 [matAutocomplete]="site">
-          <mat-icon>arrow_drop_down</mat-icon>
-          <mat-autocomplete #site="matAutocomplete">
-            <mat-option *ngFor="let site of sites" [value]="site" (onSelectionChange)='setSiteId($event, site)'>
-              {{ site.libelle }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
+  <!-- TODO : AJOUTER LES SITES DYNAMIQUES -->
+  <div>
+    <mat-form-field style='width: 100%'>
+      <mat-label>Site</mat-label>
+      <input type='number'
+             aria-label='Site'
+             matInput
+             formControlName='site'
+             [matAutocomplete]='site'>
+      <mat-icon>arrow_drop_down</mat-icon>
+      <mat-autocomplete #site='matAutocomplete'>
+        <mat-option *ngFor='let site of sites' [value]='site' (onSelectionChange)='setSiteId($event, site)'>
+          {{ site.libelle }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
 
-    <!-- AJOUTER LE FLAG SERVICE QD ON EST EN UPDATE -->
-    <div class='actions'>
-        <button mat-stroked-button (click)='close(false)'>Annuler</button>
-        <button mat-raised-button color='primary' (click)='close(true)'>Valider</button>
-    </div>
+  <!-- AJOUTER LE FLAG SERVICE QD ON EST EN UPDATE -->
+  <div class='actions'>
+    <button mat-stroked-button (click)='close(false)'>Annuler</button>
+    <button mat-raised-button color='primary' (click)='close(true)'>Valider</button>
+  </div>
 </form>

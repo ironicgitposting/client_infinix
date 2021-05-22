@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { UserService } from '../../users-list/usersList.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { LoanDataModel } from '../loan.data.model';
+import { SiteDataModel } from '../../site/site.data.model';
+import { StatusModel } from '../../common/models/StatusModel';
 
 @Component({
   selector: 'app-loan-modal',
@@ -14,17 +16,24 @@ import { LoanDataModel } from '../loan.data.model';
 })
 export class LoanModalComponent implements OnInit {
 
+  /**
+   * FormGroup des prêts
+   */
   public loanForm: FormGroup;
 
+  /**
+   * Liste des utilisateurs pouvant être conducteurs
+   */
   public drivers: User[] = [];
 
-  public sites: any[] = [];
+  /**
+   * Liste des sites
+   */
+  public sites: SiteDataModel[] = [];
 
-  private usersSub: Subscription;
+  public selectedDriver: User = new User();
 
-  public driverId: number | undefined = 1;
-
-  public siteId: number | undefined = 1;
+  public selectedSite: SiteDataModel = new SiteDataModel();
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<LoanModalComponent>,
@@ -32,7 +41,7 @@ export class LoanModalComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: {
               isReadOnly: boolean;
               mode: string;
-              loan: any;
+              loan: LoanDataModel;
   }) {
       this.loanForm = this.fb.group({
       driver: new FormControl({value: '', disabled: this.isReadMode()}, Validators.required),
@@ -44,15 +53,13 @@ export class LoanModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUsers();
-    this.usersSub = this.userService.getUserUpdateListener()
-      .subscribe((userData: {users: User[]}) => {
-        this.drivers = userData.users;
-      });
+    this.userService.getUsers().subscribe(users => {
+      this.drivers = users;
+    });
     if (this.data.loan) {
       // On alimente le formgroup avec les valeurs de la réservation
-      this.loanForm.controls['driver'].setValue(this.data.loan.User.surname + ' ' + this.data.loan.User.name);
-      this.loanForm.controls['departureSite'].setValue(this.data.loan.Site.label);
+      this.loanForm.controls['driver'].setValue(this.data.loan.driver.surname + ' ' + this.data.loan.driver.name);
+      this.loanForm.controls['departureSite'].setValue(this.data.loan.site.libelle);
       this.loanForm.controls['start'].setValue(this.data.loan.startDate);
       this.loanForm.controls['end'].setValue(this.data.loan.endDate);
     }
@@ -85,18 +92,18 @@ export class LoanModalComponent implements OnInit {
    * @param saved On sauvegarde ou non
    */
   public close(saved: boolean = false): void {
-    const loan: LoanDataModel = {};
+    const loan: LoanDataModel = new LoanDataModel();
     if (saved) {
-      loan.driver = this.driverId;
-      loan.departureSite = this.siteId;
-      loan.lentVehicule = null;
+      loan.driver = new User();
+      loan.driver.id = this.selectedDriver.id;
+      loan.site = new SiteDataModel();
+      loan.site.id = this.selectedSite.id || 1;
       loan.startDate = this.loanForm.controls['start'].value.toDate();
       if (this.loanForm.controls['end'].value !== '') {
         loan.endDate = this.loanForm.controls['end'].value.toDate();
-      } else {
-        loan.endDate = null;
       }
-      loan.status = 1;
+      loan.status = new StatusModel();
+      loan.status.id = 1;
     }
     this.dialogRef.close({ saved: saved, loan: loan });
   }
@@ -113,9 +120,9 @@ export class LoanModalComponent implements OnInit {
    * @param status Evènement du matSelect pour qu'il ne se déclenche qu'une fois
    * @param driver Conducteur choisi
    */
-  public setDriverId(status: MatOptionSelectionChange, driver: any): void {
+  public setDriver(status: MatOptionSelectionChange, driver: User): void {
     if (status.isUserInput) {
-      this.driverId = driver.id;
+      this.selectedDriver = driver;
     }
   }
 
@@ -124,9 +131,9 @@ export class LoanModalComponent implements OnInit {
    * @param status Evènement du matSelect pour qu'il ne se déclenche qu'une fois
    * @param site Site choisi
    */
-  public setSiteId(status: MatOptionSelectionChange, site: any): void {
+  public setSite(status: MatOptionSelectionChange, site: SiteDataModel): void {
     if (status.isUserInput) {
-      this.siteId = site.id;
+      this.selectedSite = site;
     }
   }
 }

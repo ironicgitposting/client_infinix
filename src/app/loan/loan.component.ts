@@ -57,7 +57,7 @@ export class LoanComponent implements OnInit {
 
   public ngOnInit(): void {
     this.loanService.getAllLoans().subscribe(loan => {
-      this.ELEMENT_DATA = loan.booking;
+      this.ELEMENT_DATA = loan;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.sort = this.sort;
     });
@@ -103,7 +103,7 @@ export class LoanComponent implements OnInit {
       if (status.source.value === this.status[0]) {
         this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       } else {
-        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA.filter(loan => loan.Status.label === status.source.value));
+        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA.filter(loan => loan.status.label === status.source.value));
       }
     }
   }
@@ -114,7 +114,7 @@ export class LoanComponent implements OnInit {
    */
   public isEndDatePassed(loan: LoanDataModel): boolean {
     let ret: boolean = false;
-    if (loan && loan.endDate !== '' && loan.endDate) {
+    if (loan && loan.endDate) {
       if (new Date(loan.endDate) < new Date()) {
         ret = true;
       }
@@ -128,7 +128,7 @@ export class LoanComponent implements OnInit {
    */
   public isLoanActive(loan: LoanDataModel): boolean {
     let ret: boolean = false;
-    if (loan && loan.startDate !== '' && loan.startDate) {
+    if (loan && loan.startDate) {
       if (new Date(loan.startDate) < new Date()) {
         ret = true;
       }

@@ -108,7 +108,6 @@
                           <div style='display: flex; align-items: center; justify-content: space-evenly; flex-direction: column'>
                             <button mat-button color="primary" *ngIf='!isSiteActive(element)' (click)="this.openSiteModal('update', element)">Modifier</button>
                             <button mat-button color="primary" *ngIf='isSiteActive(element)' (click)="this.openSiteModal('read', element)">Consulter</button>
-                            <button mat-button color="warn" *ngIf="!isEndDatePassed(element)">Clôturer</button>
                           </div>
                         </div>
                         </td>

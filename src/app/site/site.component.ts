@@ -27,6 +27,8 @@ import { SiteDataModel } from './site.data.model';
 export class SiteComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
+  // TODO / FIXME: A ADAPTER - Components copiés depuis celui des prêts
+
   ELEMENT_DATA: SiteDataModel[];
 
   columnsToDisplay: string[] = ['status', 'driver', 'departureSite', 'startDate', 'endDate', 'actions'];
@@ -103,23 +105,9 @@ export class SiteComponent implements OnInit {
       if (status.source.value === this.status[0]) {
         this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       } else {
-        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA.filter(site => site.Status.label === status.source.value));
+        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA.filter(site => site.status.label === status.source.value));
       }
     }
-  }
-
-  /**
-   * Affiche ou non le bouton pour clôturer la réservation
-   * @param site Réservation
-   */
-  public isEndDatePassed(site: SiteDataModel): boolean {
-    let ret: boolean = false;
-    if (site && site.endDate !== '' && site.endDate) {
-      if (new Date(site.endDate) < new Date()) {
-        ret = true;
-      }
-    }
-    return ret;
   }
 
   /**
@@ -128,11 +116,7 @@ export class SiteComponent implements OnInit {
    */
   public isSiteActive(site: SiteDataModel): boolean {
     let ret: boolean = false;
-    if (site && site.startDate !== '' && site.startDate) {
-      if (new Date(site.startDate) < new Date()) {
-        ret = true;
-      }
-    }
+    // TODO: à compléter pour les sites
     return ret;
   }
 }
