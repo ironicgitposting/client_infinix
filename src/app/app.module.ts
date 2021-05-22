@@ -24,6 +24,7 @@ import { HistoricalVehicleModule } from './vehicles-list/vehicle-modal/historica
 import { VehicleModule } from './vehicles-list/vehicle-modal/vehicle-modal.module';
 import { AuthInterceptor } from './authentication/auth.interceptor';
 
+
 registerLocaleData(localeFr);
 
 @NgModule({
