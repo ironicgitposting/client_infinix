@@ -20,7 +20,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminPanelModule } from './admin-panel/adminPanel.module';
 import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
 import { SiteModalModule } from './site/site-modal/site-modal.module';
-import { HistoricalVehicleModule } from './vehicles-list/vehicle-modal/historical-vehicle-modal/historical-vehicle-modal.module';
+import { HistoricalVehicleModule } from './vehicles-list/historical-vehicle-modal/historical-vehicle-modal.module';
 import { VehicleModule } from './vehicles-list/vehicle-modal/vehicle-modal.module';
 
 registerLocaleData(localeFr);

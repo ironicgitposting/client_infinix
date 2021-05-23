@@ -1,4 +1,6 @@
-export interface Vehicle {
+import { LoanDataModel } from "../loan/loan.data.model";
+
+export interface Vehicle{
   type?: number;
   libelle?: string;
   model?: string;
@@ -6,4 +8,6 @@ export interface Vehicle {
   immatriculation?: string;
   state?: number;
   site?: number;
+
 }
+//TODO : CHANGER LE TYPE DE LA COLONNE STATE 

@@ -7,10 +7,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
 
-import { HistoricalVehicleModal } from './vehicle-modal/historical-vehicle-modal/historical-vehicule-modal.component';
+import { HistoricalVehicleModal } from './historical-vehicle-modal/historical-vehicule-modal.component';
 import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
 import { MessageService } from '../common/services/message.service';
-import { last } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-vehicles-list',

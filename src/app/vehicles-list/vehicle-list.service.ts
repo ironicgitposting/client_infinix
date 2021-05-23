@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 
 import { Router } from "@angular/router";
 import { Vehicle } from "./vehicle.model";
+import { LoanDataModel } from "../loan/loan.data.model";
 import { Observable, Subject } from "rxjs";
 
 @Injectable({
@@ -12,6 +13,7 @@ export class VehicleService {
 
   private vehicles: Vehicle[] = [];
   private vehiclesUpdated = new Subject<{vehicles: Vehicle[]}>();
+  private loans: LoanDataModel[];
 
   constructor(private http: HttpClient, private router: Router ) {}
 
@@ -34,4 +36,5 @@ export class VehicleService {
   createVehicle(vehicleData: Vehicle): Observable<any> {
     return this.http.post('http://localhost:3000/api/v1/vehicules/add/', vehicleData);
   }
+
 }

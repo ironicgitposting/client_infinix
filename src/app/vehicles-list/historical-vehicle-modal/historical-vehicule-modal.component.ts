@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Vehicle } from "../../vehicle.model";
-import { VehicleService } from "../../vehicle-list.service";
-
+import { Vehicle } from "../vehicle.model";
+import { VehicleService } from "../vehicle-list.service";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -12,6 +11,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   export class HistoricalVehicleModal implements OnInit {
     public modalVehicle : Vehicle;
   
+   
     constructor(
       private vehicleService: VehicleService,
       public dialogRef: MatDialogRef<HistoricalVehicleModal>,
