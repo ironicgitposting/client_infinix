@@ -6,7 +6,6 @@ import { Vehicle } from './vehicle.model';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Deserialize } from 'cerialize';
-import { LoanDataModel } from '../loan/loan.data.model';
 
 @Injectable({
   providedIn: 'root',

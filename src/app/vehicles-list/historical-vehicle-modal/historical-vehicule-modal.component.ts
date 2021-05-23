@@ -6,7 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
     selector: 'dialog-modal',
     templateUrl: './historicalVehicleModal.html',
-    styleUrls: ['../../vehicles-list.component.less']
+    styleUrls: ['../vehicles-list.component.less']
   })
   export class HistoricalVehicleModal implements OnInit {
     public modalVehicle : Vehicle;

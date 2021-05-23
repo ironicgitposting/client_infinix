@@ -4,6 +4,7 @@ import { LoanDataModel } from './loan.data.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Deserialize } from 'cerialize';
+import { Vehicle } from '../vehicles-list/vehicle.model';
 
 @Injectable()
 export class LoanService {
@@ -17,5 +18,9 @@ export class LoanService {
     return this.httpClient.get('http://localhost:3000/api/v1/booking/').pipe(
       map((response: any) => Deserialize(response.booking, LoanDataModel))
     );
+  }
+
+  public getAllLoansForVehicle(vehicle: Vehicle){
+    return this.httpClient.get('http://localhost:3000/api/v1/booking/for-vehicle/' + vehicle.immatriculation);
   }
 }
