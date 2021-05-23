@@ -1,32 +1,36 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import { Router } from "@angular/router";
-import { Vehicle } from "./vehicle.model";
-import { LoanDataModel } from "../loan/loan.data.model";
-import { Observable, Subject } from "rxjs";
+import { Router } from '@angular/router';
+import { Vehicle } from './vehicle.model';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Deserialize } from 'cerialize';
+import { LoanDataModel } from '../loan/loan.data.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VehicleService {
 
   private vehicles: Vehicle[] = [];
-  private vehiclesUpdated = new Subject<{vehicles: Vehicle[]}>();
-  private loans: LoanDataModel[];
+  private vehiclesUpdated = new Subject<{ vehicles: Vehicle[] }>();
 
-  constructor(private http: HttpClient, private router: Router ) {}
+  constructor(private http: HttpClient, private router: Router) {
+  }
 
   getVehicles(): Observable<any> {
-    return this.http.get('http://localhost:3000/api/v1/vehicules/');
+    return this.http.get('http://localhost:3000/api/v1/vehicules/').pipe(
+      map((response: any) => Deserialize(response.vehicules, Vehicle)),
+    );
   }
 
   getVehicleUpdateListener() {
     return this.vehiclesUpdated.asObservable();
   }
 
-  updateVehicle(vehicle: Vehicle, lastImmatriculation: any){
-    return this.http.put<any>('http://localhost:3000/api/v1/vehicules/update/'+ lastImmatriculation, vehicle);
+  updateVehicle(vehicle: Vehicle, lastImmatriculation: any) {
+    return this.http.put<any>('http://localhost:3000/api/v1/vehicules/update/' + lastImmatriculation, vehicle);
   }
 
   deleteVehicle(vehicle: Vehicle) {
@@ -36,5 +40,4 @@ export class VehicleService {
   createVehicle(vehicleData: Vehicle): Observable<any> {
     return this.http.post('http://localhost:3000/api/v1/vehicules/add/', vehicleData);
   }
-
 }

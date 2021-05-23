@@ -1,13 +1,24 @@
-import { LoanDataModel } from "../loan/loan.data.model";
+import { autoserializeAs } from 'cerialize';
+import { SiteDataModel } from '../site/site.data.model';
+import { StatusModel } from '../common/models/StatusModel';
 
-export interface Vehicle{
-  type?: number;
-  libelle?: string;
-  model?: string;
-  flagService?: boolean;
-  immatriculation?: string;
-  state?: number;
-  site?: number;
-
+export class Vehicle {
+  @autoserializeAs('id')
+  id: number;
+  @autoserializeAs('type')
+  type: number;
+  @autoserializeAs('libelle')
+  libelle: string;
+  @autoserializeAs('model')
+  model: string;
+  @autoserializeAs('flagService')
+  flagService: boolean;
+  @autoserializeAs('immatriculation')
+  immatriculation: string;
+  @autoserializeAs('state')
+  state: number;
+  @autoserializeAs('Site')
+  site: SiteDataModel;
+  @autoserializeAs('status')
+  status: StatusModel;
 }
-//TODO : CHANGER LE TYPE DE LA COLONNE STATE 

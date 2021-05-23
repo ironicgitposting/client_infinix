@@ -1,17 +1,31 @@
 import { Moment } from 'moment';
+import { autoserializeAs } from 'cerialize';
 
-export interface User {
-  id?: number;
-  surname?: string;
-  name?: string;
-  profession?: number;
+export class User {
+  @autoserializeAs('id')
+  id: number;
+  @autoserializeAs('surname')
+  surname: string;
+  @autoserializeAs('name')
+  name: string;
+  @autoserializeAs('profession')
+  profession: number;
+  @autoserializeAs('email')
   email: string;
-  telephone?: string;
-  authorizationAccess?: string;
-  dateLastSeen?: Moment;
-  site?: number;
-  language?: number;
-  archived?: boolean;
-  enabled?: boolean;
-  profile?: boolean;
+  @autoserializeAs('telephone')
+  telephone: string;
+  @autoserializeAs('authorizationAccess')
+  authorizationAccess: string;
+  @autoserializeAs('dateLastSeen')
+  dateLastSeen: Moment;
+  @autoserializeAs('site')
+  site: number;
+  @autoserializeAs('language')
+  language: number;
+  @autoserializeAs('archived')
+  archived: boolean;
+  @autoserializeAs('enabled')
+  enabled: boolean;
+  @autoserializeAs('profile')
+  profile: boolean;
 }

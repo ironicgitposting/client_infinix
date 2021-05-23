@@ -18,9 +18,11 @@ export class LayoutComponent implements OnInit {
    */
   public componentToLoad: string = this.router.url.split('/')[1];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   /**
    * Retourne le nom de la page en fonction de l'url
@@ -38,11 +40,11 @@ export class LayoutComponent implements OnInit {
         pageName = 'Prêts';
         break;
       case LayoutComponent.SITE_COMPONENT:
-        pageName = "Sites";
+        pageName = 'Sites';
         break;
       case LayoutComponent.ADMIN_COMPONENT:
-          pageName = "Panneau d'administration";
-          break;
+        pageName = 'Panneau d\'administration';
+        break;
     }
     return pageName;
   }

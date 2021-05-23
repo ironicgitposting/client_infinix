@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AuthenticationDataModel } from './authentication.data.model';
 
 @Injectable({providedIn: 'root'})
@@ -17,7 +17,7 @@ export class AuthenticationService {
     }
 
   // tslint:disable-next-line:typedef
-    getAuthStatusListener() {
+    getAuthStatusListener(): Observable<boolean> {
         return this.authStatusListener.asObservable();
     }
 
@@ -90,14 +90,13 @@ export class AuthenticationService {
       }
     }
 
-    private saveAuthData(token: string, expirationDate: Date, user: AuthenticationDataModel) {
+    private saveAuthData(token: string, expirationDate: Date, user: AuthenticationDataModel): void {
       localStorage.setItem('token', token);
       localStorage.setItem('expirationDate', expirationDate.toISOString());
       localStorage.setItem('connectedUser', JSON.stringify(user));
-
     }
 
-    private setAuthTimer(duration: number) {
+    private setAuthTimer(duration: number): void {
       console.log('Setting timer: ' + duration);
       this.tokenTimer = setTimeout(() => {
         this.logout();
@@ -115,7 +114,7 @@ export class AuthenticationService {
 
     }
 
-    private clearAuthData() {
+    private clearAuthData(): void {
       localStorage.removeItem('token');
       localStorage.removeItem('expirationDate');
       localStorage.removeItem('connectedUser');
