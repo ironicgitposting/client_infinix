@@ -1,0 +1,88 @@
+<div class='modal-header'>
+  <div>
+    <h1 *ngIf="isNewMode()">Ajouter un site</h1>
+    <h1 *ngIf="isReadMode() || isUpdateMode()">Réservation du {{ data.site.startDate | date: 'dd/MM/YYYY' }}</h1>
+  </div>
+  <button mat-icon-button class='close-button' (click)='close()'>
+    <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
+  </button>
+</div>
+<mat-divider></mat-divider>
+ <form [formGroup]="siteForm">
+  <div>
+    <mat-form-field style='margin-right: 1em'>
+      <input
+        matInput
+        name="label"
+        type="label"
+        formControlName="label"
+        [matAutocomplete]="label">
+        <mat-autocomplete #label="matAutocomplete"></mat-autocomplete>
+      <mat-hint>Nom du Site</mat-hint>
+    </mat-form-field>
+    <mat-form-field style='margin-right: 1em'>
+      <input
+        matInput
+        name="adress"
+        type="adress"
+        formControlName="adress"
+      />
+      <mat-hint>Adresse</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="postalCode"
+        type="postalCode"
+        formControlName="postalCode"
+      />
+      <mat-hint>Code Postal</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style='margin-right: 1em'>
+      <input
+        matInput
+        name="city"
+        type="city"
+        formControlName="city"
+      />
+      <mat-hint>Ville</mat-hint>
+    </mat-form-field>
+    <mat-form-field style='margin-right: 1em'>
+      <input
+        matInput
+        name="phone"
+        type="phone"
+        formControlName="phone"
+      />
+      <mat-hint>Télephone</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        name="mail"
+        type="mail"
+        formControlName="mail"
+      />
+      <mat-hint>mail</mat-hint>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field style='margin-right: 1em'>
+      <input
+        matInput
+        name="pays"
+        type="pays"
+        formControlName="pays"
+      />
+      <mat-hint>Pays</mat-hint>
+    </mat-form-field>
+  </div>
+  <div class='actions'>
+    <button mat-stroked-button *ngIf='!isReadMode()' (click)='close()'>Annuler</button>
+    <!-- <button mat-raised-button *ngIf='!isReadMode()' color='primary' [disabled]='!isSaveDisabled()' (click)='close(true)'>Valider</button>-->
+    <button mat-raised-button color='primary' (click)='close(true)'>Valider</button>
+    <button mat-raised-button *ngIf='isReadMode()' color='primary' (click)='close()'>Fermer</button>
+  </div>
+</form>

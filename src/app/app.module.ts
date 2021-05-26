@@ -14,7 +14,7 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { VehiclesListModule } from './vehicles-list/vehicles-list.module';
 import { LayoutModule } from './layout/layout.module';
 import { LoanModule } from './loan/loan.module';
-import { SiteModule } from './site/site.module';
+
 import { SnackBarModule } from './snackbar/snackbar.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminPanelModule } from './admin-panel/adminPanel.module';
@@ -26,6 +26,7 @@ import { AuthInterceptor } from './authentication/auth.interceptor';
 
 
 registerLocaleData(localeFr);
+import { SiteListModule } from './sites-list/sitesList.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,14 +43,14 @@ registerLocaleData(localeFr);
     VehiclesListModule,
     LayoutModule,
     LoanModule,
-    SiteModule,
     SnackBarModule,
     MatSnackBarModule,
     AdminPanelModule,
     LoanModalModule,
     SiteModalModule,
     HistoricalVehicleModule,
-    VehicleModule
+    VehicleModule,
+    SiteListModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'fr-FR' },
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

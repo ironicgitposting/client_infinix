@@ -13,8 +13,8 @@ import { UsersListModule } from '../users-list/usersList.module';
 import { VehiclesListModule } from '../vehicles-list/vehicles-list.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { LoanModule } from '../loan/loan.module';
-import { SiteModule } from '../site/site.module';
 import { AdminPanelModule } from '../admin-panel/adminPanel.module';
+import { SiteListModule } from '../sites-list/sitesList.module';
 
 @NgModule({
   declarations: [
@@ -34,8 +34,8 @@ import { AdminPanelModule } from '../admin-panel/adminPanel.module';
     UsersListModule,
     VehiclesListModule,
     LoanModule,
-    SiteModule,
-    AdminPanelModule
+    AdminPanelModule,
+    SiteListModule,
   ],
   exports: [
     LayoutComponent],
