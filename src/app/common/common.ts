@@ -1,6 +1,38 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import * as moment from 'moment';
 
+window.onload = () =>
+{
+  definedUseDevice();
+}
+
+function definedUseDevice(){
+  const isMobile = isMobileDevice();
+  const body = document.getElementsByTagName('body')[0];
+
+  if(isMobile){
+    body.classList.add('mobile');
+  }else{
+    body.classList.add('desktop');
+  }
+}
+
+function isMobileDevice() { 
+  if( navigator.userAgent.match(/iPhone/i)
+  || navigator.userAgent.match(/webOS/i)
+  || navigator.userAgent.match(/Android/i)
+  || navigator.userAgent.match(/iPad/i)
+  || navigator.userAgent.match(/iPod/i)
+  || navigator.userAgent.match(/BlackBerry/i)
+  || navigator.userAgent.match(/Windows Phone/i)
+  ){
+     return true;
+   }
+  else {
+     return false;
+   }
+}
+
 export class Common {
 
   static readonly MY_FORMATS = {
