@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,16 +14,21 @@ export class LayoutComponent implements OnInit {
   private static SITE_COMPONENT = 'site';
   private static ADMIN_COMPONENT = 'admin';
 
+  public adminMenu = false;
   /**
    * Composant à charger, nom récupéré à partir de la route
    */
   public componentToLoad: string = this.router.url.split('/')[1];
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private authService: AuthenticationService,
+  ) {
+    this.adminMenu = this.authService.getIsAdmin();
+    debugger;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * Retourne le nom de la page en fonction de l'url
@@ -43,7 +49,7 @@ export class LayoutComponent implements OnInit {
         pageName = 'Sites';
         break;
       case LayoutComponent.ADMIN_COMPONENT:
-        pageName = 'Panneau d\'administration';
+        pageName = "Panneau d'administration";
         break;
     }
     return pageName;

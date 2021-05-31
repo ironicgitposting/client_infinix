@@ -1,52 +1,57 @@
 <div id="sidebar" class="sidebar">
+  <ng-template [ngIf]="adminMenu">
     <button mat-button (click)="redirectTo('users')">
       <div>
-        <mat-icon aria-hidden="false" color='primary'>groups</mat-icon>
+        <mat-icon aria-hidden="false" color="primary">groups</mat-icon>
         <div>Utilisateurs</div>
       </div>
-      <mat-icon color='primary'>chevron_right</mat-icon>
+      <mat-icon color="primary">chevron_right</mat-icon>
     </button>
     <mat-divider></mat-divider>
     <button mat-button (click)="redirectTo('site')">
       <div>
-        <mat-icon aria-hidden="false" color='primary'>home_work</mat-icon>
+        <mat-icon aria-hidden="false" color="primary">home_work</mat-icon>
         <div>Sites</div>
       </div>
-      <mat-icon color='primary'>chevron_right</mat-icon>
+      <mat-icon color="primary">chevron_right</mat-icon>
     </button>
     <mat-divider></mat-divider>
     <button mat-button (click)="redirectTo('parc')">
       <div>
-        <mat-icon aria-hidden="false" color='primary'>directions_car</mat-icon>
+        <mat-icon aria-hidden="false" color="primary">directions_car</mat-icon>
         <div>Parc</div>
       </div>
-      <mat-icon color='primary'>chevron_right</mat-icon>
+      <mat-icon color="primary">chevron_right</mat-icon>
     </button>
     <mat-divider></mat-divider>
-<!--    <button mat-button (click)="redirectTo('planning')">-->
+  </ng-template>
+
+  <!--    <button mat-button (click)="redirectTo('planning')">-->
   <button mat-button (click)="workInProgress('Planning')">
+    <div>
+      <mat-icon aria-hidden="false" color="primary">date_range</mat-icon>
+      <div>Planning</div>
+    </div>
+    <mat-icon color="primary">chevron_right</mat-icon>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-button (click)="redirectTo('loan')">
+    <div>
+      <mat-icon aria-hidden="false" color="primary">car_rental</mat-icon>
+      <div>Prêt</div>
+    </div>
+    <mat-icon color="primary">chevron_right</mat-icon>
+  </button>
+  <mat-divider></mat-divider>
+  <!--    <button mat-button (click)="redirectTo('settings')">-->
+  <ng-template [ngIf]="adminMenu">
+    <button mat-button (click)="workInProgress('Paramètres')">
       <div>
-        <mat-icon aria-hidden="false" color='primary'>date_range</mat-icon>
-        <div>Planning</div>
-      </div>
-      <mat-icon color='primary'>chevron_right</mat-icon>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-button (click)="redirectTo('loan')">
-      <div>
-        <mat-icon aria-hidden="false" color='primary'>car_rental</mat-icon>
-        <div>Prêt</div>
-      </div>
-      <mat-icon color='primary'>chevron_right</mat-icon>
-    </button>
-    <mat-divider></mat-divider>
-<!--    <button mat-button (click)="redirectTo('settings')">-->
-      <button mat-button (click)="workInProgress('Paramètres')">
-      <div>
-        <mat-icon aria-hidden="false" color='primary'>settings</mat-icon>
+        <mat-icon aria-hidden="false" color="primary">settings</mat-icon>
         <div>Paramètres</div>
       </div>
-      <mat-icon color='primary'>chevron_right</mat-icon>
+      <mat-icon color="primary">chevron_right</mat-icon>
     </button>
     <mat-divider></mat-divider>
+  </ng-template>
 </div>
