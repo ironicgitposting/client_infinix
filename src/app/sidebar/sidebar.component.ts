@@ -15,11 +15,11 @@ export class SidebarComponent implements OnInit {
     private router: Router,
     private msgService: MessageService,
     private authService: AuthenticationService,
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.adminMenu = this.authService.getIsAdmin();
   }
-
-  ngOnInit(): void {}
 
   /**
    * Redirige vers la route passée en paramètre

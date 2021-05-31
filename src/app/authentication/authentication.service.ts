@@ -55,7 +55,7 @@ export class AuthenticationService {
             const user = response.user;
             this.setAuthTimer(expiresInDuration);
             this.isAuthenticated = true;
-            if (this.isAuthenticated && user.authozizationAccess == 1) {
+            if (user.authorizationAccess == 1) {
               // Is Admin
               this.isAdmin = true;
             }
