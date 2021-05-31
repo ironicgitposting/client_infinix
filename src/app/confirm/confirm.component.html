@@ -1,0 +1,11 @@
+<div class='header'>
+  <mat-icon class="icon-warning">warning_amber</mat-icon>
+  <h1>Demande de confirmation</h1>
+</div>
+<div class='message-container'>
+  {{ data.message }}
+</div>
+<div class='button-container'>
+  <button mat-stroked-button class='button' (click)='close()'>Non</button>
+  <button mat-raised-button color='primary' class='button' (click)='close(true)'>Oui</button>
+</div>

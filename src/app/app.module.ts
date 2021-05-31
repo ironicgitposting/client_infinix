@@ -23,6 +23,8 @@ import { SiteModalModule } from './site/site-modal/site-modal.module';
 import { HistoricalVehicleModule } from './vehicles-list/historical-vehicle-modal/historical-vehicle-modal.module';
 import { VehicleModule } from './vehicles-list/vehicle-modal/vehicle-modal.module';
 import { AuthInterceptor } from './authentication/auth.interceptor';
+import { AlertModule } from './alert/alert.module';
+import { ConfirmModule } from './confirm/confirm.module';
 
 
 registerLocaleData(localeFr);
@@ -50,7 +52,9 @@ import { SiteListModule } from './sites-list/sitesList.module';
     SiteModalModule,
     HistoricalVehicleModule,
     VehicleModule,
-    SiteListModule
+    SiteListModule,
+    AlertModule,
+    ConfirmModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'fr-FR' },
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
