@@ -5,12 +5,14 @@ import { AuthenticationDataModel } from './authentication.data.model';
 import { AuthenticationService } from './authentication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageService } from '../common/services/message.service';
+import { Device } from '../common/device'
 
 @Component({
   selector: 'authentication',
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.less']
 })
+
 export class AuthenticationComponent implements OnInit, AfterViewInit {
 
   public static readonly PASSWORD_REGEXP: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,}$';
@@ -46,7 +48,7 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     return this.loginForm.controls;
   }
 
-  static confirmed = (controlName: string, matchingControlName: string) => {
+   static confirmed = (controlName: string, matchingControlName: string) => {
     return (control: AbstractControl) => {
       if (control && control.parent) {
         const input = control.parent.get(controlName);
@@ -119,7 +121,7 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     });
   }
 
-  public ngOnInit(): void {
+  public ngOnInit(): void {        
     this.authenticationService.getAuthStatusListener().subscribe(authStatus => {
       this.wrongId = !authStatus;
     });
@@ -174,10 +176,17 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
 
   public sendForm(event: KeyboardEvent): void {
     console.log(event.code);
-    if (event.code.toLowerCase() === 'enter' && !this.isRegisterForm) {
-      this.login();
-    } else if (event.code.toLowerCase() === 'enter' && this.isRegisterForm) {
-      this.register();
+    if(event.code != undefined){
+      if (event.code.toLowerCase() === 'enter' && !this.isRegisterForm) {
+        this.login();
+      } else if (event.code.toLowerCase() === 'enter' && this.isRegisterForm) {
+        this.register();
+      }
     }
+  }
+
+  device(){
+    Device.definedUseDevice();
+    return Device.isMobileDevice();
   }
 }

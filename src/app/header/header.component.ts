@@ -2,6 +2,7 @@ import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { User } from '../users-list/user.model';
 import * as moment from 'moment';
+import { Device } from '../common/device'
 
 @Component({
   selector: 'app-header',
@@ -37,6 +38,11 @@ export class HeaderComponent implements OnInit {
     if (!this.connectedUser.profile) {
       this.userProfile = 'Administrateur';
     }
+    
+  }
+  device(){
+    Device.definedUseDevice();
+    return Device.isMobileDevice();
   }
 
   /**
