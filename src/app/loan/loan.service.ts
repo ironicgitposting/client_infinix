@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Deserialize } from 'cerialize';
 import { Vehicle } from '../vehicles-list/vehicle.model';
+import { User } from '../users-list/user.model';
 
 @Injectable()
 export class LoanService {
@@ -22,5 +23,17 @@ export class LoanService {
 
   public getAllLoansForVehicle(vehicle: Vehicle){
     return this.httpClient.get('http://localhost:3000/api/v1/booking/for-vehicle/' + vehicle.immatriculation);
+  }
+
+  public getLoansByStatus(status: any): Observable<any> {
+    return this.httpClient.get('http://localhost:3000/api/v1/booking/status/' + status );
+  }
+
+  public getLoansByBooking(status: any, email:any): Observable<any> {
+    return this.httpClient.get('http://localhost:3000/api/v1/booking/status/' + status + '&'+email);
+  }
+
+  public getLoansByUtilisateur(email: string): Observable<any> {
+    return this.httpClient.get('http://localhost:3000/api/v1/booking/for-utilisateur/' + email);
   }
 }
