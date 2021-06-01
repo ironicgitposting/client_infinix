@@ -185,8 +185,8 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  device(){
-    Device.definedUseDevice();
+  IsMobile(){
+    Device.definedUseDevice('auth-container');
     return Device.isMobileDevice();
   }
 }

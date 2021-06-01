@@ -1,7 +1,7 @@
 export class Device{
-    public static definedUseDevice(){
+    public static definedUseDevice(id: string){
         const isMobile = this.isMobileDevice();
-        const device = document.getElementById('device');
+        const device = document.getElementById(id);
       
         if(device != undefined){
           if(isMobile){

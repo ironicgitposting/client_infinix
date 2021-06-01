@@ -1,43 +1,45 @@
-<div id="wrapper" class="wrapper">
-  <mat-chip-list>
-    <mat-chip color="primary" selected (click)="drawer.toggle()" class="d-flex">
-      Menu
-      <mat-icon *ngIf="!drawer.opened" aria-hidden="false" style="color: white"
-        >keyboard_arrow_right</mat-icon
-      >
-      <mat-icon *ngIf="drawer.opened" aria-hidden="false" style="color: white"
-        >keyboard_arrow_left</mat-icon
-      >
-    </mat-chip>
-  </mat-chip-list>
-  <app-header [pageName]="getPageName()"></app-header>
-  <mat-drawer-container class="drawer-container" autosize>
-    <mat-drawer #drawer class="drawer" mode="side">
-      <app-sidebar></app-sidebar>
-    </mat-drawer>
-    <mat-drawer-content>
-      <div id="container" class="container">
-        <ng-template [ngIf]="componentToLoad === 'dashboard'">
-          <app-dashboard style="width: 100%"></app-dashboard>
-        </ng-template>
-        <ng-template [ngIf]="componentToLoad === 'users' && adminMenu">
-          <usersList style="width: 100%; margin: 4em"></usersList>
-        </ng-template>
-        <ng-template [ngIf]="componentToLoad === 'parc' && adminMenu">
-          <app-vehicles-list
-            style="width: 100%; margin: 4em"
-          ></app-vehicles-list>
-        </ng-template>
-        <ng-template [ngIf]="componentToLoad === 'loan'">
-          <app-loan style="width: 100%; margin: 4em"></app-loan>
-        </ng-template>
-        <ng-template [ngIf]="componentToLoad === 'site' && adminMenu">
-          <app-sites style="width: 100%; margin: 4em"></app-sites>
-        </ng-template>
-        <ng-template [ngIf]="componentToLoad === 'admin' && adminMenu">
-          <admin-panel style="width: 100%; margin: 4em"></admin-panel>
-        </ng-template>
-      </div>
-    </mat-drawer-content>
-  </mat-drawer-container>
+<div *ngIf="IsMobile()">
+</div>
+<div id="layout-container">
+  <div id="wrapper" class="wrapper">
+    <mat-chip-list>
+      <mat-chip color="primary" selected (click)="drawer.toggle()" class="d-flex">
+        Menu
+        <mat-icon *ngIf="!drawer.opened" aria-hidden="false" style="color: white"
+          >keyboard_arrow_right</mat-icon
+        >
+        <mat-icon *ngIf="drawer.opened" aria-hidden="false" style="color: white"
+          >keyboard_arrow_left</mat-icon
+        >
+      </mat-chip>
+    </mat-chip-list>
+    <app-header [pageName]="getPageName()" class="header"></app-header>
+    <mat-drawer-container class="drawer-container" autosize>
+      <mat-drawer #drawer class="drawer" mode="side">
+        <app-sidebar></app-sidebar>
+      </mat-drawer>
+      <mat-drawer-content>
+        <div id="container" class="container">
+          <ng-template [ngIf]="componentToLoad === 'dashboard'">
+            <app-dashboard style="width: 100%"></app-dashboard>
+          </ng-template>
+          <ng-template [ngIf]="componentToLoad === 'users' && adminMenu">
+            <usersList class="list"></usersList>
+          </ng-template>
+          <ng-template [ngIf]="componentToLoad === 'parc' && adminMenu">
+            <app-vehicles-list class="list"></app-vehicles-list>
+          </ng-template>
+          <ng-template [ngIf]="componentToLoad === 'loan'">
+            <app-loan class="list"></app-loan>
+          </ng-template>
+          <ng-template [ngIf]="componentToLoad === 'site' && adminMenu">
+            <app-sites class="list" ></app-sites>
+          </ng-template>
+          <ng-template [ngIf]="componentToLoad === 'admin' && adminMenu">
+            <admin-panel class="list" ></admin-panel>
+          </ng-template>
+        </div>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </div>
 </div>

@@ -40,8 +40,8 @@ export class HeaderComponent implements OnInit {
     }
     
   }
-  device(){
-    Device.definedUseDevice();
+  IsMobile(){
+    Device.definedUseDevice('header-container');
     return Device.isMobileDevice();
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../authentication/authentication.service';
+import { Device } from '../common/device';
 
 @Component({
   selector: 'app-layout',
@@ -53,5 +54,11 @@ export class LayoutComponent implements OnInit {
         break;
     }
     return pageName;
+  }
+
+  
+  IsMobile(){
+    Device.definedUseDevice('layout-container');
+    return Device.isMobileDevice();
   }
 }
