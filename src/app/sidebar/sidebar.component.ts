@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service';
 import { MessageService } from '../common/services/message.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.less']
+  styleUrls: ['./sidebar.component.less'],
 })
 export class SidebarComponent implements OnInit {
+  public adminMenu = false;
 
   constructor(
     private router: Router,
-    private msgService: MessageService
-  ) { }
+    private msgService: MessageService,
+    private authService: AuthenticationService,
+  ) {}
 
   ngOnInit(): void {
+    this.adminMenu = this.authService.getIsAdmin();
   }
 
   /**
@@ -26,7 +30,9 @@ export class SidebarComponent implements OnInit {
   }
 
   public workInProgress(page: string) {
-    this.msgService.snackbar('La page ' + page + ' n\'est pas encore disponible', 'warning');
+    this.msgService.snackbar(
+      'La page ' + page + " n'est pas encore disponible",
+      'warning',
+    );
   }
-
 }

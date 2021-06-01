@@ -22,6 +22,8 @@ import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
 import { HistoricalVehicleModule } from './vehicles-list/historical-vehicle-modal/historical-vehicle-modal.module';
 import { VehicleModule } from './vehicles-list/vehicle-modal/vehicle-modal.module';
 import { AuthInterceptor } from './authentication/auth.interceptor';
+import { AlertModule } from './alert/alert.module';
+import { ConfirmModule } from './confirm/confirm.module';
 
 
 registerLocaleData(localeFr);
@@ -55,7 +57,9 @@ import { LoanUserModule } from './header/loan-user/loan-user.module';
     SiteListModule,
     SiteModalModule,
     LoanInProgressModule,
-    LoanUserModule
+    LoanUserModule,
+    AlertModule,
+    ConfirmModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'fr-FR' },
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

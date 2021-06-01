@@ -1,0 +1,30 @@
+@import "../common/common.less";
+
+.header {
+  display: flex;
+  align-items: center;
+
+  h1 {
+    border-bottom: 2px solid @error-color;
+    padding: 0.2em 0 0.2em 0.5em;
+    margin: 0;
+    width: 100%;
+  }
+
+  .icon-error {
+    color: white;
+    background: @error-color;
+    padding: .4em;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.message-container {
+  font-size: 1.2em;
+  margin: 2em 0;
+}
