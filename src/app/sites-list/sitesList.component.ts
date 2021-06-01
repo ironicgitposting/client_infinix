@@ -2,7 +2,7 @@ import { ViewChild } from "@angular/core";
 import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
-import { Site } from "./site.model";
+import { SiteDataModel } from "./site.model";
 import { SiteService } from "./sitesList.service";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Inject } from "@angular/core";
@@ -25,18 +25,18 @@ import { MatTableDataSource } from "@angular/material/table";
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed',
       animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-      transition('expanded <=> void',
+      transition('expanded <=> collapsed',
       animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')) ]),
 ],
 })
 export class SitesListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
-  sites: Site[] = [];
+  sites: SiteDataModel[] = [];
   private sitesSub: Subscription;
 
-  ELEMENT_DATA : Site[];
-  columnsToDisplay: string[] = ['label', 'adress', 'postalCode', 'city', 'phone', 'mail', 'pays'];
+  ELEMENT_DATA : SiteDataModel[];
+  columnsToDisplay: string[] = ['label', 'adress', 'postalCode', 'city', 'phone', 'mail', 'pays','action'];
 
   columnsName: {
     [model : string]: string;
@@ -47,6 +47,7 @@ export class SitesListComponent implements OnInit {
     phone:string;
     mail:string;
     pays:string;
+    action:string;
   } = {
     label: 'Nom',
     adress: 'Adresse',
@@ -54,21 +55,22 @@ export class SitesListComponent implements OnInit {
     city: 'Ville',
     phone: 'Télephone',
     mail:'Email',
-    pays:'Pays'
+    pays:'Pays',
+    action:'Actions'
   };
 
-  expandedElement: Site | null;
+  expandedElement: SiteDataModel | null;
 
   etats = ['En validation', 'Validé', 'En cours', 'En retard', 'Clôturé']
 
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<SiteDataModel>;
 
 
   constructor(private siteService: SiteService, public dialog: MatDialog) {
 
   }
 
-  public openSiteModal(mode: string, site: Site | null): void {
+  public openSiteModal(mode: string, site: SiteDataModel | null): void {
     const dialogRef = this.dialog.open(SiteModalComponent, {
       data: { mode: mode, site: site }
     });
@@ -90,11 +92,24 @@ export class SitesListComponent implements OnInit {
         this.sites = siteData.sites;
       });*/
     this.siteService.getSites().subscribe(site => {
-      this.ELEMENT_DATA = site.sites;
+      console.log(site);
+      this.ELEMENT_DATA = site;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.sort = this.sort;
   });
+
+  this.fetchData();
 }
+
+fetchData() {
+    this.siteService.getSites().subscribe(site => {
+      this.ELEMENT_DATA = site;
+      console.log(this.ELEMENT_DATA);
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      console.log(this.dataSource);
+      this.dataSource.sort = this.sort;
+    });
+  }
 
   ngOnDestroy(): void {
   }
@@ -107,7 +122,7 @@ export class SitesListComponent implements OnInit {
     return this.sites.length == 0;
   }
 
-  openDialog(site: Site): void {
+  openDialog(site: SiteDataModel): void {
     const dialogRef = this.dialog.open(DialogSite, {
       data: {
         site
@@ -115,13 +130,13 @@ export class SitesListComponent implements OnInit {
     });
   }
 
-  deleteSite(site: Site): void {
+  deleteSite(site: SiteDataModel): void {
     if (site.label) {
       this.siteService.deleteSite(site);
     }
   }
 
-  onSiteSwitchToggle($event: MatSlideToggleChange, site: Site): void {
+  onSiteSwitchToggle($event: MatSlideToggleChange, site: SiteDataModel): void {
     this.siteService.updateSite(site);
   }
 
@@ -138,7 +153,7 @@ export class SitesListComponent implements OnInit {
 })
 export class DialogSite implements OnInit {
 
-  public modalSite: Site;
+  public modalSite: SiteDataModel;
 
   constructor(
     private siteService: SiteService,
@@ -157,17 +172,17 @@ export class DialogSite implements OnInit {
   onConfirmClick(ngForm: NgForm) {
 
     if (ngForm.valid) {
-      const newSite: Site = {
-        label: ngForm.form.value.label,
+      /*const newSite: SiteDataModel = {
+        libelle: ngForm.form.value.libelle,
         adress: ngForm.form.value.adress,
         postalCode: ngForm.form.value.postalCode,
         city: ngForm.form.value.city,
         pays: ngForm.form.value.pays
         // TODO: A COMPLETER
 
-      }
+      }*/
       console.log(ngForm);
-      this.siteService.updateSite(newSite);
+      //this.siteService.updateSite(newSite);
       this.router.navigate(['/sites']);
 
     }

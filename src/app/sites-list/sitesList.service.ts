@@ -3,19 +3,20 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
-import { Site } from './site.model';
+import { SiteDataModel } from './site.model';
 import {Observable, Subject} from 'rxjs';
+import { Deserialize } from 'cerialize';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SiteService {
 
-  private sites: Site[] = [];
-  private sitesUpdated = new Subject<{sites: Site[]}>();
+  private sites: SiteDataModel[] = [];
+  private sitesUpdated = new Subject<{sites: SiteDataModel[]}>();
 
   constructor(private http: HttpClient, private router: Router ) {}
-  public createSite(site: Site): Observable<any> {
+  public createSite(site: SiteDataModel): Observable<any> {
     console.log("Le sitee :", site );
     return this.http.post('http://localhost:3000/api/v1/sites/create', site);
   }
@@ -43,20 +44,22 @@ export class SiteService {
       });
       console.log(this.sites);
     });*/
-    return this.http.get('http://localhost:3000/api/v1/sites/');
+    return this.http.get('http://localhost:3000/api/v1/sites/').pipe(
+      map((response: any) => Deserialize(response.sites, SiteDataModel))
+    );;
   }
 
   getSiteUpdateListener(): Observable<any> {
     return this.sitesUpdated.asObservable();
   }
 
-  updateSite(site: Site) {
+  updateSite(site: SiteDataModel) {
     console.log(site.label);
     console.log(site);
     return this.http.put<any>('http://localhost:3000/api/v1/sites/update/' + site.label, site).subscribe();
   }
 
-  deleteSite(site: Site) {
+  deleteSite(site: SiteDataModel) {
     return this.http.post<any>('http://localhost:3000/api/v1/sites/delete/' + site.label, site).subscribe();
   }
 }

@@ -19,6 +19,30 @@
                 </mat-form-field>
             </div>
         </div>
+
+
+<div *ngIf="connectedUser.authorizationAccess=='1'; then thenBlock else elseBlock"></div>
+  <ng-template #thenBlock>
+    <p>
+    <mat-icon matBadge="{{notificationCount}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
+      <!-- Include text description of the icon's meaning for screen-readers -->
+      <span class="cdk-visually-hidden">
+      </span>
+  </p>
+  <p>
+    <mat-icon matBadge="{{notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanUser('new', null)">car_rental</mat-icon>
+      <!-- Include text description of the icon's meaning for screen-readers -->
+      <span class="cdk-visually-hidden">
+      </span>
+  </p>
+  </ng-template>
+<ng-template #elseBlock><p>
+  <mat-icon matBadge="{{notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanUser('new', null)">car_rental</mat-icon>
+    <!-- Include text description of the icon's meaning for screen-readers -->
+    <span class="cdk-visually-hidden">
+    </span>
+</p></ng-template>
+
         <div id="user-part" class="user-part d-flex align-items-center flex-direction-row">
             <div  id="user-connected">
                 <button mat-button [matMenuTriggerFor]="menu" id="menu-user" class="menu-user">

@@ -5,8 +5,7 @@ import { User } from '../../users-list/user.model';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../users-list/usersList.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { SiteModalModule } from 'src/app/sites-list/site-modal/site-modal.module';
-import { Site } from 'src/app/sites-list/site.model';
+import { SiteDataModel } from '../site.model';
 
 @Component({
   selector: 'app-site-modal',
@@ -88,7 +87,7 @@ export class SiteModalComponent implements OnInit {
    * @param saved On sauvegarde ou non
    */
   public close(saved: boolean = false): void {
-    const site: Site = {};
+    const site: SiteDataModel = new SiteDataModel();
     if (saved) {
 
       site.label = this.siteForm.controls['label'].value;
