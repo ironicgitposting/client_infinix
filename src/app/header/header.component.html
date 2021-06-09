@@ -21,7 +21,7 @@
         </div>
 
 
-<div *ngIf="connectedUser.authorizationAccess=='1'; then thenBlock else elseBlock"></div>
+<div *ngIf="connectedUser.authorizationAccess === 1; then thenBlock else elseBlock"></div>
   <ng-template #thenBlock>
     <p>
     <mat-icon matBadge="{{notificationCount + notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>

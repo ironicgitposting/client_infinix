@@ -7,16 +7,18 @@ import { SiteDataModel } from '../sites-list/site.model';
 export class LoanDataModel {
   @autoserializeAs('id')
   id: number;
-  @autoserializeAs('lentVehicule')
+  @autoserializeAs('Vehicule')
   lentVehicule: Vehicle;
   @autoserializeAs('startDate')
   startDate: Date;
   @autoserializeAs('endDate')
-  endDate: Date;
+  endDate: Date | null;
   @autoserializeAs('Status')
   status: StatusModel;
   @autoserializeAs('User')
   driver: User;
-  @autoserializeAs('Site')
-  site: SiteDataModel;
+  @autoserializeAs('departureSite')
+  departureSite: SiteDataModel;
+  @autoserializeAs('arrivalSite')
+  arrivalSite: SiteDataModel;
 }
