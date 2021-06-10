@@ -41,7 +41,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
       endDate: string; } = {
       status: 'Statut',
       driver: 'Conducteur',
-      departureSite: 'site de départ',
+      departureSite: 'Site de départ',
       startDate: 'Date du prêt',
       endDate: 'Date de rendu'};
 
@@ -69,7 +69,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
     }
 
     fetchData(id: number) {
-      
+      console.log(id);
       this.loanService.getAllLoansForVehicle(id).subscribe(bookings => {
         this.ELEMENT_DATA = bookings;
         console.log(this.ELEMENT_DATA);

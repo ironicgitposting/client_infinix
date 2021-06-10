@@ -60,7 +60,7 @@
                       </mat-card-title>
                     </mat-card-header>
                     <mat-card-content>
-                      <div *ngIf='vehicle.flagService === true; else usedVehicle'>
+                      <div *ngIf='vehicle.flagService === false; else usedVehicle'>
                         Disponibilité : Le véhicule est libre
                       </div>
                       <ng-template #usedVehicle>
@@ -110,7 +110,12 @@
 
                       <div class='btn-action-vehicle'>
                         <button class='action-btn' mat-raised-button color='primary'
-                                (click)="openVehicleModal('update', vehicle, vehicle.immatriculation)">Modifier
+                                (click)="openVehicleModal('update', vehicle, vehicle.immatriculation)">MODIFIER
+                        </button>
+                      </div>
+                      <div class='btn-action-vehicle'>
+                        <button class='action-btn' mat-raised-button color='primary' (click)='historicalVehicle(vehicle)'>
+                          HISTORIQUE DES PRÊTS
                         </button>
                       </div>
                       <div class='btn-action-vehicle'>
@@ -118,12 +123,6 @@
                           SUPPRIMER
                         </button>
                       </div>
-                      <div class='btn-action-vehicle'>
-                        <button class='action-btn' mat-raised-button color='warn' (click)='historicalVehicle(vehicle)'>
-                          HISTORIQUE DES PRÊTS
-                        </button>
-                      </div>
-
                     </mat-card-content>
                   </mat-card>
                 </div>

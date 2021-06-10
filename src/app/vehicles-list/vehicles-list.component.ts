@@ -73,7 +73,7 @@ export class VehiclesListComponent implements OnInit {
   }
 
   deleteVehicle(vehicle: Vehicle): void {
-    if (confirm('Are you sure to delete ')) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) {
       if (vehicle.immatriculation) {
         this.vehicleService.deleteVehicle(vehicle).subscribe(() => {
           this.fetchData();
@@ -106,7 +106,7 @@ export class VehiclesListComponent implements OnInit {
       data: {
         vehicle,
       },
-
+      width: '100%',
     });
   }
 
