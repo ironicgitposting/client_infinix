@@ -11,14 +11,6 @@
             <input matInput id='search' (keyup)='applyFilter($event)' #input>
           </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Status</mat-label>
-            <mat-select>
-              <mat-option *ngFor='let etat of etats' [value]='etat'>
-                {{etat}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
         </div>
       </mat-card-title>
     </mat-card-header>

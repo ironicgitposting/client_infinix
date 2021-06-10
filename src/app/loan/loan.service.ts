@@ -21,8 +21,10 @@ export class LoanService {
     );
   }
 
-  public getAllLoansForVehicle(vehicle: Vehicle){
-    return this.httpClient.get('http://localhost:3000/api/v1/booking/for-vehicle/' + vehicle.immatriculation);
+  public getAllLoansForVehicle(id: number): Observable<any>{
+    return this.httpClient.get('http://localhost:3000/api/v1/booking/for-vehicle/' + id).pipe(
+      map((response: any) => Deserialize(response.booking, LoanDataModel))
+    );
   }
 
   public getLoansByStatus(status: any): Observable<any> {
