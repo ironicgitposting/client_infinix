@@ -207,7 +207,7 @@ export class LoanComponent implements OnInit {
    * @param loan Prêt à clôturer
    */
   public closeLoan(loan: LoanDataModel): void {
-    this.msgService.confirm('Êtes-vous sûr(e) de vouloir clôturer cette réservation').subscribe(response => {
+    this.msgService.confirm('Êtes-vous sûr(e) de vouloir clôturer cette réservation ?').subscribe(response => {
       if (response) {
         loan.status.id = 3;
         loan.status.label = StatusEnum.ended;
@@ -223,7 +223,7 @@ export class LoanComponent implements OnInit {
    * @param loan Prêt à annuler
    */
   public cancelLoan(loan: LoanDataModel): void {
-    this.msgService.confirm('Êtes-vous sûr(e) de vouloir annuler cette réservation').subscribe(response => {
+    this.msgService.confirm('Êtes-vous sûr(e) de vouloir annuler cette réservation ?').subscribe(response => {
       if (response) {
         loan.status.id = 6;
         loan.status.label = StatusEnum.canceled;
