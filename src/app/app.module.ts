@@ -24,13 +24,13 @@ import { VehicleModule } from './vehicles-list/vehicle-modal/vehicle-modal.modul
 import { AuthInterceptor } from './authentication/auth.interceptor';
 import { AlertModule } from './alert/alert.module';
 import { ConfirmModule } from './confirm/confirm.module';
-
-
-registerLocaleData(localeFr);
 import { SiteListModule } from './sites-list/sitesList.module';
+import { MapModule } from './map/map.module';
 import { SiteModalModule } from './sites-list/site-modal/site-modal.module';
 import { LoanInProgressModule } from './header/loan-in-progress/loan-in-progress.module';
 import { LoanUserModule } from './header/loan-user/loan-user.module';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [AppComponent],
@@ -59,7 +59,8 @@ import { LoanUserModule } from './header/loan-user/loan-user.module';
     LoanInProgressModule,
     LoanUserModule,
     AlertModule,
-    ConfirmModule
+    ConfirmModule,
+    MapModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'fr-FR' },
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

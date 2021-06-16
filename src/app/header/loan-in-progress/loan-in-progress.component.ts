@@ -139,7 +139,7 @@ export class LoanInProgressComponent implements OnInit {
    * @param saved On sauvegarde ou non
    */
   public close(saved: boolean = false): void {
-    const loan: LoanDataModel = new LoanDataModel();
+    /*const loan: LoanDataModel = new LoanDataModel();
     if (saved) {
       loan.driver = new User();
       loan.driver.id = this.selectedDriver.id;
@@ -151,8 +151,8 @@ export class LoanInProgressComponent implements OnInit {
       }
       loan.status = new StatusModel();
       loan.status.id = 1;
-    }
-    this.dialogRef.close({ saved: saved, loan: loan });
+    }*/
+    this.dialogRef.close();
   }
 
   /**

@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Common } from '../../common/common';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MapModule } from '../../map/map.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     FormsModule,
     ReactiveFormsModule,
     MatOptionModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MapModule,
   ],
   exports: [
     LoanModalComponent],

@@ -25,7 +25,6 @@ export class LayoutComponent implements OnInit {
     private authService: AuthenticationService,
   ) {
     this.adminMenu = this.authService.getIsAdmin();
-    debugger;
   }
 
   ngOnInit(): void {}

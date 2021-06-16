@@ -1,9 +1,9 @@
-<div id='vehicle-container'>
+<div class='vehicle-container'>
   <button mat-raised-button color='primary' class='add-vehicle' (click)="openVehicleModal('new', null, null)">
     Ajouter un véhicule
   </button>
   <mat-card class='wrapper-card'>
-    <mat-card-header class='wrapper-card-header'>
+    <mat-card-header style='margin-bottom: 0;' class='wrapper-card-header'>
       <mat-card-title>
         <div id='filters' class='filters'>
           <mat-form-field class='login-wrapper'>
@@ -17,7 +17,7 @@
 
     <mat-divider></mat-divider>
 
-    <mat-card-content class='wrapper-card-content'>
+    <mat-card-content style='margin: 2em; position: relative;' class='wrapper-card-content'>
       <div class='mat-elevation-z8'>
         <table mat-table
                [dataSource]='dataSource' multiTemplateDataRows
@@ -132,11 +132,11 @@
 
           <tr mat-header-row *matHeaderRowDef='columnsToDisplay'></tr>
           <tr mat-row *matRowDef='let vehicle; columns: columnsToDisplay;'
-              class='vehicle-element-row'
-              [class.vehicle-expanded-row]='expandedElement === vehicle'
+              class='element-row'
+              [class.expanded-row]='expandedElement === vehicle'
               (click)='expandedElement = expandedElement === vehicle ? null : vehicle'>
           </tr>
-          <tr mat-row *matRowDef="let vehicle; columns: ['expandedDetail']" class='vehicle-detail-row'></tr>
+          <tr mat-row *matRowDef="let vehicle; columns: ['expandedDetail']" class='detail-row'></tr>
 
           <tr class='mat-row' *matNoDataRow>
             <td class='mat-cell' colspan='4'>Aucune donnée ne correspond à "{{input.value}}"</td>
