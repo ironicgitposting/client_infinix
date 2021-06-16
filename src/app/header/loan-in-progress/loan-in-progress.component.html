@@ -4,7 +4,7 @@
   </div>
 </div>
 
-<div *ngIf="connectedUser.authorizationAccess=='1'; then thenBlock else elseBlock"></div>
+<div *ngIf="connectedUser.authorizationAccess===1; then thenBlock else elseBlock"></div>
   <ng-template #thenBlock>
     <div>
   <button mat-button (click)="redirectTo('loan')">

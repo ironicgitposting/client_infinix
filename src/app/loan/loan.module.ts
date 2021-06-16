@@ -16,7 +16,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Common } from '../common/common';
 import { MessageService } from '../common/services/message.service';
 import { LoanService } from './loan.service';
-import { SiteService } from '../site/site.service';
+import { SiteService } from '../sites-list/sitesList.service';
 import { DatePipe } from '@angular/common';
 import { StatusService } from '../common/services/status.service';
 import { MapModule } from '../map/map.module';

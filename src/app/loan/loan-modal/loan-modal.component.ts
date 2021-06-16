@@ -7,7 +7,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { LoanDataModel } from '../loan.data.model';
 import { SiteDataModel } from '../../sites-list/site.model';
 import { StatusModel } from '../../common/models/StatusModel';
-import { SiteService } from '../../site/site.service';
+import { SiteService } from '../../sites-list/sitesList.service';
 import { StatusEnum } from '../../common/models/status.enum';
 import { Vehicle } from '../../vehicles-list/vehicle.model';
 import { VehicleService } from '../../vehicles-list/vehicle-list.service';
@@ -79,7 +79,7 @@ export class LoanModalComponent implements OnInit {
           this.drivers = users;
       });
     }
-    this.siteService.getAllSites().subscribe(sites => {
+    this.siteService.getSitesAvailable().subscribe(sites => {
       this.sites = sites;
     });
     this.vehicleService.getVehicles().subscribe(vehicles => {
