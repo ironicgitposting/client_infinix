@@ -3,7 +3,7 @@ import { Vehicle } from '../vehicle.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { SiteDataModel } from '../../site/site.data.model';
+import { SiteDataModel } from '../../sites-list/site.model';
 
 @Component({
   selector: 'dialog-modal',
@@ -52,7 +52,7 @@ export class VehicleModal implements OnInit {
       this.vehicleForm.controls['model'].setValue(this.data.vehicle.model);
       this.vehicleForm.controls['flagService'].setValue(this.data.vehicle.flagService);
       this.vehicleForm.controls['state'].setValue(this.data.vehicle.state);
-      this.vehicleForm.controls['site'].setValue(this.data.vehicle.site.libelle);
+      this.vehicleForm.controls['site'].setValue(this.data.vehicle.site.label);
     }
   }
 

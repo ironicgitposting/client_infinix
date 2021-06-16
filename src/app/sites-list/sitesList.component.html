@@ -1,5 +1,5 @@
 <div id="loan-container">
-  <button mat-raised-button color="primary" class="add-loan" (click)="openSiteModal('new', null)">
+  <button mat-raised-button color="primary" class="add-loan" (click)="openSiteModal('new', null, null)">
     Ajouter un site
   </button>
 <mat-card id="vehicle-widget" class="widget">
@@ -17,51 +17,26 @@
 <table mat-table
        [dataSource]="dataSource" multiTemplateDataRows
        class="mat-elevation-z8">
-  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+<ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-    <td mat-cell *ngIf="column === 'Actions'">
-      TOTO
+  <ng-container *ngIf="column !== 'action'">
+    <td mat-cell *matCellDef="let site"> {{site[column]}} </td>
+  </ng-container>
+  <ng-container *ngIf="column === 'action'">
+      <td mat-cell *matCellDef="let site">
     <div class='btn-action-vehicle'>
-      TITI
-                        <button class='action-btn' mat-raised-button color='primary'
-                                (click)="openSiteModal('new', null)">Modifier
-                        </button>
-                      </div>
-    </td>
+      <button class='action-btn' mat-raised-button color='primary' (click)="openSiteModal('update', site, site.label)">
+        Modifier
+      </button>
+      <button class='action-btn' mat-raised-button color='warn' (click)='deleteSite(site)'>
+        ARCHIVER
+      </button>
+     </div>
+      </td>
   </ng-container>
-
-  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-  <ng-container matColumnDef="expandedDetail">
-    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-      <div class="example-element-detail"
-           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <div class="example-element-diagram">
-          <div class="example-element-position"> {{element.position}} </div>
-          <div class="example-element-symbol"> {{element.symbol}} </div>
-          <div class="example-element-name"> {{element.name}} </div>
-          <div class="example-element-weight"> {{element.weight}} </div>
-        </div>
-        <div class="example-element-description">
-          {{element.description}}
-          <span class="example-element-description-attribution"> -- Wikipedia </span>
-        </div>
-         <div class='btn-action-vehicle'>
-                        <button class='action-btn' mat-raised-button color='primary'
-                                (click)="openSiteModal('new', null)">Modifier
-                        </button>
-                      </div>
-      </div>
-    </td>
-  </ng-container>
-
+</ng-container>
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 </table>
 
 </mat-card>

@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
       this.rowsBookingsValider = loan.notificationCount.rows;
     });
 
-    this.loanService.getLoansByUtilisateur(this.connectedUser.email).subscribe(loan => {
+    this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
       this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
      });

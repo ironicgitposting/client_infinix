@@ -56,7 +56,7 @@ export class SitesListComponent implements OnInit {
     phone: 'Télephone',
     mail:'Email',
     pays:'Pays',
-    action:'Actions'
+    action:'action',
   };
 
   expandedElement: SiteDataModel | null;
@@ -66,20 +66,30 @@ export class SitesListComponent implements OnInit {
   dataSource: MatTableDataSource<SiteDataModel>;
 
 
-  constructor(private siteService: SiteService, public dialog: MatDialog) {
+  constructor(private siteService: SiteService, public dialog: MatDialog, private msgService: MessageService) {
 
   }
 
-  public openSiteModal(mode: string, site: SiteDataModel | null): void {
+  public openSiteModal(mode: string, site: SiteDataModel | null, lastLabel: string | null): void {
     const dialogRef = this.dialog.open(SiteModalComponent, {
-      data: { mode: mode, site: site }
+      data: { mode: mode, site: site, lastLabel: lastLabel }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      if (result && result.saved) {
+      console.log('mode', mode);
+      debugger;
+
+      if (result && result.saved && mode == 'new') {
         this.siteService.createSite(result.site).subscribe(response => {
+          //this.msgService.snackbar('Site enregistré', 'success');
+          this.fetchData();
           console.log(response);
+        });
+      } else if (result && result.saved && mode == 'update') {
+        this.siteService.updateSite(result.site, lastLabel).subscribe(response => {
+          this.msgService.snackbar('Véhicule modifié');
+          this.fetchData();
         });
       }
     });
@@ -91,7 +101,7 @@ export class SitesListComponent implements OnInit {
       .subscribe((siteData: {sites: Site[]}) => {
         this.sites = siteData.sites;
       });*/
-    this.siteService.getSites().subscribe(site => {
+    this.siteService.getSitesAvailable().subscribe(site => {
       console.log(site);
       this.ELEMENT_DATA = site;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -102,7 +112,7 @@ export class SitesListComponent implements OnInit {
 }
 
 fetchData() {
-    this.siteService.getSites().subscribe(site => {
+    this.siteService.getSitesAvailable().subscribe(site => {
       this.ELEMENT_DATA = site;
       console.log(this.ELEMENT_DATA);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -131,13 +141,13 @@ fetchData() {
   }
 
   deleteSite(site: SiteDataModel): void {
-    if (site.label) {
-      this.siteService.deleteSite(site);
+    if (confirm('Are you sure to delete ')) {
+      if (site.label) {
+        this.siteService.deleteSite(site, site.id).subscribe(() => {
+          this.fetchData();
+        });
+      }
     }
-  }
-
-  onSiteSwitchToggle($event: MatSlideToggleChange, site: SiteDataModel): void {
-    this.siteService.updateSite(site);
   }
 
   applyFilter(event: Event) {

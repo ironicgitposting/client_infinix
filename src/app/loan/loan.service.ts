@@ -35,7 +35,7 @@ export class LoanService {
     return this.httpClient.get('http://localhost:3000/api/v1/booking/status/' + status + '&'+email);
   }
 
-  public getLoansByUtilisateur(email: string): Observable<any> {
-    return this.httpClient.get('http://localhost:3000/api/v1/booking/for-utilisateur/' + email);
+  public getLoansByUtilisateur(id: any): Observable<any> {
+    return this.httpClient.get('http://localhost:3000/api/v1/booking/for-utilisateur/' + id);
   }
 }

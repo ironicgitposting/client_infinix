@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { UserService } from '../../users-list/usersList.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { LoanDataModel } from '../loan.data.model';
-import { SiteDataModel } from '../../site/site.data.model';
+import { SiteDataModel } from '../../sites-list/site.model';
 import { StatusModel } from '../../common/models/StatusModel';
 
 @Component({
@@ -59,7 +59,7 @@ export class LoanModalComponent implements OnInit {
     if (this.data.loan) {
       // On alimente le formgroup avec les valeurs de la réservation
       this.loanForm.controls['driver'].setValue(this.data.loan.driver.surname + ' ' + this.data.loan.driver.name);
-      this.loanForm.controls['departureSite'].setValue(this.data.loan.site.libelle);
+      this.loanForm.controls['departureSite'].setValue(this.data.loan.site.label);
       this.loanForm.controls['start'].setValue(this.data.loan.startDate);
       this.loanForm.controls['end'].setValue(this.data.loan.endDate);
     }

@@ -5,7 +5,7 @@ import { User } from '../../users-list/user.model';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../users-list/usersList.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { SiteDataModel } from '../../site/site.data.model';
+import { SiteDataModel } from '../../sites-list/site.model';
 import { StatusModel } from '../../common/models/StatusModel';
 import { LoanDataModel } from 'src/app/loan/loan.data.model';
 import { LoanService } from 'src/app/loan/loan.service';

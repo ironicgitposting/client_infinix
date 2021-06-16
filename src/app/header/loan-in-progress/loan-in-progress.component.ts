@@ -5,12 +5,13 @@ import { User } from '../../users-list/user.model';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../users-list/usersList.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { SiteDataModel } from '../../site/site.data.model';
+import { SiteDataModel } from '../../sites-list/site.model';
 import { StatusModel } from '../../common/models/StatusModel';
 import { LoanDataModel } from 'src/app/loan/loan.data.model';
 import { LoanService } from 'src/app/loan/loan.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loan-modal',
@@ -72,6 +73,7 @@ export class LoanInProgressComponent implements OnInit {
               private dialogRef: MatDialogRef<LoanInProgressComponent>,
               private userService: UserService,
               private loanService: LoanService,
+              private router: Router,
               @Inject(MAT_DIALOG_DATA) public data: {
               isReadOnly: boolean;
               mode: string;
@@ -93,9 +95,8 @@ export class LoanInProgressComponent implements OnInit {
     if (!this.connectedUser.profile) {
       this.userProfile = 'Administrateur';
     }
-      //console.log("this.connectedUser.email", this.connectedUser.email);
 
-    this.loanService.getLoansByUtilisateur(this.connectedUser.email).subscribe(loan => {
+    this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
 
     this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
@@ -108,8 +109,6 @@ export class LoanInProgressComponent implements OnInit {
      this.loanService.getLoansByStatus(1).subscribe(loan => {
       this.notificationCount = loan.notificationCount.count;
       this.rowsBookingsValider = loan.notificationCount.rows;
-      //console.log("Header : Nombre de réservation à valider", loan.notificationCount.count);
-      //console.log("Les Rows à valider", this.rowsBookingsValider);
     });
   }
 
@@ -183,5 +182,14 @@ export class LoanInProgressComponent implements OnInit {
     if (status.isUserInput) {
       this.selectedSite = site;
     }
+  }
+
+  /**
+   * Redirige vers la route passée en paramètre
+   * @param target Nom de la route
+   */
+  public redirectTo(target: string) {
+    this.router.navigate(['/' + target]);
+    this.dialogRef.close();
   }
 }

@@ -2,7 +2,7 @@ import { autoserializeAs } from 'cerialize';
 import { Vehicle } from '../vehicles-list/vehicle.model';
 import { StatusModel } from '../common/models/StatusModel';
 import { User } from '../users-list/user.model';
-import { SiteDataModel } from '../site/site.data.model';
+import { SiteDataModel } from '../sites-list/site.model';
 
 export class LoanDataModel {
   @autoserializeAs('id')
