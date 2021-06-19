@@ -78,7 +78,8 @@ export class LoanComponent implements OnInit {
     this.filterForm = this.fb.group({
       search: new FormControl('', []),
       start: new FormControl('', []),
-      end: new FormControl('', [])
+      end: new FormControl('', []),
+      status: new FormControl('Tous', [])
     });
   }
 
@@ -91,8 +92,9 @@ export class LoanComponent implements OnInit {
       this.dataSource.filterPredicate = (data, filters: string)  => {
         let ret: boolean = false;
         let retDate: boolean = false;
+        let retStatus: boolean = false;
         const filterArray = filters.split('¤');
-        if (filterArray[0].split('|')[0] !== '') {
+        if (filterArray[0] && filterArray[0].split('|')[0] !== '') {
           const accumulator = (currentTerm: any, key: any) => {
             return this.nestedFilterCheck(currentTerm, data, key);
           };
@@ -101,7 +103,7 @@ export class LoanComponent implements OnInit {
         } else {
           ret = true;
         }
-        if (filterArray[1].split('|')[0] !== '' || filterArray[2].split('|')[0] !== '') {
+        if (filterArray[1] && filterArray[1].split('|')[0] !== '' || filterArray[2] && filterArray[2].split('|')[0] !== '') {
           if (this.filterForm.controls['start'].value && this.filterForm.controls['end'].value) {
             if (data.endDate) {
               retDate = this.filterForm.controls['end'].value.toDate().getTime() >= moment(data.endDate).toDate().getTime() &&
@@ -124,8 +126,15 @@ export class LoanComponent implements OnInit {
           } else {
             retDate = true;
           }
+        } else {
+          retDate = true;
         }
-        return [ret, retDate].every(Boolean);
+        if (filterArray[3] && filterArray[3] !== '' && filterArray[3] !== 'Tous') {
+          retStatus = data.status.label === filterArray[3];
+        } else {
+          retStatus = true;
+        }
+        return [ret, retDate, retStatus].every(Boolean);
       };
 
       this.dataSource.sort = this.sort;
@@ -158,7 +167,7 @@ export class LoanComponent implements OnInit {
    * @param event
    */
   public applySearchFilter(event: Event): void {
-    this.dataSource.filter = `${this.filterForm.controls['search'].value}|true¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|`;
+    this.dataSource.filter = `${this.filterForm.controls['search'].value}|true¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤${this.filterForm.controls['status'].value?.toString()}`;
   }
 
   /**
@@ -168,9 +177,9 @@ export class LoanComponent implements OnInit {
   public applyDateFilter(event: MatDatepickerInputEvent<any>): void {
     const elementName: string | null = (event.targetElement as HTMLInputElement).getAttribute('formcontrolname');
     if (elementName && elementName === 'start') {
-      this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|true¤${this.filterForm.controls['end'].value?.toString()}|`;
+      this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|true¤${this.filterForm.controls['end'].value?.toString()}|¤${this.filterForm.controls['status'].value?.toString()}`;
     } else if (elementName && elementName === 'end') {
-      this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|true`;
+      this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|true¤${this.filterForm.controls['status'].value?.toString()}`;
     }
   }
 
@@ -204,9 +213,9 @@ export class LoanComponent implements OnInit {
   public filterByStatus(status: MatOptionSelectionChange): void {
     if (status.isUserInput) {
       if (status.source.value === 'Tous') {
-        this.dataSource = new MatTableDataSource(this.loans);
+        this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤Tous`;
       } else {
-        this.dataSource = new MatTableDataSource(this.loans.filter(loan => loan.status.label === status.source.value));
+        this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤${status.source.value}`;
       }
     }
   }
