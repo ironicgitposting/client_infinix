@@ -164,7 +164,7 @@
                   <button mat-button color='warn' *ngIf='isCancelButtonActive(loan)' (click)='cancelLoan(loan)'>
                     Annuler
                   </button>
-                  <button mat-button class='valid-button' *ngIf='isAwaitingValidation(loan)'
+                  <button mat-button class='valid-button' *ngIf='isAwaitingValidation(loan) && isAdmin'
                           (click)='validateLoan(loan)'>Valider
                   </button>
                 </div>

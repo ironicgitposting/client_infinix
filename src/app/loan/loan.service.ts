@@ -16,8 +16,8 @@ export class LoanService {
     return this.httpClient.post('http://localhost:3000/api/v1/booking/create', loanData);
   }
 
-  public getAllLoans(): Observable<any> {
-    return this.httpClient.get('http://localhost:3000/api/v1/booking/').pipe(
+  public getAllLoans(connectedUser: User): Observable<any> {
+    return this.httpClient.get('http://localhost:3000/api/v1/booking/' + connectedUser.id + '&' + connectedUser.authorizationAccess).pipe(
       map((response: any) => Deserialize(response.booking, LoanDataModel))
     );
   }

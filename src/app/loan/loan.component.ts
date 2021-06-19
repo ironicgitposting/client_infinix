@@ -14,6 +14,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { StatusEnum } from '../common/models/status.enum';
+import { AuthenticationService } from '../authentication/authentication.service';
+import { FamilyStatusEnum } from '../common/models/familyStatus.enum';
 
 @Component({
   selector: 'app-loan',
@@ -63,11 +65,16 @@ export class LoanComponent implements OnInit {
 
   public filters: {search: string, start: Date, end: Date};
 
+  public isAdmin: boolean = false;
+
   constructor(public dialog: MatDialog,
               private msgService: MessageService,
               private loanService: LoanService,
               private statusService: StatusService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private authService: AuthenticationService,
+  ) {
+    this.isAdmin = this.authService.getIsAdmin();
     this.filterForm = this.fb.group({
       search: new FormControl('', []),
       start: new FormControl('', []),
@@ -76,7 +83,9 @@ export class LoanComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.loanService.getAllLoans().subscribe(loan => {
+    const localStorageUser: string = localStorage.getItem('connectedUser') || '';
+    const connectedUser = JSON.parse(localStorageUser);
+    this.loanService.getAllLoans(connectedUser).subscribe(loan => {
       this.loans = loan;
       this.dataSource = new MatTableDataSource(this.loans);
       this.dataSource.filterPredicate = (data, filters: string)  => {
@@ -121,7 +130,7 @@ export class LoanComponent implements OnInit {
 
       this.dataSource.sort = this.sort;
     });
-    this.statusService.getStatus().subscribe(status => {
+    this.statusService.getStatusByFamilyStatus(FamilyStatusEnum.bookingsFamily).subscribe(status => {
       const statusAll: StatusModel = new StatusModel();
       statusAll.label = 'Tous';
       this.status.push(statusAll);
@@ -349,6 +358,18 @@ export class LoanComponent implements OnInit {
   }
 
   /**
+   * Est-ce que le prêt est en cours
+   * @param loan Réservation
+   */
+  public isLoanRunning(loan: LoanDataModel): boolean {
+    let ret: boolean = false;
+    if (loan.status.label === StatusEnum.running) {
+      ret = true;
+    }
+    return ret;
+  }
+
+  /**
    * Est-ce que le prêt est en attente de validation
    * @param loan Réservation
    */
@@ -405,7 +426,7 @@ export class LoanComponent implements OnInit {
    * @param loan Réservation
    */
   public isCloseLoanButtonActive(loan: LoanDataModel): boolean {
-    return !this.isEndDatePassed(loan) && this.isLoanActive(loan);
+    return !this.isEndDatePassed(loan) && this.isLoanActive(loan) && this.isLoanRunning(loan);
   }
 
   /**
