@@ -16,6 +16,11 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Common } from '../common/common';
 import { MessageService } from '../common/services/message.service';
 import { LoanService } from './loan.service';
+import { SiteService } from '../sites-list/sitesList.service';
+import { DatePipe } from '@angular/common';
+import { StatusService } from '../common/services/status.service';
+import { MapModule } from '../map/map.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,6 +39,9 @@ import { LoanService } from './loan.service';
     MatNativeDateModule,
     MatSelectModule,
     MatSortModule,
+    MapModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     LoanComponent],
@@ -41,7 +49,10 @@ import { LoanService } from './loan.service';
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: Common.MY_FORMATS},
     MessageService,
-    LoanService
+    LoanService,
+    SiteService,
+    DatePipe,
+    StatusService
   ],
   bootstrap: [LoanComponent]
 })

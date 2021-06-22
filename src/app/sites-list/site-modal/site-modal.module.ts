@@ -6,15 +6,21 @@ import { MatMenuModule } from '@angular/material/menu';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { SiteModalComponent } from './site-modal.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Common } from '../../common/common';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { HeaderModule } from 'src/app/header/header.module';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import { SidebarModule } from 'src/app/sidebar/sidebar.module';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -22,20 +28,22 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
   ],
   imports: [
     BrowserModule,
-    MatIconModule,
+    MatCardModule,
     MatInputModule,
     MatButtonModule,
-    MatMenuModule,
-    MatCardModule,
-    MatDividerModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
-    MatOptionModule,
-    MatCheckboxModule
+    HeaderModule,
+    SidebarModule,
+    MatSidenavModule,
+    MatChipsModule,
+    MatIconModule,
+    MatSlideToggleModule,
+    MatExpansionModule,
+    MatSelectModule,
+    MatTableModule,
+    MatDividerModule,
+    MatAutocompleteModule
   ],
   exports: [
     SiteModalComponent],

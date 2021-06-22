@@ -30,7 +30,6 @@ export class VehiclesListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   vehicles: Vehicle[] = [];
-  private vehiclesSub: Subscription;
 
   ELEMENT_DATA: Vehicle[];
   columnsToDisplay: string[] = ['model', 'libelle', 'immatriculation', 'state', 'status'];
@@ -75,7 +74,7 @@ export class VehiclesListComponent implements OnInit {
   }
 
   deleteVehicle(vehicle: Vehicle): void {
-    if (confirm('Are you sure to delete ')) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) {
       if (vehicle.immatriculation) {
         this.vehicleService.deleteVehicle(vehicle).subscribe(() => {
           this.fetchData();
@@ -108,7 +107,7 @@ export class VehiclesListComponent implements OnInit {
       data: {
         vehicle,
       },
-
+      width: '100%',
     });
   }
 
@@ -129,7 +128,7 @@ export class VehiclesListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      
       if (result && result.saved && !lastImmatriculation) {
         this.vehicleService.createVehicle(result.vehicle).subscribe(response => {
           this.msgService.snackbar('Véhicule enregistré', 'success');

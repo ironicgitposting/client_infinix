@@ -9,16 +9,21 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { SiteModalComponent } from './site-modal.component';
+import { LoanInProgressComponent} from './loan-in-progress.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Common } from '../../common/common';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CommonModule } from '@angular/common';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
-    SiteModalComponent
+    LoanInProgressComponent
   ],
   imports: [
     BrowserModule,
@@ -35,14 +40,20 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
     FormsModule,
     ReactiveFormsModule,
     MatOptionModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatBadgeModule,
+    CommonModule,
+    MatTableModule,
+    MatSortModule,
+    MatFormFieldModule,
+
   ],
   exports: [
-    SiteModalComponent],
+    LoanInProgressComponent],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: Common.MY_FORMATS},
   ],
-  bootstrap: [SiteModalComponent]
+  bootstrap: [LoanInProgressComponent]
 })
-export class SiteModalModule { }
+export class LoanInProgressModule { }

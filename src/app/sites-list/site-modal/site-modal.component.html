@@ -1,7 +1,7 @@
 <div class='modal-header'>
   <div>
     <h1 *ngIf="isNewMode()">Ajouter un site</h1>
-    <h1 *ngIf="isReadMode() || isUpdateMode()">Réservation du {{ data.site.startDate | date: 'dd/MM/YYYY' }}</h1>
+    <h1 *ngIf="isUpdateMode()">Modifier le site</h1>
   </div>
   <button mat-icon-button class='close-button' (click)='close()'>
     <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
@@ -11,72 +11,64 @@
  <form [formGroup]="siteForm">
   <div>
     <mat-form-field style='margin-right: 1em'>
+      <mat-label>Nom du Site</mat-label>
       <input
         matInput
         name="label"
         type="label"
-        formControlName="label"
-        [matAutocomplete]="label">
-        <mat-autocomplete #label="matAutocomplete"></mat-autocomplete>
-      <mat-hint>Nom du Site</mat-hint>
+        formControlName="label"/>
     </mat-form-field>
     <mat-form-field style='margin-right: 1em'>
+      <mat-label>Adresse</mat-label>
       <input
         matInput
         name="adress"
         type="adress"
-        formControlName="adress"
-      />
-      <mat-hint>Adresse</mat-hint>
+        formControlName="adress"/>
     </mat-form-field>
     <mat-form-field>
+      <mat-label>Code Postal</mat-label>
       <input
         matInput
         name="postalCode"
         type="postalCode"
-        formControlName="postalCode"
-      />
-      <mat-hint>Code Postal</mat-hint>
+        formControlName="postalCode"/>
     </mat-form-field>
   </div>
   <div>
     <mat-form-field style='margin-right: 1em'>
+      <mat-label>Ville</mat-label>
       <input
         matInput
         name="city"
         type="city"
-        formControlName="city"
-      />
-      <mat-hint>Ville</mat-hint>
+        formControlName="city"/>
     </mat-form-field>
     <mat-form-field style='margin-right: 1em'>
+      <mat-label>Télephone</mat-label>
       <input
         matInput
         name="phone"
         type="phone"
-        formControlName="phone"
-      />
-      <mat-hint>Télephone</mat-hint>
+        formControlName="phone"/>
     </mat-form-field>
     <mat-form-field>
+      <mat-label>Mail</mat-label>
       <input
         matInput
         name="mail"
         type="mail"
-        formControlName="mail"
-      />
-      <mat-hint>mail</mat-hint>
+        formControlName="mail"/>
     </mat-form-field>
   </div>
   <div>
     <mat-form-field style='margin-right: 1em'>
+      <mat-label>Pays</mat-label>
       <input
         matInput
         name="pays"
         type="pays"
-        formControlName="pays"
-      />
-      <mat-hint>Pays</mat-hint>
+        formControlName="pays"/>
     </mat-form-field>
   </div>
   <div class='actions'>

@@ -19,16 +19,18 @@ import { SnackBarModule } from './snackbar/snackbar.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminPanelModule } from './admin-panel/adminPanel.module';
 import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
-import { SiteModalModule } from './site/site-modal/site-modal.module';
 import { HistoricalVehicleModule } from './vehicles-list/historical-vehicle-modal/historical-vehicle-modal.module';
 import { VehicleModule } from './vehicles-list/vehicle-modal/vehicle-modal.module';
 import { AuthInterceptor } from './authentication/auth.interceptor';
 import { AlertModule } from './alert/alert.module';
 import { ConfirmModule } from './confirm/confirm.module';
-
+import { SiteListModule } from './sites-list/sitesList.module';
+import { MapModule } from './map/map.module';
+import { SiteModalModule } from './sites-list/site-modal/site-modal.module';
+import { LoanInProgressModule } from './header/loan-in-progress/loan-in-progress.module';
+import { LoanUserModule } from './header/loan-user/loan-user.module';
 
 registerLocaleData(localeFr);
-import { SiteListModule } from './sites-list/sitesList.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -53,8 +55,12 @@ import { SiteListModule } from './sites-list/sitesList.module';
     HistoricalVehicleModule,
     VehicleModule,
     SiteListModule,
+    SiteModalModule,
+    LoanInProgressModule,
+    LoanUserModule,
     AlertModule,
-    ConfirmModule
+    ConfirmModule,
+    MapModule
   ],
   providers: [{provide: LOCALE_ID, useValue: 'fr-FR' },
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],

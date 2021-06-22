@@ -5,8 +5,7 @@ import { User } from '../../users-list/user.model';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../users-list/usersList.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { SiteModalModule } from 'src/app/sites-list/site-modal/site-modal.module';
-import { Site } from 'src/app/sites-list/site.model';
+import { SiteDataModel } from '../site.model';
 
 @Component({
   selector: 'app-site-modal',
@@ -34,6 +33,7 @@ export class SiteModalComponent implements OnInit {
               isReadOnly: boolean;
               mode: string;
               site: any;
+              //lastLabel: string;
   }) {
       this.siteForm = this.fb.group({
       label: new FormControl({value: '', disabled: this.isReadMode()}, Validators.required),
@@ -88,8 +88,13 @@ export class SiteModalComponent implements OnInit {
    * @param saved On sauvegarde ou non
    */
   public close(saved: boolean = false): void {
-    const site: Site = {};
-    if (saved) {
+    const site: SiteDataModel = new SiteDataModel();
+    debugger;
+    if(!this.siteForm.valid){
+        this.dialogRef.close();
+        return;
+    }
+    if (saved && this.siteForm.valid) {
 
       site.label = this.siteForm.controls['label'].value;
       site.adress = this.siteForm.controls['adress'].value;
@@ -99,7 +104,7 @@ export class SiteModalComponent implements OnInit {
       site.mail = this.siteForm.controls['mail'].value;
       site.pays = this.siteForm.controls['pays'].value;
     }
-    this.dialogRef.close({ saved: saved, site: site });
+    this.dialogRef.close({ saved: saved, site: site});
   }
 
   /**

@@ -1,0 +1,32 @@
+<div class='modal-header'>
+  <div>
+    <h1>Vos Notifications</h1>
+  </div>
+</div>
+
+<div *ngIf="connectedUser.authorizationAccess===1; then thenBlock else elseBlock"></div>
+  <ng-template #thenBlock>
+    <div>
+  <button mat-button (click)="redirectTo('loan')">
+    <div>
+      <span>Le Nombre de demande de réservations à valider : {{notificationCount}}</span>
+    </div>
+  </button>
+  </div>
+  <div>
+  <button mat-button (click)="redirectTo('loan')">
+    <div>
+      <span>Le Nombre de vos réservations avec le status : {{notificationCountBookingUser}}</span>
+    </div>
+  </button>
+  </div>
+  </ng-template>
+<ng-template #elseBlock>
+  <div>
+  <button mat-button (click)="redirectTo('loan')">
+    <div>
+      <span>Le Nombre de vos réservations avec le status : {{notificationCountBookingUser}}</span>
+    </div>
+  </button>
+  </div>
+</ng-template>

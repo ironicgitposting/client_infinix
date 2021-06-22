@@ -9,17 +9,21 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { LoanModalComponent } from './loan-modal.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Common } from '../../common/common';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { MapModule } from '../../map/map.module';
+import { MatBadgeModule } from '@angular/material/badge';
+import { CommonModule } from '@angular/common';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { LoanUserComponent } from './loan-user.component';
 
 @NgModule({
   declarations: [
-    LoanModalComponent
+    LoanUserComponent
   ],
   imports: [
     BrowserModule,
@@ -37,14 +41,19 @@ import { MapModule } from '../../map/map.module';
     ReactiveFormsModule,
     MatOptionModule,
     MatCheckboxModule,
-    MapModule,
+    MatBadgeModule,
+    CommonModule,
+    MatTableModule,
+    MatSortModule,
+    MatFormFieldModule,
+
   ],
   exports: [
-    LoanModalComponent],
+    LoanUserComponent],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: Common.MY_FORMATS},
   ],
-  bootstrap: [LoanModalComponent]
+  bootstrap: [LoanUserComponent]
 })
-export class LoanModalModule { }
+export class LoanUserModule { }

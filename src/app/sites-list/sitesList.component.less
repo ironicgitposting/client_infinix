@@ -6,8 +6,8 @@
 
 
 
-mat-form-field,
-textarea {
+.mat-form-field {
+  font-size: 14px;
   width: 100%;
 }
 
@@ -92,49 +92,90 @@ textarea {
   max-width : none;
 }
 
+.add-loan {
+  position: absolute;
+  z-index: 101;
+  top: 10px;
+  right: 60px;
+}
 
+/* Structure */
 table {
   width: 100%;
-  tr{
-    &.vehicle-detail-row {
-      height: 0px;
-      td{
-        border-bottom-width: 0;
-      }
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.vehicule-detail, .site-detail, .other-detail {
+  padding: 0;
+  margin: 0 1em;
+  flex-grow: 1;
+  height: 100%;
+  & mat-card-header {
+    background: @background-color-infinix;
+    color: @color-white;
+    padding: .3em 0;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    & mat-card-title {
+      margin: 0;
     }
-    .example-element-row:not(.example-expanded-row){
-      &:hover {
-        background: @loan-whitesmoke-hover-color;
-      }
-      &:active{
-        background-color: @loan-whitesmoke-active-color;
+    & .detail-card-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      mat-icon {
+        color: @color-white;
+        margin-right: .5em;
       }
     }
   }
-  td{
-    .example-element-detail {
-    overflow: hidden;
-    display: flex;
-      .example-element-diagram {
-        min-width: 80px;
-        border: 2px solid black;
-        padding: 8px;
-        font-weight: lighter;
-        margin: 8px 0;
-        height: 104px;
-      }
-      .example-element-symbol {
-        font-weight: bold;
-        font-size: 40px;
-        line-height: normal;
-      }
-
-      .example-element-description {
-        padding: 16px;
-      }
-      .example-element-description-attribution {
-        opacity: 0.5;
-      }
+  & mat-card-content {
+    padding: 1.5em;
+    & .btn-action-vehicle{
+      margin : 5px;
     }
   }
 }

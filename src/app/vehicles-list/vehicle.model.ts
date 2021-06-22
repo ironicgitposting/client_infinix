@@ -1,5 +1,5 @@
 import { autoserializeAs } from 'cerialize';
-import { SiteDataModel } from '../site/site.data.model';
+import { SiteDataModel } from '../sites-list/site.model';
 import { StatusModel } from '../common/models/StatusModel';
 
 export class Vehicle {

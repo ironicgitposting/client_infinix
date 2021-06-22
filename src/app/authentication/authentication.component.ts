@@ -175,13 +175,11 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
   }
 
   public sendForm(event: KeyboardEvent): void {
-    console.log(event.code);
-    if(event.code != undefined){
-      if (event.code.toLowerCase() === 'enter' && !this.isRegisterForm) {
-        this.login();
-      } else if (event.code.toLowerCase() === 'enter' && this.isRegisterForm) {
-        this.register();
-      }
+
+    if (event.code && (event.code.toLowerCase() === 'enter' || event.code.toLowerCase() === 'numpadenter') && !this.isRegisterForm) {
+      this.login();
+    } else if (event.code && (event.code.toLowerCase() === 'enter' || event.code.toLowerCase() === 'numpadenter') && this.isRegisterForm) {
+      this.register();
     }
   }
 

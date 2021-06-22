@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminPanelComponent } from './admin-panel/adminPanel.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { LayoutComponent } from './layout/layout.component';
-import {AuthGuard} from './authentication/auth.guard';
+import { AuthGuard } from './authentication/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -21,4 +21,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [AuthGuard]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -1,157 +1,189 @@
-<div id="loan-container">
-  <button mat-raised-button color="primary" class="add-loan" (click)="openLoanModal('new', null)">
+<div class='loan-container'>
+  <button mat-raised-button color='primary' class='add-loan' (click)="openLoanModal('new', null)">
     Faire une demande de prêt
   </button>
-    <mat-card style="margin-bottom: 0;" class="wrapper-card">
-        <mat-card-header class="wrapper-card-header">
-            <mat-card-title>
-                <div id="filters" class="filters">
-                    <mat-form-field class="login-wrapper">
-                        <mat-label>Rechercher</mat-label>
-                        <input matInput id="search"(keyup)="applyFilter($event)" #input>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Date de début</mat-label>
-                        <input matInput [matDatepicker]="picker">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>Date de fin</mat-label>
-                        <input matInput [matDatepicker]="picker2">
-                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                        <mat-datepicker #picker2></mat-datepicker>
-                    </mat-form-field>
-                    <mat-form-field>
-                        <mat-label>États</mat-label>
-                        <mat-select [value]='status[0]'>
-                            <mat-option *ngFor="let etat of status" [value]="etat" (onSelectionChange)='filterByStatus($event)'>
-                            {{etat}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <mat-divider></mat-divider>
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content style="margin: 2em; position: relative;" class="wrapper-card-content">
-            <div class="mat-elevation-z8">
-                <table mat-table
-                [dataSource]="dataSource" multiTemplateDataRows
-                matSort>
-                    <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columsName[column]}} </th>
-                      <ng-container [ngSwitch]='column'>
-                        <ng-container *ngSwitchCase="'status'">
-                          <td  mat-cell *matCellDef="let element"> {{element.status.label}} </td>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'driver'">
-                          <td mat-cell *matCellDef="let element"> {{element.driver.surname}} {{element.driver.name}} </td>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'departureSite'">
-                          <td mat-cell *matCellDef="let element"> {{element.site.label}} </td>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'startDate'">
-                          <td mat-cell *matCellDef="let element"> {{element[column] | date: 'fullDate' }} </td>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'endDate'">
-                          <td mat-cell *matCellDef="let element"> {{element[column] | date: 'fullDate' }} </td>
-                        </ng-container>
-                        <ng-container *ngSwitchDefault>
-                          <td mat-cell *matCellDef="let element" style="text-align: right"> <mat-icon style="cursor: pointer">expand_more</mat-icon> </td>
-                        </ng-container>
-                      </ng-container>
-                    </ng-container>
+  <mat-card style='margin-bottom: 0;' class='wrapper-card'>
+    <mat-card-header class='wrapper-card-header'>
+      <mat-card-title>
+        <form [formGroup]='filterForm'>
+          <div id='filters' class='filters'>
+            <mat-form-field class='login-wrapper'>
+              <mat-label>Rechercher</mat-label>
+              <input matInput id='search' formControlName="search" (keyup)='applySearchFilter($event)' #input>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Date de début</mat-label>
+              <input [max]='getMaxDate()' matInput [matDatepicker]='picker' formControlName="start" (dateChange)='applyDateFilter($event)'>
+              <mat-datepicker-toggle matSuffix [for]='picker'></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Date de fin</mat-label>
+              <input [min]='getMinDate()' matInput [matDatepicker]='picker2' formControlName="end" (dateChange)='applyDateFilter($event)'>
+              <mat-datepicker-toggle matSuffix [for]='picker2'></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>États</mat-label>
+              <mat-select [value]='getDefaultSelectValue()' formControlName="status">
+                <mat-option *ngFor='let etat of status' [value]='etat.label'
+                            (onSelectionChange)='filterByStatus($event)'>
+                  {{etat.label}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </form>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content style='margin: 2em; position: relative;' class='wrapper-card-content'>
+      <div class='mat-elevation-z8'>
+        <table mat-table
+               [dataSource]='dataSource' multiTemplateDataRows
+               matSort>
+          <ng-container matColumnDef='{{column}}' *ngFor='let column of columnsToDisplay'>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columsName[column]}} </th>
+            <ng-container [ngSwitch]='column'>
+              <ng-container *ngSwitchCase="'status'">
+                <td mat-cell *matCellDef='let loan'> {{loan.status.label}} </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'driver'">
+                <td mat-cell *matCellDef='let loan'> {{loan.driver.surname}} {{loan.driver.name}} </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'departureSite'">
+                <td mat-cell *matCellDef='let loan'> {{loan.departureSite.label}} </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'arrivalSite'">
+                <td mat-cell *matCellDef='let loan'> {{loan.arrivalSite.label}} </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'startDate'">
+                <td mat-cell *matCellDef='let loan'> {{loan[column] | date: 'fullDate' }} </td>
+              </ng-container>
+              <ng-container *ngSwitchCase="'endDate'">
+                <td mat-cell *matCellDef='let loan'> {{loan[column] | date: 'fullDate' }} </td>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                <td mat-cell *matCellDef='let loan' style='text-align: right'>
+                  <mat-icon style='cursor: pointer'>expand_more</mat-icon>
+                </td>
+              </ng-container>
+            </ng-container>
+          </ng-container>
 
-                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-                    <ng-container matColumnDef="expandedDetail">
-                        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-                        <div class='element-detail'
-                                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                          
-                          <div class='element-description'>
-                            <mat-card class='vehicule-detail'>
-                              <mat-card-header>
-                                <mat-card-title>
-                                  <div class="detail-card-title">
-                                    <mat-icon aria-hidden="false" color='primary'>directions_car</mat-icon>
-                                    Véhicule
-                                  </div>
-                                </mat-card-title>
-                              </mat-card-header>
-                              <mat-card-content>
-                                <div *ngIf='element.lentVehicule; else noVehicule'>
-                                  {{ element.lentVehicule.libelle }}
-                                  {{ element.lentVehicule.model }}
-                                </div>
-                                <ng-template #noVehicule>
-                                  <div>Aucun véhicule n'est affecté à cette réservation</div>
-                                </ng-template>
-                              </mat-card-content>
-                            </mat-card>
-                            <mat-card class='site-detail'>
-                              <mat-card-header>
-                                <mat-card-title>
-                                  <div class="detail-card-title">
-                                    <mat-icon aria-hidden="false" color='primary'>home_work</mat-icon>
-                                    Intinéraire
-                                  </div>
-                                </mat-card-title>
-                              </mat-card-header>
-                              <mat-card-content>
-                                <div *ngIf='element.site; else noSite'>
-                                  Départ :
-                                  {{ element.site.adress }}
-                                  {{ element.site.postalCode }}
-                                  {{ element.site.city }}
-                                </div>
-                                <ng-template #noSite>
-                                  <div>Aucun véhicule n'est affecté à cette réservation</div>
-                                </ng-template>
-                                <div>
-                                  Arrivée :
-                                </div>
-                              </mat-card-content>
-                            </mat-card>
-                            <mat-card class='other-detail'>
-                              <mat-card-header>
-                                <mat-card-title>
-                                  <div class="detail-card-title">
-                                    <mat-icon aria-hidden="false" color='primary'>info</mat-icon>
-                                    Autres
-                                  </div>
-                                </mat-card-title>
-                              </mat-card-header>
-                              <mat-card-content>
-                                <div>
-                                  <div>Conducteur : {{ element.driver.surname }} {{ element.driver.name }}</div>
-                                  <div>Covoitureur :</div>
-                                </div>
-                              </mat-card-content>
-                            </mat-card>
-                          </div>
-                          <div style='display: flex; align-items: center; justify-content: space-evenly; flex-direction: column'>
-                            <button mat-button color="primary" *ngIf='!isLoanActive(element)' (click)="this.openLoanModal('update', element)">Modifier</button>
-                            <button mat-button color="primary" *ngIf='isLoanActive(element)' (click)="this.openLoanModal('read', element)">Consulter</button>
-                            <button mat-button color="warn" *ngIf="!isEndDatePassed(element)">Clôturer</button>
-                          </div>
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef='expandedDetail'>
+            <td mat-cell *matCellDef='let loan' [attr.colspan]='columnsToDisplay.length'>
+              <div class='element-detail'
+                   [@detailExpand]="loan == expandedElement ? 'expanded' : 'collapsed'">
+
+                <div class='element-description'>
+                  <mat-card class='vehicule-detail'>
+                    <mat-card-header>
+                      <mat-card-title>
+                        <div class='detail-card-title'>
+                          <mat-icon aria-hidden='false' color='primary'>directions_car</mat-icon>
+                          Véhicule
                         </div>
-                        </td>
-                    </ng-container>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div *ngIf='loan.lentVehicule; else noVehicule'>
+                        <div>
+                          Marque : {{ loan.lentVehicule.libelle }}
+                        </div>
+                        <div>
+                          Modèle : {{ loan.lentVehicule.model }}
+                        </div>
+                        <div>
+                          Immatriculation : {{ loan.lentVehicule.immatriculation }}
+                        </div>
+                      </div>
+                      <ng-template #noVehicule>
+                        <div>Aucun véhicule n'est affecté à cette réservation</div>
+                      </ng-template>
+                    </mat-card-content>
+                  </mat-card>
+                  <mat-card class='site-detail'>
+                    <mat-card-header>
+                      <mat-card-title>
+                        <div class='detail-card-title'>
+                          <mat-icon aria-hidden='false' color='primary'>mode_of_travel</mat-icon>
+                          Intinéraire
+                        </div>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content style='display: flex'>
+                      <div *ngIf='loan.departureSite' style='width: 50%'>
+                        <h3>Départ :</h3>
+                        <div>
+                          {{ loan.departureSite.adress }}
+                        </div>
+                        <div>
+                          {{ loan.departureSite.postalCode }}, {{ loan.departureSite.city }}
+                        </div>
+                      </div>
+                      <div *ngIf='loan.arrivalSite' style='width: 50%'>
+                        <h3>Arrivé :</h3>
+                        <div>
+                          {{ loan.arrivalSite.adress }}
+                        </div>
+                        <div>
+                          {{ loan.arrivalSite.postalCode }}, {{ loan.arrivalSite.city }}
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                  <mat-card class='other-detail'>
+                    <mat-card-header>
+                      <mat-card-title>
+                        <div class='detail-card-title'>
+                          <mat-icon aria-hidden='false' color='primary'>info</mat-icon>
+                          Autres
+                        </div>
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <div>
+                        <div>Conducteur : {{ loan.driver.surname }} {{ loan.driver.name }}</div>
+<!--                        <div>Covoitureur :</div>-->
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+                <div class='button-wrapper'>
+                  <button mat-button color='primary' *ngIf='isUpdateButtonActive(loan)'
+                          (click)="this.updateLoan(loan)">Modifier
+                  </button>
+                  <button mat-button color='primary' *ngIf='isReadButtonActive(loan)'
+                          (click)="this.openLoanModal('read', loan)">Consulter
+                  </button>
+                  <button mat-button color='warn' *ngIf='isCloseLoanButtonActive(loan)' (click)='closeLoan(loan)'>
+                    Clôturer
+                  </button>
+                  <button mat-button color='warn' *ngIf='isCancelButtonActive(loan)' (click)='cancelLoan(loan)'>
+                    Annuler
+                  </button>
+                  <button mat-button class='valid-button' *ngIf='isAwaitingValidation(loan) && isAdmin'
+                          (click)='validateLoan(loan)'>Valider
+                  </button>
+                </div>
+              </div>
+            </td>
+          </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-                    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-                        class='element-row'
-                        [class.expanded-row]="expandedElement === element"
-                        (click)="expandedElement = expandedElement === element ? null : element">
-                    </tr>
-                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class='detail-row'></tr>
-                    <tr class="mat-row" *matNoDataRow>
-<!--                        <td class="mat-cell" colspan="4">Aucune donnée ne correspond à  "{{input.value}}"</td>-->
-                        <td class="mat-cell" colspan="4">Aucune donnée trouvée</td>
-                    </tr>
-                </table>
-            </div>
-        </mat-card-content>
-    </mat-card>
+          <tr mat-header-row *matHeaderRowDef='columnsToDisplay; sticky: true'></tr>
+          <tr mat-row *matRowDef='let loan; columns: columnsToDisplay;'
+              class='element-row'
+              [class.expanded-row]='expandedElement === loan'
+              (click)='expandedElement = expandedElement === loan ? null : loan'>
+          </tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class='detail-row'></tr>
+          <tr class='mat-row' *matNoDataRow>
+            <td class='mat-cell' colspan='4'>Aucune donnée trouvée</td>
+          </tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
