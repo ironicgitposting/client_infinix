@@ -4,9 +4,11 @@ export class Setting {
     @autoserializeAs('id')
     id: number;
     @autoserializeAs('label')
-    surname: string;
+    label: string;
     @autoserializeAs('description')
-    name: string;
+    description: string;
     @autoserializeAs('flag')
-    profession: number;
+    flag: number;
+    @autoserializeAs('type')
+    type: number;
 }
