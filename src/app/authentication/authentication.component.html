@@ -1,123 +1,126 @@
-<div id="wrapper" class="wrapper">
-    <canvas #canvas></canvas>
-    <div id="container" class="container">
-      <span id="app-name" class="app-name">
-        INFINIX FLEET
-      </span>
-      <mat-card id="authentication" class="authentification" *ngIf="!isRegisterForm">
-        <mat-card-header>
-          <mat-card-title>Connexion</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <form class="login-form-group" [formGroup]="loginForm" (keydown)="sendForm($event)">
-            <mat-form-field class="login-wrapper">
-              <mat-label>Adresse mail</mat-label>
-              <input matInput id="login" formControlName="email">
-              <mat-error *ngIf="loginFormControls.email.touched && loginFormControls.email.invalid && loginFormControls.email.errors?.required" class="alert alert-danger">
-                Adresse mail requise.
-              </mat-error>
-              <mat-error *ngIf="loginFormControls.email.touched && loginFormControls.email.invalid && loginFormControls.email.errors?.email" class="alert alert-danger">
-                Le format de l'adresse mail n'est pas correct.
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field class="password-wrapper">
-              <mat-label>Mot de passe</mat-label>
-              <input matInput type="password" id="password" formControlName="password">
-              <mat-error *ngIf="loginFormControls.password.touched && loginFormControls.password.invalid && loginFormControls.password.errors?.required" class="alert alert-danger">
-                Mot de passe requis.
-              </mat-error>
-              <mat-error *ngIf="loginFormControls.password.touched && loginFormControls.password.invalid && loginFormControls.password.errors?.pattern" class="alert alert-danger">
-                Le mot de passe doit contenir au moins 8 caractères dont une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.
-              </mat-error>
-            </mat-form-field>
-            <div style="width: 100%; height: auto; display:flex; justify-content: flex-end;">
-              <button mat-button>Mot de passe oublié ?</button>
+<div *ngIf="IsMobile()"></div>
+<div id="auth-container">
+  <div id="wrapper" class="wrapper">
+      <canvas #canvas></canvas>
+      <div id="container" class="container">
+        <span id="app-name" class="app-name">
+          INFINIX FLEET
+        </span>
+        <mat-card id="authentication" class="authentification" *ngIf="!isRegisterForm">
+          <mat-card-header>
+            <mat-card-title>Connexion</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form class="login-form-group" [formGroup]="loginForm" (keydown)="sendForm($event)">
+              <mat-form-field class="login-wrapper">
+                <mat-label>Adresse mail</mat-label>
+                <input matInput id="login" formControlName="email">
+                <mat-error *ngIf="loginFormControls.email.touched && loginFormControls.email.invalid && loginFormControls.email.errors?.required" class="alert alert-danger">
+                  Adresse mail requise.
+                </mat-error>
+                <mat-error *ngIf="loginFormControls.email.touched && loginFormControls.email.invalid && loginFormControls.email.errors?.email" class="alert alert-danger">
+                  Le format de l'adresse mail n'est pas correct.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="password-wrapper">
+                <mat-label>Mot de passe</mat-label>
+                <input matInput type="password" id="password" formControlName="password">
+                <mat-error *ngIf="loginFormControls.password.touched && loginFormControls.password.invalid && loginFormControls.password.errors?.required" class="alert alert-danger">
+                  Mot de passe requis.
+                </mat-error>
+                <mat-error *ngIf="loginFormControls.password.touched && loginFormControls.password.invalid && loginFormControls.password.errors?.pattern" class="alert alert-danger">
+                  Le mot de passe doit contenir au moins 8 caractères dont une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.
+                </mat-error>
+              </mat-form-field>
+              <div style="width: 100%; height: auto; display:flex; justify-content: flex-end;">
+                <button mat-button>Mot de passe oublié ?</button>
+              </div>
+            </form>
+            <div class="error" id="login-error" *ngIf="wrongId">
+              Les identifiants de connexion sont incorrects
             </div>
-          </form>
-          <div class="error" id="login-error" *ngIf="wrongId">
-            Les identifiants de connexion sont incorrects
-          </div>
-          <button mat-raised-button color="primary" class='connect-button' (click)="login()" #loginButton>Connexion</button>
-          <button mat-button (click)="toggleRegisterForm()">Créer un compte</button>
+            <button mat-raised-button color="primary" class='connect-button' (click)="login()" #loginButton>Connexion</button>
+            <button mat-button class='create-account-button' (click)="toggleRegisterForm()">Créer un compte</button>
+          </mat-card-content>
+        </mat-card>
+        <mat-card id="register" class="register" *ngIf="isRegisterForm">
+          <mat-card-header>
+            <mat-card-title>Création de compte</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form class="register-form-group" [formGroup]="registerForm" (keydown)="sendForm($event)">
+              <mat-form-field>
+                <mat-label>Nom</mat-label>
+                <input matInput id="surname" formControlName="surname">
+                <mat-error *ngIf="registerFormControls.surname.touched && registerFormControls.surname.invalid && registerFormControls.surname.errors?.required" class="alert alert-danger">
+                  Nom requis.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Prénom</mat-label>
+                <input matInput id="name" formControlName="name">
+                <mat-error *ngIf="registerFormControls.name.touched && registerFormControls.name.invalid && registerFormControls.name.errors?.required" class="alert alert-danger">
+                  Prénom requis.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Adresse mail</mat-label>
+                <input matInput id="email" formControlName="email">
+                <mat-error *ngIf="registerFormControls.email.touched && registerFormControls.email.invalid && registerFormControls.email.errors?.required" class="alert alert-danger">
+                  Adresse mail requise.
+                </mat-error>
+                <mat-error *ngIf="registerFormControls.email.touched && registerFormControls.email.invalid && registerFormControls.email.errors?.email" class="alert alert-danger">
+                  Le format de l'adresse mail n'est pas correct.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Confirmez votre adresse mail</mat-label>
+                <input matInput id="emailConfirm" formControlName="emailConfirm">
+                <mat-error *ngIf="registerFormControls.emailConfirm.touched && registerFormControls.emailConfirm.invalid && registerFormControls.emailConfirm.errors?.required" class="alert alert-danger">
+                  Adresse mail requise.
+                </mat-error>
+                <mat-error *ngIf="registerFormControls.emailConfirm.touched && registerFormControls.emailConfirm.invalid && registerFormControls.emailConfirm.errors?.confirmedValidator">
+                  Les adresses mail ne correspondent pas.
+                </mat-error>
+                <mat-error *ngIf="registerFormControls.emailConfirm.touched && registerFormControls.emailConfirm.invalid && registerFormControls.emailConfirm.errors?.email" class="alert alert-danger">
+                  Le format de l'adresse mail n'est pas correct.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Mot de passe</mat-label>
+                <input matInput type="password" id="password" formControlName="password">
+                <mat-error *ngIf="registerFormControls.password.touched && registerFormControls.password.invalid && registerFormControls.password.errors?.required" class="alert alert-danger">
+                  Mot de passe requis.
+                </mat-error>
+                <mat-error *ngIf="registerFormControls.password.touched && registerFormControls.password.invalid && registerFormControls.password.errors?.pattern" class="alert alert-danger">
+                  Le mot de passe doit contenir au moins 8 caractères dont une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Confirmez votre mot de passe</mat-label>
+                <input matInput type="password" id="passwordConfirm" formControlName="passwordConfirm">
+                <mat-error *ngIf="registerFormControls.passwordConfirm.touched && registerFormControls.passwordConfirm.invalid && registerFormControls.passwordConfirm.errors?.required" class="alert alert-danger">
+                  Mot de passe requis.
+                </mat-error>
+                <mat-error *ngIf="registerFormControls.passwordConfirm.touched && registerFormControls.passwordConfirm.invalid && registerFormControls.passwordConfirm.errors?.confirmedValidator">
+                  Les mots de passe ne correspondent pas.
+                </mat-error>
+                <mat-error *ngIf="registerFormControls.passwordConfirm.touched && registerFormControls.passwordConfirm.invalid && registerFormControls.passwordConfirm.errors?.pattern" class="alert alert-danger">
+                  Le mot de passe doit contenir au moins 8 caractères dont une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Téléphone</mat-label>
+                <input matInput id="phone" formControlName="phone">
+                <mat-error *ngIf="registerFormControls.phone.touched && registerFormControls.phone.invalid && registerFormControls.phone.errors?.required" class="alert alert-danger">
+                  Numéro de téléphone requis.
+                </mat-error>
+              </mat-form-field>
+            </form>
+            <button mat-raised-button color="primary" class="connect-button" (click)="register()" #registerButton>Créer mon compte</button>
+            <button mat-button class="already-existing-account" (click)="toggleRegisterForm()">J'ai déjà un compte</button>
         </mat-card-content>
-      </mat-card>
-      <mat-card id="register" class="register" *ngIf="isRegisterForm">
-        <mat-card-header>
-          <mat-card-title>Création de compte</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <form class="register-form-group" [formGroup]="registerForm" (keydown)="sendForm($event)">
-            <mat-form-field>
-              <mat-label>Nom</mat-label>
-              <input matInput id="surname" formControlName="surname">
-              <mat-error *ngIf="registerFormControls.surname.touched && registerFormControls.surname.invalid && registerFormControls.surname.errors?.required" class="alert alert-danger">
-                Nom requis.
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Prénom</mat-label>
-              <input matInput id="name" formControlName="name">
-              <mat-error *ngIf="registerFormControls.name.touched && registerFormControls.name.invalid && registerFormControls.name.errors?.required" class="alert alert-danger">
-                Prénom requis.
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Adresse mail</mat-label>
-              <input matInput id="email" formControlName="email">
-              <mat-error *ngIf="registerFormControls.email.touched && registerFormControls.email.invalid && registerFormControls.email.errors?.required" class="alert alert-danger">
-                Adresse mail requise.
-              </mat-error>
-              <mat-error *ngIf="registerFormControls.email.touched && registerFormControls.email.invalid && registerFormControls.email.errors?.email" class="alert alert-danger">
-                Le format de l'adresse mail n'est pas correct.
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Confirmez votre adresse mail</mat-label>
-              <input matInput id="emailConfirm" formControlName="emailConfirm">
-              <mat-error *ngIf="registerFormControls.emailConfirm.touched && registerFormControls.emailConfirm.invalid && registerFormControls.emailConfirm.errors?.required" class="alert alert-danger">
-                Adresse mail requise.
-              </mat-error>
-              <mat-error *ngIf="registerFormControls.emailConfirm.touched && registerFormControls.emailConfirm.invalid && registerFormControls.emailConfirm.errors?.confirmedValidator">
-                Les adresses mail ne correspondent pas.
-              </mat-error>
-              <mat-error *ngIf="registerFormControls.emailConfirm.touched && registerFormControls.emailConfirm.invalid && registerFormControls.emailConfirm.errors?.email" class="alert alert-danger">
-                Le format de l'adresse mail n'est pas correct.
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Mot de passe</mat-label>
-              <input matInput type="password" id="password" formControlName="password">
-              <mat-error *ngIf="registerFormControls.password.touched && registerFormControls.password.invalid && registerFormControls.password.errors?.required" class="alert alert-danger">
-                Mot de passe requis.
-              </mat-error>
-              <mat-error *ngIf="registerFormControls.password.touched && registerFormControls.password.invalid && registerFormControls.password.errors?.pattern" class="alert alert-danger">
-                Le mot de passe doit contenir au moins 8 caractères dont une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Confirmez votre mot de passe</mat-label>
-              <input matInput type="password" id="passwordConfirm" formControlName="passwordConfirm">
-              <mat-error *ngIf="registerFormControls.passwordConfirm.touched && registerFormControls.passwordConfirm.invalid && registerFormControls.passwordConfirm.errors?.required" class="alert alert-danger">
-                Mot de passe requis.
-              </mat-error>
-              <mat-error *ngIf="registerFormControls.passwordConfirm.touched && registerFormControls.passwordConfirm.invalid && registerFormControls.passwordConfirm.errors?.confirmedValidator">
-                Les mots de passe ne correspondent pas.
-              </mat-error>
-              <mat-error *ngIf="registerFormControls.passwordConfirm.touched && registerFormControls.passwordConfirm.invalid && registerFormControls.passwordConfirm.errors?.pattern" class="alert alert-danger">
-                Le mot de passe doit contenir au moins 8 caractères dont une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Téléphone</mat-label>
-              <input matInput id="phone" formControlName="phone">
-              <mat-error *ngIf="registerFormControls.phone.touched && registerFormControls.phone.invalid && registerFormControls.phone.errors?.required" class="alert alert-danger">
-                Numéro de téléphone requis.
-              </mat-error>
-            </mat-form-field>
-          </form>
-          <button mat-raised-button color="primary" class="connect-button" (click)="register()" #registerButton>Créer mon compte</button>
-          <button mat-button (click)="toggleRegisterForm()">J'ai déjà un compte</button>
-      </mat-card-content>
-      </mat-card>
-    </div>
+        </mat-card>
+      </div>
+  </div>
 </div>

@@ -10,6 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { HistoricalVehicleModal } from './historical-vehicle-modal/historical-vehicule-modal.component';
 import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
 import { MessageService } from '../common/services/message.service';
+import { Device } from '../common/device';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -141,5 +142,10 @@ export class VehiclesListComponent implements OnInit {
       }
     });
 
+  }
+
+  IsMobile(){
+    Device.definedUseDevice('vehicle-container');
+    return Device.isMobileDevice();
   }
 }

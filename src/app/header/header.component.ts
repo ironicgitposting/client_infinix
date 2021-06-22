@@ -2,6 +2,7 @@ import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { User } from '../users-list/user.model';
 import * as moment from 'moment';
+import { Device } from '../common/device'
 import { LoanService } from '../loan/loan.service';
 import { LoanDataModel } from '../loan/loan.data.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -55,21 +56,22 @@ export class HeaderComponent implements OnInit {
     if (!this.connectedUser.profile) {
       this.userProfile = 'Administrateur';
     }
-
-    this.loanService.getLoansByStatus(1).subscribe(loan => {
-      this.notificationCount = loan.notificationCount.count;
-      this.rowsBookingsValider = loan.notificationCount.rows;
-    });
-
-    this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
-      this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
-      this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
-     });
-
-
-
-
   }
+  IsMobile(){
+    Device.definedUseDevice('header-container');
+    return Device.isMobileDevice();
+  }
+  this.loanService.getLoansByStatus(1).subscribe(loan => {
+    this.notificationCount = loan.notificationCount.count;
+    this.rowsBookingsValider = loan.notificationCount.rows;
+  });
+
+  this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
+    this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
+    this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
+   });
+
+
 
   /**
    * Déconnexion
