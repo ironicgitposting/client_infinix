@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
 
   public rowsBookingsValider: any[];
 
-
+  
   /**
    * Date du jour au format string
    */
@@ -49,33 +49,28 @@ export class HeaderComponent implements OnInit {
     public dialog2: MatDialog,
     @Inject(LOCALE_ID) public locale: string
   ) { }
-
+  /**
+     * Déconnexion
+     */
+  
   ngOnInit(): void {
     const localStorageUser: string = localStorage.getItem('connectedUser') || '';
     this.connectedUser = JSON.parse(localStorageUser);
     if (!this.connectedUser.profile) {
       this.userProfile = 'Administrateur';
     }
+
+    this.loanService.getLoansByStatus(1).subscribe(loan => {
+      this.notificationCount = loan.notificationCount.count;
+      this.rowsBookingsValider = loan.notificationCount.rows;
+    });
+  
+    this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
+      this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
+      this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
+     });
   }
-  IsMobile(){
-    Device.definedUseDevice('header-container');
-    return Device.isMobileDevice();
-  }
-  this.loanService.getLoansByStatus(1).subscribe(loan => {
-    this.notificationCount = loan.notificationCount.count;
-    this.rowsBookingsValider = loan.notificationCount.rows;
-  });
 
-  this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
-    this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
-    this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
-   });
-
-
-
-  /**
-   * Déconnexion
-   */
   public logout(): void {
     this.authenticationService.logout();
   }
@@ -86,7 +81,7 @@ export class HeaderComponent implements OnInit {
    * @param mode Mode d'ouverture => Création / modification
    * @param loan
    */
-  public openLoanInProgress(mode: string, loan: LoanDataModel | null): void {
+   public openLoanInProgress(mode: string, loan: LoanDataModel | null): void {
     const dialogRef = this.dialog2.open(LoanInProgressComponent, {
       data: { mode: mode, loan: loan }
     });
@@ -98,6 +93,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-
+  IsMobile(){
+    Device.definedUseDevice('header-container');
+    return Device.isMobileDevice();
+  }
 
 }
+
