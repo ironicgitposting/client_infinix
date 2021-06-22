@@ -96,7 +96,7 @@
 
         .header-right-part{
             width: 100%;
-            position: relative;
+            position: absolute;
 
             .header-center{
                 justify-content: center;
@@ -106,10 +106,19 @@
                     height: 75%;
                 }
             }
+
+            .ng-star-inserted{
+                align-items: center;
+                position: relative;
+                margin: 12px 20px 12px 0px;
+            }
+
             .user-part{
-                padding-right: 5%;
                 .user-connected{
                     display: none;
+                }
+                .logout{
+                    margin-right: 5px;
                 }
             }
         }
