@@ -17,8 +17,13 @@ export class MailingPanelComponent implements OnInit, AfterViewInit {
 
 
   toggleMailingOption(element: any, event: any) {
-    console.log(element, event);
+    if (event.checked) {
+      element.flag = 1;
+    } else {
+      element.flag = 0;
+    }
     // Update Service
+    this.adminService.updateSetting(element)
   }
 
   ngAfterViewInit(): void { }
