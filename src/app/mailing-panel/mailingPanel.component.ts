@@ -28,10 +28,4 @@ export class MailingPanelComponent implements OnInit, AfterViewInit {
       this.settings = settings;
     })
   }
-
-  public getMailSettings() {
-    return this.settings.filter((setting) => {
-      setting.type == 1
-    })
-  }
 }

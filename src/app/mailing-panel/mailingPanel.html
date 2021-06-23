@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="getMailSettings()" class="mat-elevation-z8">
+<table mat-table [dataSource]="settings" class="mat-elevation-z8">
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
 
@@ -17,7 +17,8 @@
   <ng-container matColumnDef="active">
     <th mat-header-cell *matHeaderCellDef>Active</th>
     <mat-cell *matCellDef="let element">
-      <mat-slide-toggle [checked]="element.active" (change)="toggleMailingOption(element, $event)"></mat-slide-toggle>
+      <mat-slide-toggle [checked]="element.flag == 1" (change)="toggleMailingOption(element, $event)">
+      </mat-slide-toggle>
     </mat-cell>
   </ng-container>
 
