@@ -1,21 +1,33 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { Common } from '../common/common';
 import { AuthenticationDataModel } from './authentication.data.model';
 import { AuthenticationService } from './authentication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageService } from '../common/services/message.service';
-import { Device } from '../common/device'
+import { Device } from '../common/device';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'authentication',
   templateUrl: './authentication.component.html',
-  styleUrls: ['./authentication.component.less']
+  styleUrls: ['./authentication.component.less'],
 })
-
 export class AuthenticationComponent implements OnInit, AfterViewInit {
-
-  public static readonly PASSWORD_REGEXP: string = '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,}$';
+  public static readonly PASSWORD_REGEXP: string =
+    '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&]).{8,}$';
 
   /**
    * Conditionne l'affichage du formulaire d'inscription ou de connexion
@@ -38,47 +50,50 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
   /**
    * Getter des contrôles du formulaire d'inscription
    */
-  get registerFormControls(): {[p: string]: AbstractControl} {
+  get registerFormControls(): { [p: string]: AbstractControl } {
     return this.registerForm.controls;
   }
   /**
    * Getter des contrôles du formulaire de connexion
    */
-  get loginFormControls(): {[p: string]: AbstractControl} {
+  get loginFormControls(): { [p: string]: AbstractControl } {
     return this.loginForm.controls;
   }
 
-   static confirmed = (controlName: string, matchingControlName: string) => {
+  static confirmed = (controlName: string, matchingControlName: string) => {
     return (control: AbstractControl) => {
       if (control && control.parent) {
         const input = control.parent.get(controlName);
         const matchingInput = control.parent.get(matchingControlName);
 
         if (input === null || matchingInput === null) {
-            return null;
+          return null;
         }
 
         if (matchingInput?.errors && !matchingInput.errors.confirmedValidator) {
-            return null;
+          return null;
         }
 
         if (input.value !== matchingInput.value) {
-            matchingInput.setErrors({ confirmedValidator: true });
-            return ({ confirmedValidator: true });
+          matchingInput.setErrors({ confirmedValidator: true });
+          return { confirmedValidator: true };
         } else {
-            matchingInput.setErrors(null);
-            return null;
+          matchingInput.setErrors(null);
+          return null;
         }
       } else {
         return null;
       }
     };
-}
+  };
 
-  public constructor(private fb: FormBuilder,
-                     private authenticationService: AuthenticationService,
-                     private _snackBar: MatSnackBar,
-                     private msgService: MessageService) {
+  public constructor(
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private _snackBar: MatSnackBar,
+    private msgService: MessageService,
+    private router: Router,
+  ) {
     this.registerForm = this.fb.group({
       name: new FormControl('', Validators.required),
       surname: new FormControl('', Validators.required),
@@ -93,38 +108,34 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
         AuthenticationComponent.confirmed('password', 'passwordConfirm'),
         Validators.pattern(AuthenticationComponent.PASSWORD_REGEXP),
       ]),
-      email: new FormControl('', [
-        Validators.email,
-        Validators.required
-      ]),
+      email: new FormControl('', [Validators.email, Validators.required]),
       emailConfirm: new FormControl('', [
         Validators.email,
         Validators.required,
-        AuthenticationComponent.confirmed('email', 'emailConfirm')
+        AuthenticationComponent.confirmed('email', 'emailConfirm'),
       ]),
       phone: new FormControl('', [
         Validators.required,
         Validators.minLength(10),
-        Validators.maxLength(10)
-      ])
+        Validators.maxLength(10),
+      ]),
     });
     this.loginForm = this.fb.group({
-      email: new FormControl('', [
-        Validators.email,
-        Validators.required
-      ]),
+      email: new FormControl('', [Validators.email, Validators.required]),
       password: new FormControl('', [
         Validators.minLength(8),
         Validators.required,
         Validators.pattern(AuthenticationComponent.PASSWORD_REGEXP),
-      ])
+      ]),
     });
   }
 
-  public ngOnInit(): void {        
-    this.authenticationService.getAuthStatusListener().subscribe(authStatus => {
-      this.wrongId = !authStatus;
-    });
+  public ngOnInit(): void {
+    this.authenticationService
+      .getAuthStatusListener()
+      .subscribe((authStatus) => {
+        this.wrongId = !authStatus;
+      });
   }
 
   public ngAfterViewInit(): void {
@@ -175,15 +186,28 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
   }
 
   public sendForm(event: KeyboardEvent): void {
-
-    if (event.code && (event.code.toLowerCase() === 'enter' || event.code.toLowerCase() === 'numpadenter') && !this.isRegisterForm) {
+    if (
+      event.code &&
+      (event.code.toLowerCase() === 'enter' ||
+        event.code.toLowerCase() === 'numpadenter') &&
+      !this.isRegisterForm
+    ) {
       this.login();
-    } else if (event.code && (event.code.toLowerCase() === 'enter' || event.code.toLowerCase() === 'numpadenter') && this.isRegisterForm) {
+    } else if (
+      event.code &&
+      (event.code.toLowerCase() === 'enter' ||
+        event.code.toLowerCase() === 'numpadenter') &&
+      this.isRegisterForm
+    ) {
       this.register();
     }
   }
 
-  IsMobile(){
+  public redirectToPasswordReset(): void {
+    this.router.navigate(['/resetPassword']);
+  }
+
+  IsMobile() {
     Device.definedUseDevice('auth-container');
     return Device.isMobileDevice();
   }

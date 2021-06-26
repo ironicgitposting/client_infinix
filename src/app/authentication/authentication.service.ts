@@ -148,4 +148,18 @@ export class AuthenticationService {
         this.router.navigate(['/']);
       });
   }
+
+  changeUserPassword(data: {
+    token: string;
+    userId: number;
+    clearPassword: any;
+  }) {
+    this.httpClient
+      .post('http://localhost:3000/api/v1/users/resetPassword', data)
+      .subscribe((response) => {
+        console.log(response);
+
+        this.router.navigate(['/']);
+      });
+  }
 }

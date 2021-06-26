@@ -5,6 +5,7 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './authentication/auth.guard';
 import { ResetPasswordMailComponent } from './reset-password-mail/reset-password-mail.component';
+import { ResetPasswordFormComponent } from './reset-password-form/reset-password-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'site', component: LayoutComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: LayoutComponent, canActivate: [AuthGuard] },
   { path: 'resetPassword', component: ResetPasswordMailComponent },
+  { path: 'reset/:id/:token', component: ResetPasswordFormComponent },
 ];
 
 @NgModule({
