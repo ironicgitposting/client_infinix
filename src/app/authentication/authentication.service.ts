@@ -135,4 +135,17 @@ export class AuthenticationService {
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('connectedUser');
   }
+
+  sendPasswordResetMail(email: string) {
+    this.httpClient
+      .post('http://localhost:3000/api/v1/users/resetPassword/' + email, {
+        email: email,
+      })
+      .subscribe((response) => {
+        debugger;
+        console.log(response);
+        // TODO: redirect to confirmation page
+        this.router.navigate(['/']);
+      });
+  }
 }
