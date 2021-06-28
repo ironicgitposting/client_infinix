@@ -16,6 +16,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { StatusEnum } from '../common/models/status.enum';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { FamilyStatusEnum } from '../common/models/familyStatus.enum';
+import { Device } from '../common/device';
 
 @Component({
   selector: 'app-loan',
@@ -445,4 +446,10 @@ export class LoanComponent implements OnInit {
   public isCancelButtonActive(loan: LoanDataModel): boolean {
     return (this.isAwaitingValidation(loan) || this.isLoanValidated(loan)) && !this.isEndDatePassed(loan) && !this.isLoanActive(loan);
   }
+
+  IsMobile(){
+    Device.definedUseDevice('loan-container');
+    return Device.isMobileDevice();
+  }
+
 }

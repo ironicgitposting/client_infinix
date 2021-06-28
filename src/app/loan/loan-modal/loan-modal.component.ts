@@ -11,6 +11,7 @@ import { SiteService } from '../../sites-list/sitesList.service';
 import { StatusEnum } from '../../common/models/status.enum';
 import { Vehicle } from '../../vehicles-list/vehicle.model';
 import { VehicleService } from '../../vehicles-list/vehicle-list.service';
+import { Device } from '../../common/device';
 import * as moment from 'moment';
 
 @Component({
@@ -230,5 +231,10 @@ export class LoanModalComponent implements OnInit {
       return this.loanForm.controls['start'].value;
     }
     return '';
+  }
+
+  IsMobile(){
+    Device.definedUseDevice('loan-modal');
+    return Device.isMobileDevice();
   }
 }
