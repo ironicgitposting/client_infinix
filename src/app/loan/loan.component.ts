@@ -85,6 +85,18 @@ export class LoanComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.statusService.getStatusByFamilyStatus(FamilyStatusEnum.bookingsFamily).subscribe(status => {
+      const statusAll: StatusModel = new StatusModel();
+      statusAll.label = 'Tous';
+      this.status.push(statusAll);
+      status.forEach(stat => {
+        this.status.push(stat);
+      });
+    });
+    this.fetchLoans();
+  }
+
+  public fetchLoans(): void {
     const localStorageUser: string = localStorage.getItem('connectedUser') || '';
     const connectedUser = JSON.parse(localStorageUser);
     this.loanService.getAllLoans(connectedUser).subscribe(loan => {
@@ -113,12 +125,12 @@ export class LoanComponent implements OnInit {
               retDate = this.filterForm.controls['start'].value.toDate().getTime() <= moment(data.startDate).toDate().getTime();
             }
           } else if (this.filterForm.controls['start'].value &&
-                    (!this.filterForm.controls['end'].value ||
-                    this.filterForm.controls['end'].value === '')) {
+            (!this.filterForm.controls['end'].value ||
+              this.filterForm.controls['end'].value === '')) {
             retDate = this.filterForm.controls['start'].value.toDate().getTime() <= moment(data.startDate).toDate().getTime();
           } else if (this.filterForm.controls['end'].value &&
-                    (!this.filterForm.controls['start'].value ||
-                    this.filterForm.controls['start'].value === '')) {
+            (!this.filterForm.controls['start'].value ||
+              this.filterForm.controls['start'].value === '')) {
             if (data.endDate) {
               retDate = this.filterForm.controls['end'].value.toDate().getTime() >= moment(data.endDate).toDate().getTime();
             } else {
@@ -139,14 +151,6 @@ export class LoanComponent implements OnInit {
       };
 
       this.dataSource.sort = this.sort;
-    });
-    this.statusService.getStatusByFamilyStatus(FamilyStatusEnum.bookingsFamily).subscribe(status => {
-      const statusAll: StatusModel = new StatusModel();
-      statusAll.label = 'Tous';
-      this.status.push(statusAll);
-      status.forEach(stat => {
-        this.status.push(stat);
-      });
     });
   }
 
@@ -199,9 +203,7 @@ export class LoanComponent implements OnInit {
       if (result && result.saved) {
         this.loanService.createLoan(result.loan).subscribe(response => {
           this.msgService.snackbar('Demande de réservation enregistrée', 'success');
-          this.loans.push(result.loan);
-          this.dataSource = new MatTableDataSource(this.loans);
-          this.dataSource.sort = this.sort;
+          this.fetchLoans();
         });
       }
     });
