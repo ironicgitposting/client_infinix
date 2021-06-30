@@ -30,7 +30,8 @@ import { SiteModalModule } from './sites-list/site-modal/site-modal.module';
 import { LoanInProgressModule } from './header/loan-in-progress/loan-in-progress.module';
 import { LoanUserModule } from './header/loan-user/loan-user.module';
 import { SinisterModule } from './sinister/sinister-modal.module';
-
+import { ResetPasswordMailModule } from './reset-password-mail/reset-password-mail.module';
+import { ResetPasswordFormModule } from './reset-password-form/reset-password-form.module';
 
 registerLocaleData(localeFr);
 
@@ -63,10 +64,14 @@ registerLocaleData(localeFr);
     AlertModule,
     ConfirmModule,
     MapModule,
-    SinisterModule
+    SinisterModule,
+    ResetPasswordMailModule,
+    ResetPasswordFormModule,
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'fr-FR' },
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'fr-FR' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
