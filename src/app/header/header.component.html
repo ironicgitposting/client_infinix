@@ -1,9 +1,11 @@
-<div id="header" class="header d-flex align-items-center flex-direction-row">
-    <div id="logo-infinix" class="logo-infinix d-flex align-items-center flex-direction-row">
-        <a href="/dashboard" class="d-flex">
-            <img src="../../assets/pictures/logoInfinix.png"/>
-        </a>
-    </div>
+<div *ngIf="IsMobile()"></div>
+<div id="header-container">
+    <div id="header" class="header d-flex align-items-center flex-direction-row">
+        <div id="logo-infinix" class="logo-infinix d-flex align-items-center flex-direction-row">
+            <a href="/dashboard" class="d-flex">
+                <img src="../../assets/pictures/logoInfinix.png"/>
+            </a>
+        </div>
     <div id="header-right-part" class="header-right-part d-flex flex-direction-row">
         <div id="header-center" class="header-center d-flex align-items-center flex-direction-row">
             <div>
@@ -20,24 +22,23 @@
             </div>
         </div>
 
-
-<div *ngIf="connectedUser.authorizationAccess === 1; then thenBlock else elseBlock"></div>
-  <ng-template #thenBlock>
-    <p>
-    <mat-icon matBadge="{{notificationCount + notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
-      <span class="cdk-visually-hidden">
-      </span>
-  </p>
-  </ng-template>
-<ng-template #elseBlock>
-  <p>
-    <mat-icon matBadge="{{notificationCount}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
-      <span class="cdk-visually-hidden">
-      </span>
-  </p>
-</ng-template>
+        <div *ngIf="connectedUser.authorizationAccess === 1; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <div class="header-notification">
+                <mat-icon matBadge="{{notificationCount + notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
+                <span class="cdk-visually-hidden">
+                </span>
+            </div>
+        </ng-template>
+        <ng-template #elseBlock>
+            <div>
+                <mat-icon matBadge="{{notificationCount}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
+                <span class="cdk-visually-hidden">
+                </span>
+            </div>
+        </ng-template>
         <div id="user-part" class="user-part d-flex align-items-center flex-direction-row">
-            <div  id="user-connected">
+            <div  id="user-connected" class="user-connected">
                 <button mat-button [matMenuTriggerFor]="menu" id="menu-user" class="menu-user">
                     <span>{{ connectedUser.surname }} {{ connectedUser.name }}</span>
                     <span style="font-size: 10px;">{{ userProfile }}</span>

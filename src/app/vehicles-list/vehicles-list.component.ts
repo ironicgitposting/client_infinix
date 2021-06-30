@@ -10,6 +10,7 @@ import { HistoricalVehicleModal } from './historical-vehicle-modal/historical-ve
 import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
 import { MessageService } from '../common/services/message.service';
 import { SinisterModal } from '../sinister/sinister-modal.component';
+import { Device } from '../common/device';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -144,6 +145,11 @@ export class VehiclesListComponent implements OnInit {
   openSinisterModal(){
     const dialogRef = this.dialog.open(SinisterModal, {
       width: "512px",
-    });
+  });
+}
+
+  IsMobile(){
+    Device.definedUseDevice('vehicle-container');
+    return Device.isMobileDevice();
   }
 }

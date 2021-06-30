@@ -1,26 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Setting } from '../admin-panel/setting.model';
+import { ApplicationSettingsService } from '../admin-panel/application-settings.service'
 
-export interface MailingOptionsElements {
-  id: number;
-  name: string;
-  description?: string;
-  active: boolean;
-}
-
-const ELEMENT_DATA: MailingOptionsElements[] = [
-  {
-    id: 1,
-    name: 'Confirmation Admin',
-    description: "Envoie du mail à l'admin après inscription utilisateur",
-    active: true,
-  },
-  {
-    id: 2,
-    name: 'Confirmation Utilisateur',
-    description: "Envoie du mail à l'utilisateur après inscription utilisateur",
-    active: false,
-  },
-];
 
 @Component({
   selector: 'mailing-panel',
@@ -28,15 +9,28 @@ const ELEMENT_DATA: MailingOptionsElements[] = [
   styleUrls: ['./mailingPanel.component.less'],
 })
 export class MailingPanelComponent implements OnInit, AfterViewInit {
-  constructor() {}
+  settings: Setting[] = [];
+  // Add adminService to constructor
+  constructor(private adminService: ApplicationSettingsService) { }
+
   displayedColumns: string[] = ['name', 'description', 'active'];
-  dataSource = ELEMENT_DATA;
+
 
   toggleMailingOption(element: any, event: any) {
-    console.log(element, event);
+    if (event.checked) {
+      element.flag = 1;
+    } else {
+      element.flag = 0;
+    }
     // Update Service
+    this.adminService.updateSetting(element)
   }
 
-  ngAfterViewInit(): void {}
-  ngOnInit(): void {}
+  ngAfterViewInit(): void { }
+
+  ngOnInit(): void {
+    this.adminService.getSettings().subscribe(settings => {
+      this.settings = settings;
+    })
+  }
 }

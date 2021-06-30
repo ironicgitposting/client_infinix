@@ -10,9 +10,9 @@ export class StatusService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public getStatus(): Observable<StatusModel[]> {
-    return this.httpClient.get('http://localhost:3000/api/v1/status/').pipe(
-      map((response: any) => { console.log(response.status); return Deserialize(response.status, StatusModel); })
+  public getStatusByFamilyStatus(familyStatus: number): Observable<StatusModel[]> {
+    return this.httpClient.get('http://localhost:3000/api/v1/status/' + familyStatus).pipe(
+      map((response: any) => Deserialize(response.status, StatusModel))
     );
   }
 

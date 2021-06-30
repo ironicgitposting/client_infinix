@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Setting } from './setting.model';
 
 export interface MailingOptionsElements {
   name: string;
@@ -12,8 +13,12 @@ export interface MailingOptionsElements {
   styleUrls: ['./adminPanel.component.less'],
 })
 export class AdminPanelComponent implements OnInit, AfterViewInit {
-  constructor() {}
+  constructor() { }
 
-  ngAfterViewInit(): void {}
-  ngOnInit(): void {}
+
+  ngAfterViewInit(): void { }
+
+  ngOnInit(): void {
+
+  }
 }

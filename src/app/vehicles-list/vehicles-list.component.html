@@ -8,6 +8,12 @@
     </button>
   </div>
   
+<div *ngIf="IsMobile()">
+</div>
+<div id='vehicle-container'>
+  <button mat-raised-button color='primary' class='add-vehicle' (click)="openVehicleModal('new', null, null)">
+    Ajouter un véhicule
+  </button>
   <mat-card class='wrapper-card'>
     <mat-card-header style='margin-bottom: 0;' class='wrapper-card-header'>
       <mat-card-title>

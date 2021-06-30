@@ -2,6 +2,7 @@ import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { User } from '../users-list/user.model';
 import * as moment from 'moment';
+import { Device } from '../common/device'
 import { LoanService } from '../loan/loan.service';
 import { LoanDataModel } from '../loan/loan.data.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,7 +35,7 @@ export class HeaderComponent implements OnInit {
 
   public rowsBookingsValider: any[];
 
-
+  
   /**
    * Date du jour au format string
    */
@@ -48,7 +49,10 @@ export class HeaderComponent implements OnInit {
     public dialog2: MatDialog,
     @Inject(LOCALE_ID) public locale: string
   ) { }
-
+  /**
+     * Déconnexion
+     */
+  
   ngOnInit(): void {
     const localStorageUser: string = localStorage.getItem('connectedUser') || '';
     this.connectedUser = JSON.parse(localStorageUser);
@@ -60,20 +64,13 @@ export class HeaderComponent implements OnInit {
       this.notificationCount = loan.notificationCount.count;
       this.rowsBookingsValider = loan.notificationCount.rows;
     });
-
+  
     this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
       this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
      });
-
-
-
-
   }
 
-  /**
-   * Déconnexion
-   */
   public logout(): void {
     this.authenticationService.logout();
   }
@@ -84,7 +81,7 @@ export class HeaderComponent implements OnInit {
    * @param mode Mode d'ouverture => Création / modification
    * @param loan
    */
-  public openLoanInProgress(mode: string, loan: LoanDataModel | null): void {
+   public openLoanInProgress(mode: string, loan: LoanDataModel | null): void {
     const dialogRef = this.dialog2.open(LoanInProgressComponent, {
       data: { mode: mode, loan: loan }
     });
@@ -96,6 +93,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-
+  IsMobile(){
+    Device.definedUseDevice('header-container');
+    return Device.isMobileDevice();
+  }
 
 }
+
