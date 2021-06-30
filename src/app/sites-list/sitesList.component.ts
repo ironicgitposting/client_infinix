@@ -4,11 +4,10 @@ import { OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 import { SiteDataModel } from "./site.model";
 import { SiteService } from "./sitesList.service";
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
-import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 import { SiteModalComponent } from "./site-modal/site-modal.component";
 import { MessageService } from "../common/services/message.service";
 import { MatSort } from "@angular/material/sort";
@@ -21,13 +20,13 @@ import { MatTableDataSource } from "@angular/material/table";
   styleUrls: ['./sitesList.component.less'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight:'0px' })),
+      state('collapsed', style({ height: '0px', minHeight: '0px' })),
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed',
-      animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
       transition('expanded <=> collapsed',
-      animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')) ]),
-],
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))]),
+  ],
 })
 export class SitesListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
@@ -35,29 +34,29 @@ export class SitesListComponent implements OnInit {
   sites: SiteDataModel[] = [];
   private sitesSub: Subscription;
 
-  ELEMENT_DATA : SiteDataModel[];
-  columnsToDisplay: string[] = ['label', 'adress', 'postalCode', 'city', 'phone', 'mail', 'pays','action'];
+  ELEMENT_DATA: SiteDataModel[];
+  columnsToDisplay: string[] = ['label', 'adress', 'postalCode', 'city', 'phone', 'mail', 'pays', 'action'];
 
   columnsName: {
-    [model : string]: string;
+    [model: string]: string;
     label: string;
     adress: string;
     postalCode: string;
     city: string;
-    phone:string;
-    mail:string;
-    pays:string;
-    action:string;
+    phone: string;
+    mail: string;
+    pays: string;
+    action: string;
   } = {
-    label: 'Nom',
-    adress: 'Adresse',
-    postalCode: 'Code Postal',
-    city: 'Ville',
-    phone: 'Télephone',
-    mail:'Email',
-    pays:'Pays',
-    action:'action',
-  };
+      label: 'Nom',
+      adress: 'Adresse',
+      postalCode: 'Code Postal',
+      city: 'Ville',
+      phone: 'Télephone',
+      mail: 'Email',
+      pays: 'Pays',
+      action: 'action',
+    };
 
   expandedElement: SiteDataModel | null;
 
@@ -106,12 +105,12 @@ export class SitesListComponent implements OnInit {
       this.ELEMENT_DATA = site;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.sort = this.sort;
-  });
+    });
 
-  this.fetchData();
-}
+    this.fetchData();
+  }
 
-fetchData() {
+  fetchData() {
     this.siteService.getSitesAvailable().subscribe(site => {
       this.ELEMENT_DATA = site;
       console.log(this.ELEMENT_DATA);
@@ -169,7 +168,7 @@ export class DialogSite implements OnInit {
     private siteService: SiteService,
     public dialogRef: MatDialogRef<DialogSite>,
     private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any) {}
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.modalSite = this.data.site;
