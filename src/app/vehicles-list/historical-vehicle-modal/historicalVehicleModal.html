@@ -34,7 +34,7 @@
                     <td mat-cell *matCellDef="let element"> {{element.driver.surname}} {{element.driver.name}} </td>
                   </ng-container>
                   <ng-container *ngSwitchCase="'departureSite'">
-                    <td mat-cell *matCellDef="let element"> {{element.site.label}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.departureSite.label}} </td>
                   </ng-container>
                   <ng-container *ngSwitchCase="'startDate'">
                     <td mat-cell *matCellDef="let element"> {{element[column] | date: 'fullDate' }} </td>

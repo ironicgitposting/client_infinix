@@ -45,27 +45,27 @@
     </mat-form-field>
   </div>
   <div>
-    <mat-form-field>
+    <mat-form-field style='width: 100%'>
       <mat-label>Etat</mat-label>
-      <input type='number'
+      <input type='text'
              matInput
              formControlName='state'>
       <mat-hint>Etat physique du véhicule (entretien)</mat-hint>
     </mat-form-field>
   </div>
 
-  <!-- TODO : AJOUTER LES SITES DYNAMIQUES -->
   <div>
     <mat-form-field style='width: 100%'>
-      <mat-label>Site</mat-label>
-      <input type='number'
-             aria-label='Site'
+      <mat-label>Site d'arrivé</mat-label>
+      <input type='text'
+             aria-label="Site de stationnement"
              matInput
              formControlName='site'
-             [matAutocomplete]='site'>
+             [matAutocomplete]='site_vehicle'>
       <mat-icon>arrow_drop_down</mat-icon>
-      <mat-autocomplete #site='matAutocomplete'>
-        <mat-option *ngFor='let site of sites' [value]='site' (onSelectionChange)='setSiteId($event, site)'>
+      <mat-autocomplete #site_vehicle='matAutocomplete'>
+        <mat-option *ngFor='let site of sites' [value]='site.label'
+                    (onSelectionChange)='setSiteId($event, site)'>
           {{ site.label }}
         </mat-option>
       </mat-autocomplete>

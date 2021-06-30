@@ -124,11 +124,14 @@
   max-width: none;
 }
 
-.add-vehicle {
+.add-button {
   position: absolute;
-  z-index: 101;
   top: 10px;
+  float: right;
   right: 60px;
+  & .add-sinister {
+    margin: 5px;
+  }
 }
 
 .mat-divider {
@@ -157,4 +160,14 @@
 
 .modal-header {
   position: relative;
+}
+
+.button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  .valid-button {
+    color: @success-color;
+  }
 }

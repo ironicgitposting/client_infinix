@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { StatusModel } from 'src/app/common/models/StatusModel';
 
 @Component({
     selector: 'dialog-modal',
@@ -49,7 +50,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 
     dataSource: MatTableDataSource<LoanDataModel>;
     
-    status = ['Tous', 'En attente de validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
+    public status: StatusModel[] = [];
 
     constructor(
       private dialogRef: MatDialogRef<HistoricalVehicleModal>,

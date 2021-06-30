@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { SiteDataModel } from '../../sites-list/site.model';
+import { SiteService } from 'src/app/sites-list/sitesList.service';
 
 @Component({
   selector: 'dialog-modal',
@@ -18,6 +19,8 @@ export class VehicleModal implements OnInit {
 
   public sites: SiteDataModel[] = [];
 
+  public site_vehicle: SiteDataModel = new SiteDataModel();
+
   public siteId: number;
 
   types = ['En validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
@@ -25,6 +28,7 @@ export class VehicleModal implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<VehicleModal>,
     private fb: FormBuilder,
+    private siteService: SiteService,
     @Inject(MAT_DIALOG_DATA) public data: {
       isReadOnly: boolean;
       mode: string;
@@ -43,7 +47,13 @@ export class VehicleModal implements OnInit {
   }
 
   ngOnInit() {
+  
     this.modalVehicle = this.data.vehicle;
+
+    this.siteService.getSitesAvailable().subscribe(sites => {
+      this.sites = sites;
+    });
+
     if (this.data.vehicle) {
       // On alimente le formgroup avec les valeurs du véhicule
       this.vehicleForm.controls['immatriculation'].setValue(this.data.vehicle.immatriculation);

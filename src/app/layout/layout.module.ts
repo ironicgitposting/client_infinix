@@ -15,6 +15,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LoanModule } from '../loan/loan.module';
 import { AdminPanelModule } from '../admin-panel/adminPanel.module';
 import { SiteListModule } from '../sites-list/sitesList.module';
+import { SinisterModule } from '../sinister/sinister-modal.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SiteListModule } from '../sites-list/sitesList.module';
     LoanModule,
     AdminPanelModule,
     SiteListModule,
+    SinisterModule
   ],
   exports: [
     LayoutComponent],
