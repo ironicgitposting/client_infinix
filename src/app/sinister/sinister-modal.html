@@ -8,5 +8,21 @@
 </div>
 <mat-divider></mat-divider>
 <form [formGroup]='sinisterForm'>
-    
+    <div>
+      <mat-form-field style='width: 100%'>
+        <mat-label>Véhicule</mat-label>
+        <input type='text'
+               aria-label="Véhicule sinistré"
+               matInput
+               formControlName='vehicle'
+               [matAutocomplete]='vehicle'>
+        <mat-icon>arrow_drop_down</mat-icon>
+        <mat-autocomplete #vehicle='matAutocomplete'>
+          <mat-option *ngFor='let vehicle of vehicles' [value]='vehicle.libelle'
+                      (onSelectionChange)='setVehicleId($event, vehicle)'>
+            {{ vehicle.libelle }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
 </form>

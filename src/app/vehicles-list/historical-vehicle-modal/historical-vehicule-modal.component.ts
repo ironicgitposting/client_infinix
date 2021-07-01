@@ -14,7 +14,7 @@ import { StatusModel } from 'src/app/common/models/StatusModel';
 @Component({
     selector: 'dialog-modal',
     templateUrl: './historicalVehicleModal.html',
-    styleUrls: ['../vehicles-list.component.less'],
+    styleUrls: ['./historical-vehicle.component.less'],
     animations: [
       trigger('detailExpand', [
         state('collapsed, void', style({ height: '0px' })),
