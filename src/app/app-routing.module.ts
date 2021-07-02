@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'dashboard', component: LayoutComponent, canActivate: [AuthGuard] },
   { path: 'parc', component: LayoutComponent, canActivate: [AuthGuard] },
   { path: 'loan', component: LayoutComponent, canActivate: [AuthGuard] },
+  { path: 'loan/:statusId', component: LayoutComponent, canActivate: [AuthGuard] },
   { path: 'site', component: LayoutComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: LayoutComponent, canActivate: [AuthGuard] },
   { path: 'resetPassword', component: ResetPasswordMailComponent },

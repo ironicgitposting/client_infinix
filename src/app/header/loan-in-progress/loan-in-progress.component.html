@@ -6,16 +6,17 @@
   <ng-template #thenBlock>
     <div class='notif-content'>
       <div>
-        <button mat-button (click)="redirectTo('loan')">
+        <button mat-button (click)="redirectTo('loan', '1')">
           <div>
-            <span>Réservations à valider : {{notificationCount}}</span>
+            <span>Le Nombre de demande de réservations en attente de validation : {{notificationCountStatutEnAttenteDeValidation}}</span>
           </div>
         </button>
       </div>
       <div>
-        <button mat-button (click)="redirectTo('loan')">
+        <button mat-button (click)="redirectTo('loan','4')">
           <div>
-            <span>Réservations avec status : {{notificationCountBookingUser}}</span>
+            <span>Le Nombre de réservations avec le status 'Validé' : {{notificationCountStatutValide}}</span>
+
           </div>
         </button>
       </div>
@@ -23,9 +24,9 @@
   </ng-template>
   <ng-template #elseBlock>
     <div class='notif-content'>
-      <button mat-button (click)="redirectTo('loan')">
+      <button mat-button (click)="redirectTo('loan', '4')">
         <div>
-          <span>Réservations avec status : {{notificationCountBookingUser}}</span>
+          <span>Le Nombre de vos réservations validées : {{notificationCountBookingUser}}</span>
         </div>
       </button>
     </div>
