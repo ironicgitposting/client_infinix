@@ -1,13 +1,27 @@
-<mat-accordion *ngIf="!isEmptyUsers()">
-  <mat-expansion-panel class="expansion-panel" *ngFor="let user of users">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ user.email }}
-      </mat-panel-title>
-
-    </mat-expansion-panel-header>
-    <mat-slide-toggle class="slide-toggle" [checked]="user.enabled" (change)="onUserSwitchToggle($event, user)">Activé</mat-slide-toggle>
-    <button class="action-btn" mat-raised-button color="primary"(click)="openDialog(user)">EDITER</button>
-    <button class="action-btn" mat-raised-button color="warn" (click)="deleteUser(user)" >SUPPRIMER</button>
-  </mat-expansion-panel>
-</mat-accordion>
+<div id='user-container' class='user-container'>
+  <div is='wrapper' class='wrapper'>
+    <div id='container' class='container'>
+      <mat-card class='wrapper-card'>
+        <mat-card-content style='margin: 2em; position: relative;' class='wrapper-card-content'>
+          <div class='mat-elevation-z8'>
+            <mat-accordion *ngIf="!isEmptyUsers()">
+              <mat-expansion-panel class="expansion-panel" *ngFor="let user of users">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ user.email }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-slide-toggle class="slide-toggle" [checked]="user.enabled"
+                  (change)="onUserSwitchToggle($event, user)">
+                  Activé
+                </mat-slide-toggle>
+                <button class="action-btn" mat-raised-button color="primary" (click)="openDialog(user)">EDITER</button>
+                <button class="action-btn" mat-raised-button color="warn" (click)="deleteUser(user)">SUPPRIMER</button>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
