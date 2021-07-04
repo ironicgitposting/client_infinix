@@ -19,6 +19,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MessageService } from '../common/services/message.service';
 import { Device } from '../common/device';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'authentication',
@@ -46,6 +48,11 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
    * Détermine l'affichage de l'erreur des identifiants incorrects
    */
   public wrongId: boolean = false;
+
+  /**
+   * Permet de savoir si le compte de l'utilisateur est activé
+   */
+  public isActivated: boolean =true;
 
   /**
    * Getter des contrôles du formulaire d'inscription
@@ -136,6 +143,12 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
       .subscribe((authStatus) => {
         this.wrongId = !authStatus;
       });
+      this.authenticationService
+      .getIsActivated()
+      .subscribe((isActivated) => {
+        this.isActivated = isActivated;
+        console.log("isActivated", isActivated);
+      });
   }
 
   public ngAfterViewInit(): void {
@@ -150,6 +163,7 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     user.email = this.loginForm.value.email;
     user.password = this.loginForm.value.password;
     this.authenticationService.login(user);
+
   }
 
   /**
@@ -177,6 +191,7 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     } else if (!this.isRegisterForm) {
       this.loginForm.reset();
       this.wrongId = false;
+      this.isActivated = false;
     }
     this.isRegisterForm = !this.isRegisterForm;
   }

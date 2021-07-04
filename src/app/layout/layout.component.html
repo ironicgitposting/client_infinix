@@ -32,6 +32,9 @@
           <ng-template [ngIf]="componentToLoad === 'loan'">
             <app-loan class="list"></app-loan>
           </ng-template>
+          <ng-template [ngIf]="componentToLoad === 'loan/statusId' ">
+            <app-loan class="list"></app-loan>
+          </ng-template>
           <ng-template [ngIf]="componentToLoad === 'site' && adminMenu">
             <app-sites class="list" ></app-sites>
           </ng-template>

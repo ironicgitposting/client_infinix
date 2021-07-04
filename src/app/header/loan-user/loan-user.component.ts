@@ -95,7 +95,7 @@ export class LoanUserComponent implements OnInit {
     }
       //console.log("this.connectedUser.email", this.connectedUser.email);
 
-    this.loanService.getLoansByUtilisateur(this.connectedUser.email).subscribe(loan => {
+    this.loanService.getBookingsForUtilisateurStatusValide(this.connectedUser.id,4).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
 
     this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
@@ -108,8 +108,6 @@ export class LoanUserComponent implements OnInit {
      this.loanService.getLoansByStatus(1).subscribe(loan => {
       this.notificationCount = loan.notificationCount.count;
       this.rowsBookingsValider = loan.notificationCount.rows;
-      //console.log("Header : Nombre de réservation à valider", loan.notificationCount.count);
-      //console.log("Les Rows à valider", this.rowsBookingsValider);
     });
   }
 

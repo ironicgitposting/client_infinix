@@ -35,7 +35,12 @@ export class HeaderComponent implements OnInit {
 
   public rowsBookingsValider: any[];
 
-  
+    public notificationCountStatutEnAttenteDeValidation: number =0;
+
+  public notificationCountStatutValide: number =0;
+
+
+
   /**
    * Date du jour au format string
    */
@@ -52,7 +57,7 @@ export class HeaderComponent implements OnInit {
   /**
      * Déconnexion
      */
-  
+
   ngOnInit(): void {
     const localStorageUser: string = localStorage.getItem('connectedUser') || '';
     this.connectedUser = JSON.parse(localStorageUser);
@@ -60,15 +65,28 @@ export class HeaderComponent implements OnInit {
       this.userProfile = 'Administrateur';
     }
 
+    // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
+    /* notificationCountStatutEnAttenteDeValidation */
     this.loanService.getLoansByStatus(1).subscribe(loan => {
-      this.notificationCount = loan.notificationCount.count;
+      this.notificationCountStatutEnAttenteDeValidation = loan.notificationCount.count;
       this.rowsBookingsValider = loan.notificationCount.rows;
     });
-  
-    this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
+
+    // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
+    /* notificationCountStatutEnAttenteDeValidation */
+     this.loanService.getLoansByStatus(4).subscribe(loan => {
+      this.notificationCountStatutValide = loan.notificationCount.count;
+      this.rowsBookingsValider = loan.notificationCount.rows;
+    });
+
+    // Permet de donner le nombre réservation avec le Status 'Validé' pour l'utilisateur connecté
+    /* notificationCountBookingUser */
+    this.loanService.getBookingsForUtilisateurStatusValide(this.connectedUser.id,4).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
       this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
      });
+
+
   }
 
   public logout(): void {

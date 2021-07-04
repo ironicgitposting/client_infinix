@@ -17,6 +17,7 @@ import { StatusEnum } from '../common/models/status.enum';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { FamilyStatusEnum } from '../common/models/familyStatus.enum';
 import { Device } from '../common/device';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-loan',
@@ -68,12 +69,21 @@ export class LoanComponent implements OnInit {
 
   public isAdmin: boolean = false;
 
+  public statusId: string;
+
+  public notificationCountBookingUser: number =0;
+
+  public rowsBookingsUser: any[];
+
+  ELEMENT_DATA: LoanDataModel[];
+
   constructor(public dialog: MatDialog,
               private msgService: MessageService,
               private loanService: LoanService,
               private statusService: StatusService,
               private fb: FormBuilder,
               private authService: AuthenticationService,
+              private activatedRoute: ActivatedRoute
   ) {
     this.isAdmin = this.authService.getIsAdmin();
     this.filterForm = this.fb.group({
@@ -83,6 +93,7 @@ export class LoanComponent implements OnInit {
       status: new FormControl('Tous', [])
     });
   }
+
 
   public ngOnInit(): void {
     this.statusService.getStatusByFamilyStatus(FamilyStatusEnum.bookingsFamily).subscribe(status => {
@@ -99,6 +110,23 @@ export class LoanComponent implements OnInit {
   public fetchLoans(): void {
     const localStorageUser: string = localStorage.getItem('connectedUser') || '';
     const connectedUser = JSON.parse(localStorageUser);
+
+
+    //récupération du statusId
+    this.activatedRoute.params.subscribe((param) => {
+        this.statusId = param['statusId'];
+        //console.log('Le status du navigateur 3 :', this.statusId);
+    });
+
+    this.statusService.getStatusByFamilyStatus(FamilyStatusEnum.bookingsFamily).subscribe(status => {
+      const statusAll: StatusModel = new StatusModel();
+      statusAll.label = 'Tous';
+      this.status.push(statusAll);
+      status.forEach(stat => {
+        this.status.push(stat);
+      });
+    });
+
     this.loanService.getAllLoans(connectedUser).subscribe(loan => {
       this.loans = loan;
       this.dataSource = new MatTableDataSource(this.loans);
@@ -150,8 +178,27 @@ export class LoanComponent implements OnInit {
         return [ret, retDate, retStatus].every(Boolean);
       };
 
+      this.status.forEach((statusElement) => {
+      if(statusElement.id === Number(this.statusId)){
+        this.filterManuallyByStatus(statusElement.label);
+        this.filterForm.controls['status'].setValue(statusElement.label);
+
+      }
+    });
+
       this.dataSource.sort = this.sort;
     });
+
+    /*this.loanService.getBookingsForUtilisateurStatusValide(5,4).subscribe(loan => {
+      this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
+
+    this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
+      console.log("Les Rows", loan.notificationCountBookingUser.rows);
+       this.ELEMENT_DATA = loan;
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+      this.dataSource.sort = this.sort;
+     });*/
+
   }
 
   public nestedFilterCheck(search: any, data: any, key: any): any {
@@ -222,6 +269,18 @@ export class LoanComponent implements OnInit {
       }
     }
   }
+
+  /**
+ * Filtrer manuellement le tableau par la colonne statut
+ * @param status
+ */
+public filterManuallyByStatus(status: string): void {
+  if (status === 'Tous') {
+    this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤Tous`;
+  } else {
+    this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤${status}`;
+  }
+}
 
   /**
    * Clôture du prêt
