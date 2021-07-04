@@ -26,14 +26,17 @@
     .drawer{
       border-right: 1px solid @background-color-infinix;
     }
-    .container {
-        height: 100%;
-        width: 100%;
-        flex-direction: row;
-        background-image: @layout-backgroung-img;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }    
+    .mat-drawer-content{
+      overflow: hidden ;
+      .container {
+          height: 100%;
+          width: 100%;
+          flex-direction: row;
+          background-image: @layout-backgroung-img;
+          background-repeat: no-repeat;
+          background-size: cover;
+      }    
+    }
   }
 }
 .desktop{

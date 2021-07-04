@@ -1,7 +1,17 @@
-<mat-tab-group>
-  <mat-tab label="General"> General </mat-tab>
-  <mat-tab label="Covoiturage"> Covoiturage </mat-tab>
-  <mat-tab label="Mailing">
-    <mailing-panel></mailing-panel>
-  </mat-tab>
-</mat-tab-group>
+<div id='admin-container' class='admin-container'>
+  <div is='wrapper' class='wrapper'>
+    <div id='container' class='container'>
+      <mat-card class='wrapper-card'>
+        <mat-card-content style='margin: 2em; position: relative;' class='wrapper-card-content'>
+          <mat-tab-group>
+            <mat-tab label="General"> General </mat-tab>
+            <mat-tab label="Covoiturage"> Covoiturage </mat-tab>
+            <mat-tab label="Mailing">
+              <mailing-panel></mailing-panel>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
