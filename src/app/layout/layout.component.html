@@ -2,23 +2,23 @@
 </div>
 <div id="layout-container">
   <div id="wrapper" class="wrapper">
-    <mat-chip-list>
-      <mat-chip color="primary" selected (click)="drawer.toggle()" class="d-flex">
-        Menu
-        <mat-icon *ngIf="!drawer.opened" aria-hidden="false" style="color: white"
-          >keyboard_arrow_right</mat-icon
-        >
-        <mat-icon *ngIf="drawer.opened" aria-hidden="false" style="color: white"
-          >keyboard_arrow_left</mat-icon
-        >
-      </mat-chip>
-    </mat-chip-list>
     <app-header [pageName]="getPageName()" class="header"></app-header>
     <mat-drawer-container class="drawer-container" autosize>
       <mat-drawer #drawer class="drawer" mode="side">
         <app-sidebar></app-sidebar>
       </mat-drawer>
       <mat-drawer-content>
+        <mat-chip-list>
+          <mat-chip color="primary" selected (click)="drawer.toggle()" class="d-flex">
+            Menu
+            <mat-icon *ngIf="!drawer.opened" aria-hidden="false" style="color: white"
+            >keyboard_arrow_right</mat-icon
+            >
+            <mat-icon *ngIf="drawer.opened" aria-hidden="false" style="color: white"
+            >keyboard_arrow_left</mat-icon
+            >
+          </mat-chip>
+        </mat-chip-list>
         <div id="container" class="container">
           <ng-template [ngIf]="componentToLoad === 'dashboard'">
             <app-dashboard style="width: 100%"></app-dashboard>

@@ -54,15 +54,14 @@ export class HeaderComponent implements OnInit {
     public dialog2: MatDialog,
     @Inject(LOCALE_ID) public locale: string
   ) { }
-  /**
-     * Déconnexion
-     */
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const localStorageUser: string = localStorage.getItem('connectedUser') || '';
     this.connectedUser = JSON.parse(localStorageUser);
-    if (!this.connectedUser.profile) {
+    if (this.connectedUser.authorizationAccess === 1) {
       this.userProfile = 'Administrateur';
+    } else {
+      this.userProfile = 'Utilisateur';
     }
 
     // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
@@ -89,6 +88,9 @@ export class HeaderComponent implements OnInit {
 
   }
 
+  /**
+   * Déconnexion
+   */
   public logout(): void {
     this.authenticationService.logout();
   }

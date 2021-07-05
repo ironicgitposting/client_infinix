@@ -75,7 +75,7 @@ export class AuthenticationService {
               now.getTime() + expiresInDuration * 1000,
             );
             this.saveAuthData(token, expirationDate, user);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/loan']);
           }
         }
         else{

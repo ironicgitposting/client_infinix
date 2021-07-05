@@ -3,12 +3,13 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    height: 100%;
 
     .mat-chip-list {
       position: absolute;
       z-index: 2;
-      
+      left: .5%;
+      top: .5%;
+
       .mat-chip {
         width: 105px;
         justify-content: space-between;
@@ -26,25 +27,17 @@
     .drawer{
       border-right: 1px solid @background-color-infinix;
     }
-    .mat-drawer-content{
-      overflow: hidden ;
-      .container {
-          height: 100%;
-          width: 100%;
-          flex-direction: row;
-          background-image: @layout-backgroung-img;
-          background-repeat: no-repeat;
-          background-size: cover;
-      }    
+    .container {
+      height: 100%;
+      width: 100%;
+      flex-direction: row;
+      background-image: @layout-backgroung-img;
+      background-repeat: no-repeat;
+      background-size: cover;
+      overflow: auto;
     }
-  }
-}
-.desktop{
-  height:100%;
-  .wrapper{
-    .mat-chip-list{
-      left: .5%;
-      top: 11.5%;
+    .mat-drawer-content {
+      height: auto;
     }
   }
 }
@@ -55,12 +48,10 @@
   }
   .wrapper{
     .mat-chip-list{
-      left: 1%;
-      top: 8%;
+      top: .2%;
     }
     .list{
       width: 100%;
-      margin: 3em 1em 1em 1em;
     }
   }
 
