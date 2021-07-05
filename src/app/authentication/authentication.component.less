@@ -1,18 +1,11 @@
 @import "../common/common.less";
 
-.wrapper {
-  width: 100%;
-  height: 100vh;
+.wrapper{
   background-color: @color-black;
   background-image: radial-gradient(circle at top right, rgba(121, 68, 154, 0.23), transparent),
     radial-gradient(circle at 20% 80%, rgba(103, 58, 183, 0.63), transparent);
-
-  canvas {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-  }
-
+}
+.desktop{
   .container {
     width: 100%;
     height: 100%;
@@ -20,8 +13,14 @@
     justify-content: space-evenly;
     flex-direction: column;
     align-items: center;
-  
 
+    .app-name{
+      font-family: 'abster';
+      font-size: 8em;
+      color: @color-white;
+      font-style: italic;
+      line-height: 1em;
+    }
 
     a {
       position: absolute;
@@ -37,6 +36,41 @@
 
     .authentification, .register {
       font-family: @family-font;
+
+      .mat-form-field {
+        margin: 1em;
+        width: 75%;
+        flex: 1 0 21%;
+      }
+
+      .mat-card-title {
+        font-size: 2em;
+        padding: .5em 0;
+        justify-content: center;
+      }
+
+      .mat-card-content {
+        display: flex;
+        flex-direction: column;
+
+        .connect-button {
+          padding: .3em 3em;
+          margin: 2em 0;
+        }
+
+        .login-form-group {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          margin: 1em 0;
+        }
+
+        .register-form-group {
+          display: flex;
+          flex-wrap: wrap;
+          margin: 1em 0;
+        }
+      }
     }
 
     .authentification{
@@ -47,51 +81,63 @@
       width: 500px;
     }
 
-    mat-form-field {
-      margin: 1em;
-      width: 75%;
-      flex: 1 0 21%;
-    }
-
-    mat-card-title {
-      font-size: 2em;
-      padding: .5em 0;
-    }
-
-    .connect-button {
-      padding: .3em 3em;
-      margin: 2em 0;
-    }
-
-    mat-card-content {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .login-form-group {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      margin: 1em 0;
-    }
-
-    .app-name {
-      font-family: @font-app-name-family;
-      font-size: 8em;
-      color: @color-app-name;
-      font-style: italic;
-      line-height: 1em;
-    }
-
-    .register-form-group {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 1em 0;
-    }
-
-    #login-error {
+    .error {
       color: @color-red;
       text-align: center;
+    }
+  }
+}
+
+.mobile{
+  .container{
+    .app-name{
+      font-family: 'abster';
+      font-size: 3em;
+      color: @color-white;
+      font-style: italic;
+      line-height: 1em;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      padding-top: 5%;
+    }
+
+    .authentification, .register {
+      position: relative;
+      display: block;
+      .mat-card-header{
+        justify-content: center;
+
+        .mat-card-title {
+          font-size: 1.5em;
+          padding: 0em 0;
+        }
+      }
+
+      .mat-card-content{
+        .mat-form-field {
+          width: 100%;
+          display: block;
+          justify-content: center;
+        }
+        .login-form-group{
+          padding-bottom: 5%;
+        }
+
+        .connect-button{
+          margin-top: 2%;
+        }
+        .connect-button, .create-account-button,.already-existing-account{
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+    .authentification{
+      margin: 25% 10% 0 10%;
+    }
+    .register{
+      margin: 5% 10% 0 10%;
     }
   }
 }

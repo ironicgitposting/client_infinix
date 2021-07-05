@@ -11,6 +11,7 @@ export class AuthenticationService {
   private tokenTimer: any;
   private authStatusListener = new Subject<boolean>();
   private isAdmin: boolean = false;
+  private isActivated = new Subject<boolean>();
 
   getToken(): string | null {
     return this.token;
@@ -23,6 +24,11 @@ export class AuthenticationService {
   // tslint:disable-next-line:typedef
   getAuthStatusListener(): Observable<boolean> {
     return this.authStatusListener.asObservable();
+  }
+
+  // tslint:disable-next-line:typedef
+  getIsActivated(): Observable<boolean> {
+    return this.isActivated.asObservable();
   }
 
   getIsAuth(): boolean {
@@ -46,13 +52,16 @@ export class AuthenticationService {
       .post('http://localhost:3000/api/v1/users/login', authenticationData)
       .subscribe(
         (response: any) => {
-          console.log(response);
+          console.log("Reponse", response);
+          const user = response.user;
 
+          if(user && Boolean(user.enabled)) {
           const token = response.token;
           this.token = token;
+
           if (token) {
             const expiresInDuration = response.expiresIn;
-            const user = response.user;
+
             this.setAuthTimer(expiresInDuration);
             this.isAuthenticated = true;
             if (user.authorizationAccess == 1) {
@@ -60,15 +69,22 @@ export class AuthenticationService {
               this.isAdmin = true;
             }
             this.authStatusListener.next(true);
+            this.isActivated.next(true);
             const now: Date = new Date();
             const expirationDate: Date = new Date(
               now.getTime() + expiresInDuration * 1000,
             );
             this.saveAuthData(token, expirationDate, user);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/loan']);
+          }
+        }
+        else{
+            this.isActivated.next(false);
+            console.log("Compte désactivée", user.enabled);
           }
         },
         (error) => {
+          console.log("Reponse", error);
           this.authStatusListener.next(false);
         },
       );
@@ -134,5 +150,32 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
     localStorage.removeItem('connectedUser');
+  }
+
+  sendPasswordResetMail(email: string) {
+    this.httpClient
+      .post('http://localhost:3000/api/v1/users/resetPassword/' + email, {
+        email: email,
+      })
+      .subscribe((response) => {
+        debugger;
+        console.log(response);
+        // TODO: redirect to confirmation page
+        this.router.navigate(['/']);
+      });
+  }
+
+  changeUserPassword(data: {
+    token: string;
+    userId: number;
+    clearPassword: any;
+  }) {
+    this.httpClient
+      .post('http://localhost:3000/api/v1/users/resetPassword', data)
+      .subscribe((response) => {
+        console.log(response);
+
+        this.router.navigate(['/']);
+      });
   }
 }

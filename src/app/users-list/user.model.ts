@@ -15,7 +15,7 @@ export class User {
   @autoserializeAs('telephone')
   telephone: string;
   @autoserializeAs('authorizationAccess')
-  authorizationAccess: string;
+  authorizationAccess: number;
   @autoserializeAs('dateLastSeen')
   dateLastSeen: Moment;
   @autoserializeAs('site')

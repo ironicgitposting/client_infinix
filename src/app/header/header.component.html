@@ -1,50 +1,44 @@
-<div id="header" class="header d-flex align-items-center flex-direction-row">
-    <div id="logo-infinix" class="logo-infinix d-flex align-items-center flex-direction-row">
-        <a href="/dashboard" class="d-flex">
-            <img src="../../assets/pictures/logoInfinix.png"/>
-        </a>
-    </div>
-    <div id="header-right-part" class="header-right-part d-flex flex-direction-row">
-        <div id="header-center" class="header-center d-flex align-items-center flex-direction-row">
-            <div>
-                <span id="header-date" class="header-date">{{ today }}</span>
-            </div>
-            <div id="header-title" class="header-title">
-                <h1>{{ pageName }}</h1>
-            </div>
-            <div>
-                <mat-form-field class="header-search-wrapper">
-                    <mat-label>Rechercher</mat-label>
-                    <input matInput id="header-search">
-                </mat-form-field>
-            </div>
+<div *ngIf="IsMobile()"></div>
+<div id="header-container">
+    <div id="header" class="header d-flex align-items-center flex-direction-row">
+        <div id="logo-infinix" class="logo-infinix d-flex align-items-center flex-direction-row">
+            <a href="/dashboard" class="d-flex">
+                <img src="../../assets/pictures/logoInfinix.png" />
+            </a>
         </div>
+        <div id="header-right-part" class="header-right-part d-flex flex-direction-row">
+            <div id="header-center" class="header-center d-flex align-items-center flex-direction-row">
+                <div>
+                    <span id="header-date" class="header-date">{{ today }}</span>
+                </div>
+                <div id="header-title" class="header-title">
+                    <h1>{{ pageName }}</h1>
+                </div>
+                <div>
+                    <mat-form-field class="header-search-wrapper">
+                        <mat-label>Rechercher</mat-label>
+                        <input matInput id="header-search">
+                    </mat-form-field>
+                </div>
+            </div>
 
-
-<div *ngIf="connectedUser.authorizationAccess=='1'; then thenBlock else elseBlock"></div>
-  <ng-template #thenBlock>
-    <p>
-    <mat-icon matBadge="{{notificationCount}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
-      <!-- Include text description of the icon's meaning for screen-readers -->
-      <span class="cdk-visually-hidden">
-      </span>
-  </p>
-  <p>
-    <mat-icon matBadge="{{notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanUser('new', null)">car_rental</mat-icon>
-      <!-- Include text description of the icon's meaning for screen-readers -->
-      <span class="cdk-visually-hidden">
-      </span>
-  </p>
-  </ng-template>
-<ng-template #elseBlock><p>
-  <mat-icon matBadge="{{notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanUser('new', null)">car_rental</mat-icon>
-    <!-- Include text description of the icon's meaning for screen-readers -->
-    <span class="cdk-visually-hidden">
-    </span>
-</p></ng-template>
-
+        <div *ngIf="connectedUser.authorizationAccess === 1; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+            <div class="header-notification">
+                <mat-icon matBadge="{{notificationCountStatutEnAttenteDeValidation + notificationCountStatutValide}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
+                <span class="cdk-visually-hidden">
+                </span>
+            </div>
+        </ng-template>
+        <ng-template #elseBlock>
+            <div>
+                <mat-icon matBadge="{{notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
+                <span class="cdk-visually-hidden">
+                </span>
+            </div>
+        </ng-template>
         <div id="user-part" class="user-part d-flex align-items-center flex-direction-row">
-            <div  id="user-connected">
+            <div  id="user-connected" class="user-connected">
                 <button mat-button [matMenuTriggerFor]="menu" id="menu-user" class="menu-user">
                     <span>{{ connectedUser.surname }} {{ connectedUser.name }}</span>
                     <span style="font-size: 10px;">{{ userProfile }}</span>
@@ -60,4 +54,3 @@
             </div>
         </div>
     </div>
-</div>

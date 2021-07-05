@@ -6,29 +6,63 @@
   align-items: center;
 }
 
-mat-form-field, mat-checkbox {
-  padding-top: 2em;
-}
-.acceptPassengers {
+/*.acceptPassengers {
   padding-bottom: 2em;
-}
-
-.close-button {
-  position: absolute;
-  top: -20px;
-  right: -20px;
-}
+}*/
 
 .modal-header {
   position: relative;
+
+  .close-button {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+  }
+}
+.form-container {
+  display: flex;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    mat-form-field, mat-checkbox {
+      padding-top: 2em;
+    }
+
+    .actions {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    
+      & button {
+        margin-left: 1em;
+      }
+    }
+  }
 }
 
-.actions {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  & button {
-    margin-left: 1em;
+.desktop{
+  .form-container{
+    .mapbox{
+      width: 500px;
+      height: 460px;
+      border: 1px solid silver;
+      border-radius: 0.5em;
+      margin-left: 1em;
+    }
+  }
+}
+
+.mobile{
+  .modal-header{
+    text-align: center;
+  }
+  .form-container{
+    .mapbox{
+      display:none;
+    }
   }
 }

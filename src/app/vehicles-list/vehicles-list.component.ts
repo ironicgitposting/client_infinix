@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Vehicle } from './vehicle.model';
 import { VehicleService } from './vehicle-list.service';
-import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -10,6 +9,8 @@ import { MatSort } from '@angular/material/sort';
 import { HistoricalVehicleModal } from './historical-vehicle-modal/historical-vehicule-modal.component';
 import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
 import { MessageService } from '../common/services/message.service';
+import { SinisterModal } from '../sinister/sinister-modal.component';
+import { Device } from '../common/device';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -29,7 +30,6 @@ export class VehiclesListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   vehicles: Vehicle[] = [];
-  private vehiclesSub: Subscription;
 
   ELEMENT_DATA: Vehicle[];
   columnsToDisplay: string[] = ['model', 'libelle', 'immatriculation', 'state', 'status'];
@@ -49,8 +49,6 @@ export class VehiclesListComponent implements OnInit {
   };
 
   expandedElement: Vehicle | null;
-
-  etats = ['En validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
 
   dataSource: MatTableDataSource<Vehicle>;
 
@@ -74,7 +72,7 @@ export class VehiclesListComponent implements OnInit {
   }
 
   deleteVehicle(vehicle: Vehicle): void {
-    if (confirm('Are you sure to delete ')) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) {
       if (vehicle.immatriculation) {
         this.vehicleService.deleteVehicle(vehicle).subscribe(() => {
           this.fetchData();
@@ -107,7 +105,7 @@ export class VehiclesListComponent implements OnInit {
       data: {
         vehicle,
       },
-
+      width: '100%',
     });
   }
 
@@ -128,7 +126,7 @@ export class VehiclesListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
+      
       if (result && result.saved && !lastImmatriculation) {
         this.vehicleService.createVehicle(result.vehicle).subscribe(response => {
           this.msgService.snackbar('Véhicule enregistré', 'success');
@@ -142,5 +140,16 @@ export class VehiclesListComponent implements OnInit {
       }
     });
 
+  }
+
+  openSinisterModal(){
+    const dialogRef = this.dialog.open(SinisterModal, {
+      width: "512px",
+  });
+}
+
+  IsMobile(){
+    Device.definedUseDevice('vehicle-container');
+    return Device.isMobileDevice();
   }
 }

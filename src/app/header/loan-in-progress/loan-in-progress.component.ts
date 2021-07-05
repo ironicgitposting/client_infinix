@@ -5,12 +5,13 @@ import { User } from '../../users-list/user.model';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../users-list/usersList.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { SiteDataModel } from '../../site/site.data.model';
+import { SiteDataModel } from '../../sites-list/site.model';
 import { StatusModel } from '../../common/models/StatusModel';
 import { LoanDataModel } from 'src/app/loan/loan.data.model';
 import { LoanService } from 'src/app/loan/loan.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-loan-modal',
@@ -42,7 +43,9 @@ export class LoanInProgressComponent implements OnInit {
    */
   @Input() connectedUser: User;
 
-  public notificationCount: number =0;
+  public notificationCountStatutEnAttenteDeValidation: number =0;
+
+  public notificationCountStatutValide: number =0;
 
   public notificationCountBookingUser: number =0;
 
@@ -72,6 +75,7 @@ export class LoanInProgressComponent implements OnInit {
               private dialogRef: MatDialogRef<LoanInProgressComponent>,
               private userService: UserService,
               private loanService: LoanService,
+              private router: Router,
               @Inject(MAT_DIALOG_DATA) public data: {
               isReadOnly: boolean;
               mode: string;
@@ -93,24 +97,37 @@ export class LoanInProgressComponent implements OnInit {
     if (!this.connectedUser.profile) {
       this.userProfile = 'Administrateur';
     }
-      //console.log("this.connectedUser.email", this.connectedUser.email);
 
-    this.loanService.getLoansByUtilisateur(this.connectedUser.email).subscribe(loan => {
+    // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
+    /* notificationCountStatutEnAttenteDeValidation */
+     this.loanService.getLoansByStatus(1).subscribe(loan => {
+      this.notificationCountStatutEnAttenteDeValidation = loan.notificationCount.count;
+      this.rowsBookingsValider = loan.notificationCount.rows;
+    });
+
+    // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
+    /* notificationCountStatutEnAttenteDeValidation */
+     this.loanService.getLoansByStatus(4).subscribe(loan => {
+      this.notificationCountStatutValide = loan.notificationCount.count;
+      this.rowsBookingsValider = loan.notificationCount.rows;
+    });
+
+
+    // Permet de donner le nombre réservation avec le Status 'Validé' pour l'utilisateur connecté
+    /* notificationCountBookingUser */
+    this.loanService.getBookingsForUtilisateurStatusValide(this.connectedUser.id,4).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
 
+    // Permet de donner le contenu des réservations avec le Status 'Validé' pour l'utilisateur connecté
+    /* rowsBookingsUser */
     this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
-      console.log("Les Rows", loan.notificationCountBookingUser.rows);
+      //console.log("Les Rows", loan.notificationCountBookingUser.rows);
        this.ELEMENT_DATA = loan;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.sort = this.sort;
      });
 
-     this.loanService.getLoansByStatus(1).subscribe(loan => {
-      this.notificationCount = loan.notificationCount.count;
-      this.rowsBookingsValider = loan.notificationCount.rows;
-      //console.log("Header : Nombre de réservation à valider", loan.notificationCount.count);
-      //console.log("Les Rows à valider", this.rowsBookingsValider);
-    });
+
   }
 
   /**
@@ -140,20 +157,7 @@ export class LoanInProgressComponent implements OnInit {
    * @param saved On sauvegarde ou non
    */
   public close(saved: boolean = false): void {
-    const loan: LoanDataModel = new LoanDataModel();
-    if (saved) {
-      loan.driver = new User();
-      loan.driver.id = this.selectedDriver.id;
-      loan.site = new SiteDataModel();
-      loan.site.id = this.selectedSite.id || 1;
-      loan.startDate = this.loanForm.controls['start'].value.toDate();
-      if (this.loanForm.controls['end'].value !== '') {
-        loan.endDate = this.loanForm.controls['end'].value.toDate();
-      }
-      loan.status = new StatusModel();
-      loan.status.id = 1;
-    }
-    this.dialogRef.close({ saved: saved, loan: loan });
+    this.dialogRef.close();
   }
 
   /**
@@ -183,5 +187,14 @@ export class LoanInProgressComponent implements OnInit {
     if (status.isUserInput) {
       this.selectedSite = site;
     }
+  }
+
+  /**
+   * Redirige vers la route passée en paramètre
+   * @param target Nom de la route
+   */
+  public redirectTo(target: string, statusId:string) {
+    this.router.navigate([`/${target}/${statusId}`]);
+    this.dialogRef.close();
   }
 }

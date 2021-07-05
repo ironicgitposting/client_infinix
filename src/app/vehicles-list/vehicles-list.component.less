@@ -1,144 +1,147 @@
 @import "../common/common.less";
-@import "../loan/loan.component.less";
-.modal-vehicle{
-  mat-form-field{
+
+.modal-vehicle {
+  mat-form-field {
     display: block;
   }
 }
 
-
-.mat-elevation-z8 {
-  box-shadow: none;
-  table {
-    width: 100%;
-  }
-  tr {
-    &.vehicle-detail-row {
-      height: 0;
-    }
-    &.vehicle-element-row:not(.expanded-row):hover {
-      background: @loan-whitesmoke-hover-color;
-    }
-    &.vehicle-element-row:not(.expanded-row):active {
-      background: @loan-whitesmoke-active-color;
-    }
-    &.vehicle-element-row td {
-      border-bottom-width: 0;
-    }
-    & .vehicle-element-detail {
-      overflow: hidden;
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-}
-
-& .img-vehicle {
-    
-  height: 104px;
-
-  
-}
-
-.element-vehicule-picture {
-  min-width: 80px;
-  border: 1px solid @background-color-infinix;
-  background: @loan-whitesmoke-active-color;
-  padding: 8px;
-  margin: 8px 0;
-  height: 104px;
-}
-
-.vehicule-detail, .site-detail, .other-detail {
-  padding: 0;
-  margin: 0 1em;
-  flex-grow: 1;
+.vehicle-container {
   height: 100%;
-  & mat-card-header {
-    background: @background-color-infinix;
-    color: @color-white;
-    padding: .3em 0;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    & mat-card-title {
-      margin: 0;
-    }
-    & .detail-card-title {
+  .wrapper{
+    height: 100vh;
+    .container{
+      width: 100%;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      mat-icon {
-        color: @color-white;
-        margin-right: .5em;
+      height: 100%;
+
+      .add-button {
+        position: absolute;
+        z-index: 101;
+        top: 10px;
+        right: 60px;
+        > button{
+          position: relative;
+        }
+        & .add-sinister {
+          margin-right: 5px;
+        }
+      }
+      .wrapper-card{
+        height: 80%;
+        display: block;
+        margin: 0;
+        margin-top: 4em;
+        width: 90%;
+        .wrapper-card-header {
+          display: block;
+
+          .filters{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 30%;
+            mat-form-field {
+              margin-left: 2em;
+              font-size: 16px;
+            }
+          }
+        }
+        .mat-divider {
+          border-top-color: @background-color-infinix;
+          margin: 0 0.5em;
+          width: calc(100% - 1em) !important;
+        }
+        .wrapper-card-content {
+          box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+          overflow: auto;
+          height: calc(100% - 100px);
+          .mat-elevation-z8 {
+            box-shadow: none;
+            table {
+              width: 100%;
+              margin: none;
+              .vehicule-detail, .site-detail, .other-detail {
+                padding: 0;
+                margin: 0 1em;
+                flex-grow: 1;
+                height: 100%;
+
+                & mat-card-header {
+                  background: @background-color-infinix;
+                  color: @color-white;
+                  padding: .3em 0;
+                  border-top-right-radius: 4px;
+                  border-top-left-radius: 4px;
+
+                  & mat-card-title {
+                    margin: 0;
+                  }
+
+                  & .detail-card-title {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    mat-icon {
+                      color: @color-white;
+                      margin-right: .5em;
+                    }
+                  }
+                }
+
+                & mat-card-content {
+                  padding: 1.5em;
+                  position: relative;
+                }
+              }
+              tr {
+                &.detail-row {
+                  height: 0;
+                }
+                &.element-row:not(.expanded-row):hover {
+                  background: @loan-whitesmoke-hover-color;
+                }
+                &.element-row:not(.expanded-row):active {
+                  background: @loan-whitesmoke-active-color;
+                }
+                &.element-row td {
+                  border-bottom-width: 0;
+                }
+                & .element-detail {
+                  overflow: hidden;
+                  display: flex;
+                  justify-content: space-between;
+                  .element-description {
+                    padding: 16px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                  }
+                  .button-wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    flex-direction: column;
+                    .valid-button {
+                      color: @success-color;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
-  & mat-card-content {
-    padding: 1.5em;
-    & .btn-action-vehicle{
-      margin : 5px;
-    }
-  }
-}
-
-.filters{
-  display: inline;
-  align-items: center;
-  mat-form-field {
-    margin-left: 2em;
-    font-size: 16px;
-  }
-}
-
-.wrapper-card {
-  margin-bottom: 0;
-  .wrapper-card-header {
-    display: block;
-  }
-  .wrapper-card-content {
-    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
-    overflow: auto;
-    height: 500px;
-    margin: 2em; 
-    position: relative;
-  }
 }
 
 
-.mat-dialog-container{
-  max-width : none;
-}
-
-.add-vehicle {
-  position: absolute;
-  z-index: 101;
-  top: 10px;
-  right: 60px;
-}
-
-.mat-divider {
-  border-top-color: #673ab7;
-  margin: 0 0.5em;
-  width: calc(100% - 1em) !important;
-}
-
-.actions {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  & button {
-    margin-left: 1em;
-  }
-}
 
 
-.close-button {
-  position: absolute;
-  top: -20px;
-  right: -20px;
-}
-
-.modal-header {
-  position: relative;
-}

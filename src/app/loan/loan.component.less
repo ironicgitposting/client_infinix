@@ -1,108 +1,246 @@
 @import "../common/common.less";
 
-.mat-elevation-z8 {
-  box-shadow: none;
-  table {
-    width: 100%;
-  }
-  tr {
-    &.detail-row {
-      height: 0;
-    }
-    &.element-row:not(.expanded-row):hover {
-      background: @loan-whitesmoke-hover-color;
-    }
-    &.element-row:not(.expanded-row):active {
-      background: @loan-whitesmoke-active-color;
-    }
-    &.element-row td {
-      border-bottom-width: 0;
-    }
-    & .element-detail {
-      overflow: hidden;
-      display: flex;
-      justify-content: space-between;
-    }
-  }
-}
+.desktop {
+  &.loan-container {
+    .wrapper {
+      .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-.element-vehicule-picture {
-  min-width: 80px;
-  border: 1px solid @background-color-infinix;
-  background: @loan-whitesmoke-active-color;
-  padding: 8px;
-  margin: 8px 0;
-  height: 104px;
-}
+        .vehicule-detail, .site-detail, .other-detail {
+          padding: 0;
+          margin: 0 1em;
+          flex-grow: 1;
+          height: 100%;
 
-.element-description {
-  padding: 16px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
+          & mat-card-header {
+            background: @background-color-infinix;
+            color: @color-white;
+            padding: .3em 0;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
 
-.vehicule-detail, .site-detail, .other-detail {
-  padding: 0;
-  margin: 0 1em;
-  flex-grow: 1;
-  height: 100%;
-  & mat-card-header {
-    background: @background-color-infinix;
-    color: @color-white;
-    padding: .3em 0;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    & mat-card-title {
-      margin: 0;
-    }
-    & .detail-card-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      mat-icon {
-        color: @color-white;
-        margin-right: .5em;
+            & mat-card-title {
+              margin: 0;
+            }
+
+            & .detail-card-title {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              mat-icon {
+                color: @color-white;
+                margin-right: .5em;
+              }
+            }
+          }
+
+          & mat-card-content {
+            padding: 1.5em;
+            position: relative;
+          }
+        }
+
+        .filters {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          mat-form-field {
+            margin-left: 2em;
+            font-size: 16px;
+          }
+        }
+
+        .wrapper-card {
+          display: block;
+          margin: 0;
+          margin-top: 4em;
+          width: 90%;
+          height: 80%;
+
+          .wrapper-card-header {
+            display: block;
+          }
+
+          .wrapper-card-content {
+            box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+            overflow: auto;
+            height: calc(100% - 100px);
+
+            .mat-elevation-z8 {
+              box-shadow: none;
+
+              table {
+                width: 100%;
+              }
+
+              tr {
+                &.detail-row {
+                  height: 0;
+                }
+
+                &.element-row:not(.expanded-row):hover {
+                  background: @loan-whitesmoke-hover-color;
+                }
+
+                &.element-row:not(.expanded-row):active {
+                  background: @loan-whitesmoke-active-color;
+                }
+
+                &.element-row td {
+                  border-bottom-width: 0;
+                }
+
+                & .element-detail {
+                  overflow: hidden;
+                  display: flex;
+                  justify-content: space-between;
+
+                  .element-description {
+                    padding: 16px;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .add-loan {
+          position: absolute;
+          z-index: 101;
+          top: 10px;
+          right: 60px;
+        }
+
+        .mat-divider {
+          border-top-color: @background-color-infinix;
+          margin: 0 0.5em;
+          width: calc(100% - 1em) !important;
+        }
+
+        .button-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+          flex-direction: column;
+
+          .valid-button {
+            color: @success-color;
+          }
+        }
       }
     }
   }
-  & mat-card-content {
-    padding: 1.5em;
-  }
 }
 
-.filters{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  mat-form-field {
-    margin-left: 2em;
-    font-size: 16px;
-  }
-}
-.wrapper-card {
-  .wrapper-card-header {
-    display: block;
-  }
-  .wrapper-card-content {
-    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
-    overflow: auto;
-    height: 500px;
-  }
-}
+.mobile {
+  &.loan-container {
+    margin-top: 2.5em;
 
-.add-loan {
-  position: absolute;
-  z-index: 101;
-  top: 10px;
-  right: 60px;
-}
+    .wrapper {
+      .container {
 
-.mat-divider {
-  border-top-color: #673ab7;
-  margin: 0 0.5em;
-  width: calc(100% - 1em) !important;
+        .button-add-loan {
+          display: flex;
+          justify-content: flex-end;
+        }
+
+        .wrapper-card {
+          .wrapper-card-content {
+            box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+            overflow: auto;
+            @media screen and (max-height: 600px) {
+              height: 50vh;
+            }
+            @media screen and (min-height: 600px) and (max-height: 700px) {
+              height: 55vh;
+            }
+            @media screen and (min-height: 700px) {
+              height: 60vh;
+            }
+
+            .mat-elevation-z8 {
+              box-shadow: none;
+
+              table {
+                width: 100%;
+              }
+
+              tr {
+                &.detail-row {
+                  height: 0;
+                }
+
+                &.element-row:not(.expanded-row):hover {
+                  background: @loan-whitesmoke-hover-color;
+                }
+
+                &.element-row:not(.expanded-row):active {
+                  background: @loan-whitesmoke-active-color;
+                }
+
+                &.element-row td {
+                  border-bottom-width: 0;
+                }
+
+                & .element-detail {
+                  overflow: hidden;
+                  justify-content: space-between;
+
+                  .element-description {
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+
+                    mat-card {
+                      margin-bottom: 5%;
+                    }
+                  }
+
+                  .button-wrapper {
+                    button {
+                      width: 50%;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .filters {
+          display: flex;
+          flex-wrap: wrap;
+          align-content: space-between;
+          width: 100%;
+          font-size: 14px;
+
+          .item-filter {
+            width: 45%;
+            margin-right: 5%;
+          }
+        }
+
+        .wrapper-card-content {
+          .mat-elevation-z8 {
+            .mat-column-driveriver, .mat-column-departureSite, .mat-column-arrivalSite, .driver, .arrivalSite, .departureSite {
+              display: none;
+            }
+          }
+
+        }
+      }
+    }
+  }
 }

@@ -1,18 +1,34 @@
-<div class='modal-header'>
-  <div>
-    <h1>Les Demandes a valider</h1>
-     <span>Nombre de demande réservations à valider : {{notificationCount}}</span>
-
-    <tr *ngFor="let booking of (rowsBookingsValider)">
-      <div><span>Nom du demandeur : {{booking.User.surname}}{{booking.User.name}}</span></div>
-      <div><span>date de début  : {{booking.startDate | date: 'fullDate'}}</span></div>
-      <div><span>date de fin : {{booking.endDate | date: 'fullDate'}}</span></div>
-      <div><span>Nom du Site : {{booking.Site.label}}</span></div>
-    </tr>
-
-    <div class='actions'>
-      <button mat-stroked-button *ngIf='!isReadMode()' (click)='close()'>Annuler</button>
-    </div>
-
+<div id='notif-modal' class='notif-modal'>
+  <div class='notif-header'>
+    <h1>Notifications</h1>
   </div>
+  <div *ngIf="connectedUser.authorizationAccess===1; then thenBlock else elseBlock"></div>
+  <ng-template #thenBlock>
+    <div class='notif-content'>
+      <div>
+        <button mat-button (click)="redirectTo('loan', '1')">
+          <div>
+            <span>Réservation à valider :
+              {{notificationCountStatutEnAttenteDeValidation}}</span>
+          </div>
+        </button>
+      </div>
+      <div>
+        <button mat-button (click)="redirectTo('loan','4')">
+          <div>
+            <span>Mes réservation : {{notificationCountBookingUser}}</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #elseBlock>
+    <div class='notif-content'>
+      <button mat-button (click)="redirectTo('loan', '4')">
+        <div>
+          <span>Mes réservation : {{notificationCountBookingUser}}</span>
+        </div>
+      </button>
+    </div>
+  </ng-template>
 </div>

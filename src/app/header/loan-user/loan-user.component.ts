@@ -5,7 +5,7 @@ import { User } from '../../users-list/user.model';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../users-list/usersList.service';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { SiteDataModel } from '../../site/site.data.model';
+import { SiteDataModel } from '../../sites-list/site.model';
 import { StatusModel } from '../../common/models/StatusModel';
 import { LoanDataModel } from 'src/app/loan/loan.data.model';
 import { LoanService } from 'src/app/loan/loan.service';
@@ -95,7 +95,7 @@ export class LoanUserComponent implements OnInit {
     }
       //console.log("this.connectedUser.email", this.connectedUser.email);
 
-    this.loanService.getLoansByUtilisateur(this.connectedUser.email).subscribe(loan => {
+    this.loanService.getBookingsForUtilisateurStatusValide(this.connectedUser.id,4).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
 
     this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
@@ -108,8 +108,6 @@ export class LoanUserComponent implements OnInit {
      this.loanService.getLoansByStatus(1).subscribe(loan => {
       this.notificationCount = loan.notificationCount.count;
       this.rowsBookingsValider = loan.notificationCount.rows;
-      //console.log("Header : Nombre de réservation à valider", loan.notificationCount.count);
-      //console.log("Les Rows à valider", this.rowsBookingsValider);
     });
   }
 
@@ -140,7 +138,7 @@ export class LoanUserComponent implements OnInit {
    * @param saved On sauvegarde ou non
    */
   public close(saved: boolean = false): void {
-    const loan: LoanDataModel = new LoanDataModel();
+    /*const loan: LoanDataModel = new LoanDataModel();
     if (saved) {
       loan.driver = new User();
       loan.driver.id = this.selectedDriver.id;
@@ -152,8 +150,8 @@ export class LoanUserComponent implements OnInit {
       }
       loan.status = new StatusModel();
       loan.status.id = 1;
-    }
-    this.dialogRef.close({ saved: saved, loan: loan });
+    }*/
+    this.dialogRef.close();
   }
 
   /**

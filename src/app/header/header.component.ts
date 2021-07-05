@@ -2,6 +2,7 @@ import { Component, Inject, Input, LOCALE_ID, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { User } from '../users-list/user.model';
 import * as moment from 'moment';
+import { Device } from '../common/device'
 import { LoanService } from '../loan/loan.service';
 import { LoanDataModel } from '../loan/loan.data.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,6 +35,11 @@ export class HeaderComponent implements OnInit {
 
   public rowsBookingsValider: any[];
 
+    public notificationCountStatutEnAttenteDeValidation: number =0;
+
+  public notificationCountStatutValide: number =0;
+
+
 
   /**
    * Date du jour au format string
@@ -49,24 +55,35 @@ export class HeaderComponent implements OnInit {
     @Inject(LOCALE_ID) public locale: string
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const localStorageUser: string = localStorage.getItem('connectedUser') || '';
     this.connectedUser = JSON.parse(localStorageUser);
-    if (!this.connectedUser.profile) {
+    if (this.connectedUser.authorizationAccess === 1) {
       this.userProfile = 'Administrateur';
+    } else {
+      this.userProfile = 'Utilisateur';
     }
 
+    // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
+    /* notificationCountStatutEnAttenteDeValidation */
     this.loanService.getLoansByStatus(1).subscribe(loan => {
-      this.notificationCount = loan.notificationCount.count;
+      this.notificationCountStatutEnAttenteDeValidation = loan.notificationCount.count;
       this.rowsBookingsValider = loan.notificationCount.rows;
     });
 
-    this.loanService.getLoansByUtilisateur(this.connectedUser.email).subscribe(loan => {
+    // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
+    /* notificationCountStatutEnAttenteDeValidation */
+     this.loanService.getLoansByStatus(4).subscribe(loan => {
+      this.notificationCountStatutValide = loan.notificationCount.count;
+      this.rowsBookingsValider = loan.notificationCount.rows;
+    });
+
+    // Permet de donner le nombre réservation avec le Status 'Validé' pour l'utilisateur connecté
+    /* notificationCountBookingUser */
+    this.loanService.getBookingsForUtilisateurStatusValide(this.connectedUser.id,4).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
       this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
      });
-
-
 
 
   }
@@ -84,7 +101,7 @@ export class HeaderComponent implements OnInit {
    * @param mode Mode d'ouverture => Création / modification
    * @param loan
    */
-  public openLoanInProgress(mode: string, loan: LoanDataModel | null): void {
+   public openLoanInProgress(mode: string, loan: LoanDataModel | null): void {
     const dialogRef = this.dialog2.open(LoanInProgressComponent, {
       data: { mode: mode, loan: loan }
     });
@@ -96,6 +113,10 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-
+  IsMobile(){
+    Device.definedUseDevice('header-container');
+    return Device.isMobileDevice();
+  }
 
 }
+
