@@ -1,28 +1,61 @@
-<div class='modal-sinister-header'>
+<div id='sinister-modal'>
+  <div class='modal-header'>
     <div>
       <h1>Déclaration d'un sinistre</h1>
     </div>
     <button mat-icon-button class='close-button' (click)='close(false)'>
         <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
     </button>
+  </div>
+  <mat-divider></mat-divider>
+  <div class='form-container'>
+    <form [formGroup]='sinisterForm' class='form'>
+      <div>
+        <div>
+          <mat-form-field style='width: 100%'>
+            <mat-label>Véhicule sinistré</mat-label>
+            <input type='text'
+                  aria-label="Véhicule sinistré"
+                  matInput
+                  formControlName='vehicle'
+                  [matAutocomplete]='vehicle'>
+            <mat-icon>arrow_drop_down</mat-icon>
+            <mat-autocomplete #vehicle='matAutocomplete'>
+              <mat-option *ngFor='let vehicle of vehicles' 
+                          [value]="getVehiculeString(vehicle)"
+                          (onSelectionChange)='setVehicleId($event, vehicle)'>
+                {{ getVehiculeString(vehicle) }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field style="width: 100%">
+            <mat-label>Descriptif du sinistre</mat-label>
+            <textarea matInput
+                      formControlName='libelle'
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="1"
+                      cdkAutosizeMaxRows="5"></textarea>
+          </mat-form-field>
+        </div> <!--
+        <div>
+          <mat-form-field style='width: 100%'>
+            <mat-label>Descriptif du sinistre</mat-label>
+            <input type='text'
+                   matInput
+                   formControlName='libelle'>
+          </mat-form-field>
+        </div> -->
+      </div>
+      <div class='actions'>
+        <button mat-stroked-button (click)='close()'>Annuler</button>
+        <button mat-raised-button color='primary'
+                (click)='close(true)'>Valider
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
-<mat-divider></mat-divider>
-<form [formGroup]='sinisterForm'>
-    <div>
-      <mat-form-field style='width: 100%'>
-        <mat-label>Véhicule</mat-label>
-        <input type='text'
-               aria-label="Véhicule sinistré"
-               matInput
-               formControlName='vehicle'
-               [matAutocomplete]='vehicle'>
-        <mat-icon>arrow_drop_down</mat-icon>
-        <mat-autocomplete #vehicle='matAutocomplete'>
-          <mat-option *ngFor='let vehicle of vehicles' [value]='vehicle.libelle'
-                      (onSelectionChange)='setVehicleId($event, vehicle)'>
-            {{ vehicle.libelle }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </div>
-</form>
+

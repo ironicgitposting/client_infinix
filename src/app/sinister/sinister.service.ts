@@ -12,17 +12,17 @@ import { Deserialize } from 'cerialize';
 })
 export class SinisterService {
 
-    constructor(private http: HttpClient, private router: Router) {
+    constructor(private http: HttpClient) {
 
     }
 
-    getSinisters(): Observable<any> {
+    public getSinisters(): Observable<any> {
         return this.http.get('http://localhost:3000/api/v1/sinisters/').pipe(
             map((response: any) => Deserialize(response.sinisters, SinisterModel)),
         );
     }
 
-    updateSinister() {
-
+    public createSinister(sinisterData: SinisterModel): Observable<any> {
+        return this.http.post('http://localhost:3000/api/v1/sinisters/create/', sinisterData); 
     }
 }

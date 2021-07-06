@@ -10,5 +10,5 @@ export class SinisterModel {
     @autoserializeAs('status')
     status: StatusModel;
     @autoserializeAs('idVehicle')
-    idVehicle: Vehicle;
+    idVehicle: number;
 }
