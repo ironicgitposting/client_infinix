@@ -22,7 +22,7 @@ export class VehicleModal implements OnInit {
   public site_vehicle: SiteDataModel = new SiteDataModel();
 
   public siteId: number;
-
+  //TODO : changer ça
   types = ['En validation', 'Validé', 'En cours', 'En retard', 'Clôturé'];
 
   constructor(

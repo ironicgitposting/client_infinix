@@ -1,11 +1,64 @@
 @import "../common/common.less";
 
-.modal-sinister-header {
+::ng-deep .mat-form-field-infix {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.modal-header {
     position: relative;
+
+    .close-button {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+      }
 }
 
-.close-button {
-    position: absolute;
-    top: -20px;
-    right: -20px;
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+    mat-form-field, mat-checkbox {
+        padding-top: 2em;
+    }
+  
+    .actions {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      
+        & button {
+          margin-left: 1em;
+        }
+    }
+}
+
+  
+  .desktop{
+    .form-container{
+      .mapbox{
+        width: 500px;
+        height: 460px;
+        border: 1px solid silver;
+        border-radius: 0.5em;
+        margin-left: 1em;
+      }
+    }
   }
+  
+  .mobile{
+    .modal-header{
+      text-align: center;
+    }
+    .form-container{
+      .mapbox{
+        display:none;
+      }
+    }
+  }
+  

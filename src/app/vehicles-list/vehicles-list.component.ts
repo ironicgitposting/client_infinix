@@ -11,6 +11,8 @@ import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
 import { MessageService } from '../common/services/message.service';
 import { SinisterModal } from '../sinister/sinister-modal.component';
 import { Device } from '../common/device';
+import { SinisterService } from '../sinister/sinister.service';
+import { SinisterModel } from '../sinister/sinister.model';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -53,7 +55,8 @@ export class VehiclesListComponent implements OnInit {
   dataSource: MatTableDataSource<Vehicle>;
 
   constructor(private vehicleService: VehicleService,
-              public dialog: MatDialog,
+              private sinisterService: SinisterService,
+              private dialog: MatDialog,
               private msgService: MessageService) {
 
   }
@@ -84,9 +87,7 @@ export class VehiclesListComponent implements OnInit {
   fetchData() {
     this.vehicleService.getVehicles().subscribe(vehicles => {
       this.ELEMENT_DATA = vehicles;
-      console.log(this.ELEMENT_DATA);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      console.log(this.dataSource);
       this.dataSource.sort = this.sort;
     });
   }
@@ -145,7 +146,18 @@ export class VehiclesListComponent implements OnInit {
   openSinisterModal(){
     const dialogRef = this.dialog.open(SinisterModal, {
       width: "512px",
-  });
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.saved) {
+        //TODO : Pb avec le status
+        this.sinisterService.createSinister(result.sinister).subscribe(response => {
+          this.msgService.snackbar('Sinistre enregistré', 'success');
+          this.fetchData();
+        });
+      }
+    });
+
 }
 
   IsMobile(){
