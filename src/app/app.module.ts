@@ -19,6 +19,7 @@ import { SnackBarModule } from './snackbar/snackbar.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AdminPanelModule } from './admin-panel/adminPanel.module';
 import { LoanModalModule } from './loan/loan-modal/loan-modal.module';
+import { CloseLoanModalModule } from './loan/close-loan-modal/close-loan-modal.module';
 import { HistoricalVehicleModule } from './vehicles-list/historical-vehicle-modal/historical-vehicle-modal.module';
 import { VehicleModule } from './vehicles-list/vehicle-modal/vehicle-modal.module';
 import { AuthInterceptor } from './authentication/auth.interceptor';
@@ -54,6 +55,7 @@ registerLocaleData(localeFr);
     MatSnackBarModule,
     AdminPanelModule,
     LoanModalModule,
+    CloseLoanModalModule,
     SiteModalModule,
     HistoricalVehicleModule,
     VehicleModule,
@@ -74,4 +76,4 @@ registerLocaleData(localeFr);
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

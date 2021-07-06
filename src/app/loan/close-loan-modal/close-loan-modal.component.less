@@ -1,0 +1,42 @@
+@import "../../common/common.less";
+
+
+.modal-header {
+  position: relative;
+
+  .close-button {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+  }
+}
+.form-container {
+  display: flex;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    mat-form-field, mat-checkbox {
+      padding-top: 2em;
+    }
+
+    .actions {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    
+      & button {
+        margin-left: 1em;
+      }
+    }
+  }
+}
+
+.mobile{
+  .modal-header{
+    text-align: center;
+  }
+}

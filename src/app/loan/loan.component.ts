@@ -1,8 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { LoanModalComponent } from './loan-modal/loan-modal.component';
+import { CloseLoanModalComponent } from './close-loan-modal/close-loan-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MessageService } from '../common/services/message.service';
@@ -23,14 +24,14 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-loan',
   templateUrl: './loan.component.html',
   styleUrls: ['./loan.component.less'],
-    animations: [
-      trigger('detailExpand', [
-        state('collapsed, void', style({ height: '0px' })),
-        state('expanded', style({ height: '*' })),
-        transition('expanded <=> collapsed',
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed, void', style({ height: '0px' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed',
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-        transition('expanded <=> void',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')) ]),
+      transition('expanded <=> void',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))]),
   ],
 })
 export class LoanComponent implements OnInit {
@@ -51,13 +52,15 @@ export class LoanComponent implements OnInit {
     departureSite: string;
     arrivalSite: string;
     startDate: string;
-    endDate: string; } = {
-    status: 'Statut',
-    driver: 'Conducteur',
-    departureSite: 'site de départ',
-    arrivalSite: 'site d\'arrivé',
-    startDate: 'Date du prêt',
-    endDate: 'Date de rendu'};
+    endDate: string;
+  } = {
+      status: 'Statut',
+      driver: 'Conducteur',
+      departureSite: 'site de départ',
+      arrivalSite: 'site d\'arrivé',
+      startDate: 'Date du prêt',
+      endDate: 'Date de rendu'
+    };
 
   public expandedElement: LoanDataModel | null;
 
@@ -65,25 +68,25 @@ export class LoanComponent implements OnInit {
 
   public dataSource: MatTableDataSource<any>;
 
-  public filters: {search: string, start: Date, end: Date};
+  public filters: { search: string, start: Date, end: Date };
 
   public isAdmin: boolean = false;
 
   public statusId: string;
 
-  public notificationCountBookingUser: number =0;
+  public notificationCountBookingUser: number = 0;
 
   public rowsBookingsUser: any[];
 
   ELEMENT_DATA: LoanDataModel[];
 
   constructor(public dialog: MatDialog,
-              private msgService: MessageService,
-              private loanService: LoanService,
-              private statusService: StatusService,
-              private fb: FormBuilder,
-              private authService: AuthenticationService,
-              private activatedRoute: ActivatedRoute
+    private msgService: MessageService,
+    private loanService: LoanService,
+    private statusService: StatusService,
+    private fb: FormBuilder,
+    private authService: AuthenticationService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.isAdmin = this.authService.getIsAdmin();
     this.filterForm = this.fb.group({
@@ -114,8 +117,8 @@ export class LoanComponent implements OnInit {
 
     //récupération du statusId
     this.activatedRoute.params.subscribe((param) => {
-        this.statusId = param['statusId'];
-        //console.log('Le status du navigateur 3 :', this.statusId);
+      this.statusId = param['statusId'];
+      //console.log('Le status du navigateur 3 :', this.statusId);
     });
 
     this.statusService.getStatusByFamilyStatus(FamilyStatusEnum.bookingsFamily).subscribe(status => {
@@ -130,7 +133,7 @@ export class LoanComponent implements OnInit {
     this.loanService.getAllLoans(connectedUser).subscribe(loan => {
       this.loans = loan;
       this.dataSource = new MatTableDataSource(this.loans);
-      this.dataSource.filterPredicate = (data, filters: string)  => {
+      this.dataSource.filterPredicate = (data, filters: string) => {
         let ret: boolean = false;
         let retDate: boolean = false;
         let retStatus: boolean = false;
@@ -179,12 +182,12 @@ export class LoanComponent implements OnInit {
       };
 
       this.status.forEach((statusElement) => {
-      if(statusElement.id === Number(this.statusId)){
-        this.filterManuallyByStatus(statusElement.label);
-        this.filterForm.controls['status'].setValue(statusElement.label);
+        if (statusElement.id === Number(this.statusId)) {
+          this.filterManuallyByStatus(statusElement.label);
+          this.filterForm.controls['status'].setValue(statusElement.label);
 
-      }
-    });
+        }
+      });
 
       this.dataSource.sort = this.sort;
     });
@@ -257,6 +260,27 @@ export class LoanComponent implements OnInit {
   }
 
   /**
+ * Ouverture de la modale de réservation
+ * @param isReadOnly En lecture seule ou non
+ * @param mode Mode d'ouverture
+ * @param loan
+ */
+  public openCloseLoanModal(loan: LoanDataModel | null): void {
+    const dialogRef = this.dialog.open(CloseLoanModalComponent, {
+      data: { loan: loan }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.saved) {
+        this.loanService.createLoan(result.loan).subscribe(response => {
+          this.msgService.snackbar('Réservation cloturé', 'success');
+          this.fetchLoans();
+        });
+      }
+    });
+  }
+
+  /**
    * Filtrer le tableau par la colonne statut
    * @param status
    */
@@ -274,13 +298,13 @@ export class LoanComponent implements OnInit {
  * Filtrer manuellement le tableau par la colonne statut
  * @param status
  */
-public filterManuallyByStatus(status: string): void {
-  if (status === 'Tous') {
-    this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤Tous`;
-  } else {
-    this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤${status}`;
+  public filterManuallyByStatus(status: string): void {
+    if (status === 'Tous') {
+      this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤Tous`;
+    } else {
+      this.dataSource.filter = `${this.filterForm.controls['search'].value}|¤${this.filterForm.controls['start'].value?.toString()}|¤${this.filterForm.controls['end'].value?.toString()}|¤${status}`;
+    }
   }
-}
 
   /**
    * Clôture du prêt
@@ -497,7 +521,7 @@ public filterManuallyByStatus(status: string): void {
    * @param loan Réservation
    */
   public isCloseLoanButtonActive(loan: LoanDataModel): boolean {
-    return !this.isEndDatePassed(loan) && this.isLoanActive(loan) && this.isLoanRunning(loan);
+    return !this.isEndDatePassed(loan) || this.isLoanRunning(loan);
   }
 
   /**
@@ -508,7 +532,7 @@ public filterManuallyByStatus(status: string): void {
     return (this.isAwaitingValidation(loan) || this.isLoanValidated(loan)) && !this.isEndDatePassed(loan) && !this.isLoanActive(loan);
   }
 
-  IsMobile(){
+  IsMobile() {
     Device.definedUseDevice('loan-container');
     return Device.isMobileDevice();
   }
