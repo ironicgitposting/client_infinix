@@ -16,7 +16,7 @@ export class Vehicle {
   @autoserializeAs('immatriculation')
   immatriculation: string;
   @autoserializeAs('state')
-  state: number;
+  state: string;
   @autoserializeAs('Site')
   site: SiteDataModel;
   @autoserializeAs('status')

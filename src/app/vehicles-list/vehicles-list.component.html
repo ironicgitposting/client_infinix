@@ -68,7 +68,6 @@
                           </ng-template>
                           <div>
                             Etat : {{ vehicle.state }} <br>
-                            Sinistre : Dernier sinistre ou rien
                           </div>
                           <div>
 
@@ -103,11 +102,17 @@
                           <mat-card-title>
                             <div class='detail-card-title'>
                               <mat-icon aria-hidden='false' color='primary'>info</mat-icon>
-                              Autres
+                              Sinistre en cours
                             </div>
                           </mat-card-title>
                         </mat-card-header>
-
+                        <mat-card-content>
+                          <div class='sinister' *ngFor="let sinister of sinisters">
+                            <span class='sinister-text'>{{ sinister.libelle }} {{ sinister.status.label }}</span>
+                            <mat-icon class='icon-sinister' (click)="deleteSinister(sinister)">highlight_off</mat-icon>
+                            
+                          </div>
+                        </mat-card-content>
                       </mat-card>
                     </div>
                     <div class='button-wrapper'>
@@ -132,7 +137,7 @@
               <tr mat-header-row *matHeaderRowDef='columnsToDisplay'></tr>
               <tr mat-row *matRowDef='let vehicle; columns: columnsToDisplay;' class='element-row'
                 [class.expanded-row]='expandedElement === vehicle'
-                (click)='expandedElement = expandedElement === vehicle ? null : vehicle'>
+                (click)='expandedElement = expandedElement === vehicle ? null : vehicle; getSinistersForVehicle(vehicle)'>
               </tr>
               <tr mat-row *matRowDef="let vehicle; columns: ['expandedDetail']" class='detail-row'></tr>
 

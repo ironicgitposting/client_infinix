@@ -70,7 +70,7 @@ import { StatusModel } from 'src/app/common/models/StatusModel';
     }
 
     fetchData(id: number) {
-      console.log(id);
+
       this.loanService.getAllLoansForVehicle(id).subscribe(bookings => {
         this.ELEMENT_DATA = bookings;
         console.log(this.ELEMENT_DATA);

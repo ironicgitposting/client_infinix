@@ -23,7 +23,7 @@
             <mat-autocomplete #vehicle='matAutocomplete'>
               <mat-option *ngFor='let vehicle of vehicles' 
                           [value]="getVehiculeString(vehicle)"
-                          (onSelectionChange)='setVehicleId($event, vehicle)'>
+                          (onSelectionChange)='setVehicleId($event, vehicle); getVehicleSelected(vehicle);'>
                 {{ getVehiculeString(vehicle) }}
               </mat-option>
             </mat-autocomplete>

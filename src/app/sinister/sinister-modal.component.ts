@@ -38,9 +38,9 @@ export class SinisterModal implements OnInit {
               }
 
   ngOnInit() {
-       this.vehicleService.getVehicles().subscribe(vehicles => {
-         this.vehicles = vehicles;
-       })
+    this.vehicleService.getVehicles().subscribe(vehicles => {
+      this.vehicles = vehicles;
+    });
   };
 
   public getVehiculeString(vehicle: Vehicle): string {
@@ -49,6 +49,10 @@ export class SinisterModal implements OnInit {
       ret = `${vehicle.libelle} ${vehicle.model} (${vehicle.immatriculation})`;
     }
     return ret;
+  }
+
+  getVehicleSelected(selectedVehicle: Vehicle) : void {
+    this.selectedVehicle = selectedVehicle;
   }
 
   public close(saved: boolean = false): void {
@@ -60,7 +64,7 @@ export class SinisterModal implements OnInit {
       sinister.status.id = 100;
       sinister.status.label = StatusEnum.discovered;
     }
-    this.dialogRef.close({saved: saved, sinister: sinister});
+    this.dialogRef.close({saved: saved, sinister: sinister, selectedVehicle: this.selectedVehicle});
   }
 
   public setVehicleId(status: MatOptionSelectionChange, vehicle: Vehicle): void {
