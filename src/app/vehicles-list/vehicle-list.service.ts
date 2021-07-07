@@ -24,6 +24,12 @@ export class VehicleService {
     );
   }
 
+  getAvailableVehicles(startDate: Date, endDate: Date | null): Observable<any> {
+    return this.http.get(`http://localhost:3000/api/v1/vehicules/available/${startDate}&${endDate}`).pipe(
+      map((response: any) => Deserialize(response.vehicules, Vehicle)),
+    );
+  }
+
   getVehicleUpdateListener() {
     return this.vehiclesUpdated.asObservable();
   }

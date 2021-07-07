@@ -83,10 +83,10 @@ export class LoanModalComponent implements OnInit {
     this.siteService.getSitesAvailable().subscribe(sites => {
       this.sites = sites;
     });
-    this.vehicleService.getVehicles().subscribe(vehicles => {
-      this.vehicules = vehicles;
-    });
     if (this.data.loan) {
+      this.vehicleService.getAvailableVehicles(this.data.loan.startDate, this.data.loan.endDate).subscribe(vehicles => {
+        this.vehicules = vehicles;
+      });
       // On alimente le formgroup avec les valeurs de la réservation
       this.loanForm.controls['driver'].setValue(this.data.loan.driver.surname + ' ' + this.data.loan.driver.name);
       this.selectedDriver = this.data.loan.driver;
