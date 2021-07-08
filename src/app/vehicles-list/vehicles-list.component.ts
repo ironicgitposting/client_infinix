@@ -17,6 +17,7 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 import { StatusEnum } from '../common/models/status.enum';
 import { StatusModel } from '../common/models/StatusModel';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -63,7 +64,8 @@ export class VehiclesListComponent implements OnInit {
   constructor(private vehicleService: VehicleService,
               private sinisterService: SinisterService,
               private dialog: MatDialog,
-              private msgService: MessageService) {
+              private msgService: MessageService,
+              private datePipe: DatePipe) {
 
   }
 
@@ -87,6 +89,11 @@ export class VehiclesListComponent implements OnInit {
         });
       }
     }
+  }
+
+  formatDateSinistre(date_sinistre: Date){
+    const formated_date = this.datePipe.transform(date_sinistre, 'dd/MM/yyyy');
+    return formated_date;
   }
 
   fetchData() {
