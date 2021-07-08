@@ -16,6 +16,7 @@ import { SinisterModel } from '../sinister/sinister.model';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { StatusEnum } from '../common/models/status.enum';
 import { StatusModel } from '../common/models/StatusModel';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -157,7 +158,7 @@ export class VehiclesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.saved) {
-        //TODO : changer le flagservice du véhicule
+        
         this.sinisterService.createSinister(result.sinister).subscribe(response => {
           this.msgService.snackbar('Sinistre enregistré', 'success');
           const selectedVehicle : Vehicle = result.selectedVehicle;
@@ -177,11 +178,15 @@ export class VehiclesListComponent implements OnInit {
   getSinistersForVehicle(vehicle: Vehicle) : void {
     this.sinisterService.getSinisters(vehicle.id, 100).subscribe(sinisters => {
       this.sinisters = sinisters;
+      console.log(sinisters.length);
     });
 
   }
 
-  deleteSinister(sinister: SinisterModel) : void {
+  /**
+   * Ouvre une modal et supprime un sinistre, si plus de sinistre actif, change l'etat du véhicule
+   */
+  deleteSinister(sinister: SinisterModel, vehicle: Vehicle) : void {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       data : {message : "Êtes-vous sûr de vouloir archiver ce sinistre ?"}
     });
@@ -195,11 +200,36 @@ export class VehiclesListComponent implements OnInit {
      
         this.sinisterService.updateSinister(sinister).subscribe(response =>{
           this.msgService.snackbar('Sinistre archivé !', 'success');
+          this.hasSinister(vehicle);
+          this.fetchData();
+        }); 
+        
+      }
+      
+    });
+  }
+
+    /**
+   * Compte les sinistres pour un véhicule, si il n'y en a pas, on change le state du véhicule
+   */ 
+  hasSinister(vehicle: Vehicle) : void {
+    this.sinisterService.getSinisters(vehicle.id, 100).subscribe(sinisters => {
+      if (sinisters.length == 0) {
+        const selectedVehicle : Vehicle = vehicle;
+        selectedVehicle.state = 'Sinistres terminés';
+        this.vehicleService.updateVehicle(selectedVehicle, selectedVehicle.immatriculation).subscribe(response =>{
           this.fetchData();
         });
       }
     });
-    
+  }
+
+  onVehicleSwitchToggle($event: MatSlideToggleChange, vehicle: Vehicle) : void {
+    vehicle.flagService = !$event.checked;
+    console.log(vehicle);
+    this.vehicleService.updateVehicle(vehicle, vehicle.immatriculation).subscribe(response => {
+      
+    });
   }
 
   IsMobile(){

@@ -70,7 +70,10 @@
                             Etat : {{ vehicle.state }} <br>
                           </div>
                           <div>
-
+                            <mat-slide-toggle class="slide-toggle" [checked]="!vehicle.flagService"
+                              (change)="onVehicleSwitchToggle($event, vehicle)">
+                                Utiliser le véhicule
+                            </mat-slide-toggle>
                           </div>
                         </mat-card-content>
                       </mat-card>
@@ -108,8 +111,8 @@
                         </mat-card-header>
                         <mat-card-content>
                           <div class='sinister' *ngFor="let sinister of sinisters">
-                            <span class='sinister-text'>{{ sinister.libelle }} {{ sinister.status.label }}</span>
-                            <mat-icon class='icon-sinister' (click)="deleteSinister(sinister)">highlight_off</mat-icon>
+                            <span class='sinister-text'>{{ sinister.libelle }}</span>
+                            <mat-icon class='icon-sinister' (click)="deleteSinister(sinister, vehicle);">highlight_off</mat-icon>
                             
                           </div>
                         </mat-card-content>
