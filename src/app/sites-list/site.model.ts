@@ -20,4 +20,8 @@ export class SiteDataModel {
   pays: string;
   @autoserializeAs('status')
   status: StatusModel;
+  @autoserializeAs('latitude')
+  latitude: number;
+  @autoserializeAs('longitude')
+  longitude: number;
 }

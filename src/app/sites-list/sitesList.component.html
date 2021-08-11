@@ -1,45 +1,45 @@
-<div id="site-container" class="site-container">
-  <div id="wrapper" class="wrapper">
-    <div id="container" class="container">
-      <button mat-raised-button color="primary" class="add-site" (click)="openSiteModal('new', null, null)">
-        Ajouter un site
-      </button>
+<div id='site-container' class='site-container'>
+  <div id='wrapper' class='wrapper'>
+    <div id='container' class='container'>
       <mat-card class='wrapper-card'>
-        <mat-card-header class='wrapper-card-header'>
-          <div id="filters" class='filters'>
-            <mat-form-field class="site-wrapper">
-              <mat-label>Rechercher</mat-label>
-              <input matInput id="search" (keyup)="applyFilter($event)" #input>
-            </mat-form-field>
-          </div>
-        </mat-card-header>
-        <mat-card-content class='wrapper-card-content'>
-          <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
-            <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-              <th mat-header-cell *matHeaderCellDef> {{columnsName[column]}} </th>
-              <ng-container *ngIf="column !== 'action'">
-                <td mat-cell *matCellDef="let site"> {{site[column]}} </td>
+        <div style='width: 50%;'>
+          <mat-card-header class='wrapper-card-header'>
+            <div id='filters' class='filters'>
+              <mat-form-field class='site-wrapper'>
+                <mat-label>Rechercher</mat-label>
+                <input matInput id='search' (keyup)='applyFilter($event)' #input>
+              </mat-form-field>
+            </div>
+          </mat-card-header>
+          <mat-card-content class='wrapper-card-content'>
+            <table mat-table [dataSource]='dataSource' multiTemplateDataRows class='mat-elevation-z8'>
+              <ng-container matColumnDef='{{column}}' *ngFor='let column of columnsToDisplay'>
+                <th mat-header-cell *matHeaderCellDef> {{columnsName[column]}} </th>
+                <ng-container *ngIf="column !== 'action'">
+                  <td mat-cell *matCellDef='let site'> {{site[column]}} </td>
+                </ng-container>
+                <ng-container *ngIf="column === 'action'">
+                  <td mat-cell *matCellDef='let site'>
+                    <div class='btn-action-vehicle'>
+                      <button class='action-btn' mat-raised-button color='primary'
+                              (click)="openSiteModal('update', site, site.label)">
+                        Modifier
+                      </button>
+                      <button class='action-btn' mat-raised-button color='warn' (click)='deleteSite(site)'>
+                        ARCHIVER
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
               </ng-container>
-              <ng-container *ngIf="column === 'action'">
-                <td mat-cell *matCellDef="let site">
-                  <div class='btn-action-vehicle'>
-                    <button class='action-btn' mat-raised-button color='primary'
-                      (click)="openSiteModal('update', site, site.label)">
-                      Modifier
-                    </button>
-                    <button class='action-btn' mat-raised-button color='warn' (click)='deleteSite(site)'>
-                      ARCHIVER
-                    </button>
-                  </div>
-                </td>
-              </ng-container>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-            <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-          </table>
-
-        </mat-card-content>
-
+              <tr mat-header-row *matHeaderRowDef='columnsToDisplay'></tr>
+              <tr mat-row *matRowDef='let row; columns: columnsToDisplay;'></tr>
+            </table>
+          </mat-card-content>
+        </div>
+        <div class='mapbox' id='mapbox'>
+          <app-map [coordinatesToMark]='coordinatesToMark | async' (openModalCreation)='openSiteModalFromMap("new", $event)'></app-map>
+        </div>
       </mat-card>
     </div>
   </div>

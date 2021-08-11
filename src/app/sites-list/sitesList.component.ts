@@ -1,18 +1,15 @@
 import { ViewChild } from "@angular/core";
 import { Component } from "@angular/core";
 import { OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
 import { SiteDataModel } from "./site.model";
 import { SiteService } from "./sitesList.service";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Inject } from "@angular/core";
-import { NgForm } from "@angular/forms";
-import { Router } from "@angular/router";
+import { MatDialog } from '@angular/material/dialog';
 import { SiteModalComponent } from "./site-modal/site-modal.component";
 import { MessageService } from "../common/services/message.service";
 import { MatSort } from "@angular/material/sort";
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { MatTableDataSource } from "@angular/material/table";
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-sites',
@@ -31,11 +28,8 @@ import { MatTableDataSource } from "@angular/material/table";
 export class SitesListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
-  sites: SiteDataModel[] = [];
-  private sitesSub: Subscription;
-
-  ELEMENT_DATA: SiteDataModel[];
-  columnsToDisplay: string[] = ['label', 'adress', 'postalCode', 'city', 'phone', 'mail', 'pays', 'action'];
+  sites: SiteDataModel[];
+  columnsToDisplay: string[] = ['label', 'adress', 'postalCode', 'city', 'pays', 'action'];
 
   columnsName: {
     [model: string]: string;
@@ -43,8 +37,6 @@ export class SitesListComponent implements OnInit {
     adress: string;
     postalCode: string;
     city: string;
-    phone: string;
-    mail: string;
     pays: string;
     action: string;
   } = {
@@ -52,18 +44,15 @@ export class SitesListComponent implements OnInit {
       adress: 'Adresse',
       postalCode: 'Code Postal',
       city: 'Ville',
-      phone: 'Télephone',
-      mail: 'Email',
       pays: 'Pays',
       action: 'action',
     };
 
   expandedElement: SiteDataModel | null;
 
-  etats = ['En validation', 'Validé', 'En cours', 'En retard', 'Clôturé']
-
   dataSource: MatTableDataSource<SiteDataModel>;
 
+  coordinatesToMark: Subject<[[number, number]]> = new Subject<[[number, number]]>();
 
   constructor(private siteService: SiteService, public dialog: MatDialog, private msgService: MessageService) {
 
@@ -79,13 +68,12 @@ export class SitesListComponent implements OnInit {
       console.log('mode', mode);
       debugger;
 
-      if (result && result.saved && mode == 'new') {
+      if (result && result.saved && mode === 'new') {
         this.siteService.createSite(result.site).subscribe(response => {
-          //this.msgService.snackbar('Site enregistré', 'success');
           this.fetchData();
           console.log(response);
         });
-      } else if (result && result.saved && mode == 'update') {
+      } else if (result && result.saved && mode === 'update') {
         this.siteService.updateSite(result.site, lastLabel).subscribe(response => {
           this.msgService.snackbar('Véhicule modifié');
           this.fetchData();
@@ -94,52 +82,55 @@ export class SitesListComponent implements OnInit {
     });
   }
 
-  public ngOnInit() {
-    /*this.siteService.getSites();
-    this.sitesSub = this.siteService.getSiteUpdateListener()
-      .subscribe((siteData: {sites: Site[]}) => {
-        this.sites = siteData.sites;
-      });*/
-    this.siteService.getSitesAvailable().subscribe(site => {
-      console.log(site);
-      this.ELEMENT_DATA = site;
-      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      this.dataSource.sort = this.sort;
+  public openSiteModalFromMap(mode: string, searchResult: any): void {
+    console.log(searchResult);
+    const placeInformations = searchResult.place_name.split(',');
+    const site = new SiteDataModel();
+    site.adress = placeInformations[0].trim();
+    //TODO: se baser sur autre chose que le split du place_name
+    site.postalCode = placeInformations[1].trim().split(' ')[0].trim();
+    site.city = placeInformations[1].trim().split(' ')[1].trim();
+    site.pays = placeInformations[2].trim();
+    site.longitude = searchResult.center[0];
+    site.latitude = searchResult.center[1];
+    console.log(site);
+    const dialogRef = this.dialog.open(SiteModalComponent, {
+      data: { mode, site }
     });
 
-    this.fetchData();
-  }
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
 
-  fetchData() {
-    this.siteService.getSitesAvailable().subscribe(site => {
-      this.ELEMENT_DATA = site;
-      console.log(this.ELEMENT_DATA);
-      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      console.log(this.dataSource);
-      this.dataSource.sort = this.sort;
-    });
-  }
-
-  ngOnDestroy(): void {
-  }
-
-  public ngAfterViewInit() {
-
-  }
-
-  isEmptySites() {
-    return this.sites.length == 0;
-  }
-
-  openDialog(site: SiteDataModel): void {
-    const dialogRef = this.dialog.open(DialogSite, {
-      data: {
-        site
+      if (result && result.saved && mode === 'new') {
+        this.siteService.createSite(result.site).subscribe(response => {
+          this.fetchData();
+          if (response.message === 'site created') {
+            this.msgService.snackbar('Site créé');
+          }
+        });
       }
     });
   }
 
-  deleteSite(site: SiteDataModel): void {
+  public ngOnInit(): void {
+    this.fetchData();
+  }
+
+  public fetchData(): void {
+    this.siteService.getSitesAvailable().subscribe((sites: SiteDataModel[]) => {
+      this.sites = sites;
+      this.dataSource = new MatTableDataSource(this.sites);
+      this.dataSource.sort = this.sort;
+      const coordinates: [[number, number]] = [[0, 0]];
+      coordinates.splice(0);
+      sites.forEach(site => {
+        coordinates.push([site.longitude, site.latitude]);
+      });
+      this.coordinatesToMark.next(coordinates);
+    });
+  }
+
+  public deleteSite(site: SiteDataModel): void {
     if (confirm('Are you sure to delete ')) {
       if (site.label) {
         this.siteService.deleteSite(site, site.id).subscribe(() => {
@@ -149,52 +140,8 @@ export class SitesListComponent implements OnInit {
     }
   }
 
-  applyFilter(event: Event) {
+  public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-}
-
-@Component({
-  selector: 'dialog-modal',
-  templateUrl: './siteModal.html',
-  styleUrls: ['./sitesList.component.less']
-})
-export class DialogSite implements OnInit {
-
-  public modalSite: SiteDataModel;
-
-  constructor(
-    private siteService: SiteService,
-    public dialogRef: MatDialogRef<DialogSite>,
-    private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  ngOnInit() {
-    this.modalSite = this.data.site;
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  onConfirmClick(ngForm: NgForm) {
-
-    if (ngForm.valid) {
-      /*const newSite: SiteDataModel = {
-        libelle: ngForm.form.value.libelle,
-        adress: ngForm.form.value.adress,
-        postalCode: ngForm.form.value.postalCode,
-        city: ngForm.form.value.city,
-        pays: ngForm.form.value.pays
-        // TODO: A COMPLETER
-
-      }*/
-      console.log(ngForm);
-      //this.siteService.updateSite(newSite);
-      this.router.navigate(['/sites']);
-
-    }
-
   }
 }

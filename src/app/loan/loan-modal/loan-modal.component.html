@@ -111,7 +111,7 @@
       </div>
     </form>
     <div class='mapbox' id='mapbox'>
-      <app-map></app-map>
+      <app-map [coordinatesToMark]='coordinatesToMark | async' [searchBar]='false'></app-map>
     </div>
   </div>
 </div>

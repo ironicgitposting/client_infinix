@@ -1,80 +1,87 @@
-<div class='modal-header'>
-  <div>
-    <h1 *ngIf="isNewMode()">Ajouter un site</h1>
-    <h1 *ngIf="isUpdateMode()">Modifier le site</h1>
+<div>
+  <div class='modal-header'>
+    <div>
+      <h1 *ngIf='isNewMode()'>Ajouter un site</h1>
+      <h1 *ngIf='isUpdateMode()'>Modifier le site</h1>
+    </div>
+    <button mat-icon-button class='close-button' (click)='close()'>
+      <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
+    </button>
   </div>
-  <button mat-icon-button class='close-button' (click)='close()'>
-    <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
-  </button>
 </div>
 <mat-divider></mat-divider>
- <form [formGroup]="siteForm">
-  <div>
-    <mat-form-field style='margin-right: 1em'>
-      <mat-label>Nom du Site</mat-label>
-      <input
-        matInput
-        name="label"
-        type="label"
-        formControlName="label"/>
-    </mat-form-field>
-    <mat-form-field style='margin-right: 1em'>
-      <mat-label>Adresse</mat-label>
-      <input
-        matInput
-        name="adress"
-        type="adress"
-        formControlName="adress"/>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Code Postal</mat-label>
-      <input
-        matInput
-        name="postalCode"
-        type="postalCode"
-        formControlName="postalCode"/>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field style='margin-right: 1em'>
-      <mat-label>Ville</mat-label>
-      <input
-        matInput
-        name="city"
-        type="city"
-        formControlName="city"/>
-    </mat-form-field>
-    <mat-form-field style='margin-right: 1em'>
-      <mat-label>Télephone</mat-label>
-      <input
-        matInput
-        name="phone"
-        type="phone"
-        formControlName="phone"/>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Mail</mat-label>
-      <input
-        matInput
-        name="mail"
-        type="mail"
-        formControlName="mail"/>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field style='margin-right: 1em'>
-      <mat-label>Pays</mat-label>
-      <input
-        matInput
-        name="pays"
-        type="pays"
-        formControlName="pays"/>
-    </mat-form-field>
-  </div>
-  <div class='actions'>
-    <button mat-stroked-button *ngIf='!isReadMode()' (click)='close()'>Annuler</button>
-    <!-- <button mat-raised-button *ngIf='!isReadMode()' color='primary' [disabled]='!isSaveDisabled()' (click)='close(true)'>Valider</button>-->
-    <button mat-raised-button color='primary' (click)='close(true)'>Valider</button>
-    <button mat-raised-button *ngIf='isReadMode()' color='primary' (click)='close()'>Fermer</button>
-  </div>
-</form>
+<div class='form-container'>
+  <form [formGroup]='siteForm'>
+    <div>
+      <mat-form-field>
+        <mat-label>Nom du Site</mat-label>
+        <input
+          matInput
+          name='label'
+          type='label'
+          formControlName='label' />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Adresse</mat-label>
+        <input
+          matInput
+          name='adress'
+          type='adress'
+          formControlName='adress' />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Ville</mat-label>
+        <input
+          matInput
+          name='city'
+          type='city'
+          formControlName='city' />
+      </mat-form-field>
+    </div>
+    <div class='two-inputs-one-row'>
+      <mat-form-field style='margin-right: 1em'>
+        <mat-label>Code Postal</mat-label>
+        <input
+          matInput
+          name='postalCode'
+          type='postalCode'
+          formControlName='postalCode' />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Pays</mat-label>
+        <input
+          matInput
+          name='pays'
+          type='pays'
+          formControlName='pays' />
+      </mat-form-field>
+    </div>
+    <div class='two-inputs-one-row'>
+      <mat-form-field style='margin-right: 1em'>
+        <mat-label>Télephone</mat-label>
+        <input
+          matInput
+          name='phone'
+          type='phone'
+          formControlName='phone' />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mail</mat-label>
+        <input
+          matInput
+          name='mail'
+          type='mail'
+          formControlName='mail' />
+      </mat-form-field>
+    </div>
+    <div class='actions'>
+      <button mat-stroked-button *ngIf='!isReadMode()' (click)='close()'>Annuler</button>
+      <button mat-raised-button color='primary' (click)='close(true)' [disabled]='!isSaveDisabled()'>Valider</button>
+      <button mat-raised-button *ngIf='isReadMode()' color='primary' (click)='close()'>Fermer</button>
+    </div>
+  </form>
+</div>

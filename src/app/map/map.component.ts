@@ -1,142 +1,125 @@
-import { Component, OnInit } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { FeatureCollection } from './models/FeatureCollection';
-import { GeoJson } from './models/GeoJson';
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import * as mapboxgl from 'mapbox-gl';
+import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import { Marker } from 'mapbox-gl';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.less'],
 })
-export class MapComponent implements OnInit {
-  map: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/streets-v11';
-  lat = 47.218371;
-  lng = -1.553621;
+export class MapComponent implements OnInit, OnChanges {
 
-  source: any;
-  markers: any;
+  @Input() searchBar: boolean = true;
+  @Input() openPopupOnSearch: boolean = true;
+  @Input() creationMode: boolean = true;
+  @Input() navigationControl: boolean = true;
+  @Input() coordinatesToMark: [[number, number]] | null;
+  @Output() openModalCreation: EventEmitter<any> = new EventEmitter<any>();
+
+  public map: mapboxgl.Map;
+  public style = 'mapbox://styles/mapbox/streets-v11';
+  /**
+   * Coordonnées Nantes
+   */
+  public latNantes = 47.218371;
+  public lngNantes = -1.553621;
+
+  /**
+   * Coordonnées France
+   */
+  public lat = 46.487638;
+  public lng = 2.213749;
+
+  public markers: Marker[] = [];
+  public newMarker: any;
+
+  public lastSearchResult: any;
 
   constructor() {
   }
 
-  public ngOnInit(): void {
-    this.map = new mapboxgl.Map({
-      accessToken: environment.mapbox.accessToken,
-      container: 'map',
-      style: this.style,
-      zoom: 10,
-      center: [this.lng, this.lat],
-    });
-    // Add map controls
-    this.map.addControl(new mapboxgl.NavigationControl());
-    this.map.on('click', event => {
-      // If the user clicked on one of your markers, get its information.
-      const features: any = this.map.queryRenderedFeatures(event.point, {
-        layers: ['YOUR_LAYER_NAME'], // replace with your layer name
-      });
-      if (!features.length) {
-        return;
-      }
-      const feature = features[0];
-
-      // Create a popup, specify its options
-      // and properties, and add it to the map.
-      const popup = new mapboxgl.Popup({ offset: [0, -15] })
-        .setLngLat(feature.geometry.coordinates)
-        .setHTML(
-          '<h3>' + feature.properties.title + '</h3>' +
-          '<p>' + feature.properties.description + '</p>',
-        )
-        .addTo(this.map);
-
-    });
-  }
-
-  private initializeMap(): void {
-    /// locate the user
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.map.flyTo({
-          center: [this.lng, this.lat]
-        });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.map) {
+      this.map = new mapboxgl.Map({
+        accessToken: environment.mapbox.accessToken,
+        container: 'map',
+        style: this.style,
+        zoom: 4.5,
+        center: [this.lng, this.lat],
       });
     }
-
-    this.buildMap();
-
+    if (this.coordinatesToMark && this.map && changes.hasOwnProperty('coordinatesToMark')) {
+      if (this.markers.length > 0) {
+        this.markers.forEach((marker: any) => {
+          marker.addTo(this.map).setLngLat([0, 0]).remove();
+        });
+      }
+      this.markers = [];
+      this.coordinatesToMark.forEach(coordinate => {
+        this.markers.push(new mapboxgl
+          .Marker({ color: '#673ab7' })
+          .setLngLat(coordinate)
+          .addTo(this.map));
+      });
+    }
   }
 
-  public buildMap(): void {
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: this.style,
-      zoom: 13,
-      center: [this.lng, this.lat]
+  public ngOnInit(): void {
+
+    const geocoder = new MapboxGeocoder({
+      accessToken: environment.mapbox.accessToken,
+      placeholder: 'Chercher pour ajouter un site'
     });
 
+    geocoder.on('result', (e) => {
+      this.lastSearchResult = e.result;
+      geocoder.clear(new Event(''));
+      if (this.newMarker) {
+        this.newMarker.getElement().removeAllListeners();
+        this.newMarker.addTo(this.map).setLngLat([0, 0]).remove();
+      }
+      this.newMarker = new mapboxgl
+        .Marker({ color: '#673ab7' })
+        .setLngLat(this.lastSearchResult.center)
+        .addTo(this.map);
 
-    /// Add map controls
-    this.map.addControl(new mapboxgl.NavigationControl());
-
-
-    //// Add Marker on Click
-    this.map.on('click', (event) => {
-      const coordinates = [event.lngLat.lng, event.lngLat.lat];
-      const newMarker   = new GeoJson(coordinates);
-    });
-
-
-    /// Add realtime firebase data on map load
-    this.map.on('load', (event) => {
-
-      /// register source
-      this.map.addSource('firebase', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: []
+      this.newMarker.getElement().addEventListener('click', () => {
+        if (this.creationMode) {
+          this.openModalCreation.emit(this.lastSearchResult);
         }
       });
 
-      /// get source
-      this.source = this.map.getSource('firebase');
-
-      /// subscribe to realtime database and set data source
-      this.markers.subscribe((markers: any) => {
-        const data: FeatureCollection = new FeatureCollection(markers);
-        this.source.setData(data);
-      });
-
-      /// create map layers with realtime data
-      this.map.addLayer({
-        id: 'firebase',
-        source: 'firebase',
-        type: 'symbol',
-        layout: {
-          'text-field': '{message}',
-          'text-size': 24,
-          'text-transform': 'uppercase',
-          'icon-image': 'rocket-15',
-          'text-offset': [0, 1.5]
-        },
-        paint: {
-          'text-color': '#f16624',
-          'text-halo-color': '#fff',
-          'text-halo-width': 2
-        }
-      });
-
+      if (this.creationMode) {
+        this.openModalCreation.emit(this.lastSearchResult);
+      } else {
+        new mapboxgl.Popup()
+          .setLngLat(this.lastSearchResult.center)
+          .setHTML(this.constructNewMarkerDescription(this.lastSearchResult))
+          .addTo(this.map);
+      }
     });
 
+    if (this.searchBar) {
+      this.map.addControl(geocoder, 'top-left');
+    }
+    if (this.navigationControl) {
+      this.map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+    }
   }
 
-  public flyTo(data: GeoJson): void {
-    this.map.flyTo({
-      center: data.geometry.coordinates as any
-    });
+  public constructNewMarkerDescription(searchResult: any): string {
+    let description: string = '';
+    let placeInformations: string[] = [];
+    placeInformations = searchResult.place_name.split(',');
+    description += `<h3>Nouveau site</h3>`;
+    description += `<div>${placeInformations[0]}</div>`;
+    description += `<div>${placeInformations[1].trim()}</div>`;
+    description += `<div>${placeInformations[2].trim()}</div>`;
+    description += `<div style='width: 100%; margin-top: 1em;'></div>`;
+    return description;
   }
 }
