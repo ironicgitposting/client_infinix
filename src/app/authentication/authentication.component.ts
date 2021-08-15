@@ -147,7 +147,6 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
       .getIsActivated()
       .subscribe((isActivated) => {
         this.isActivated = isActivated;
-        console.log("isActivated", isActivated);
       });
   }
 
@@ -176,9 +175,11 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     user.email = this.registerForm.value.email;
     user.password = this.registerForm.value.password;
     user.phone = this.registerForm.value.phone;
-    this.authenticationService.createUser(user);
-    this.openSnackBar('success', 'Demande de création de compte enregistrée');
-    this.toggleRegisterForm();
+    this.authenticationService.createUser(user).subscribe(response => {
+      this.router.navigate(['/']);
+      this.openSnackBar('success', 'Demande de création de compte enregistrée');
+      this.toggleRegisterForm();
+    });
   }
 
   /**
@@ -218,8 +219,10 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public redirectToPasswordReset(): void {
-    this.router.navigate(['/resetPassword']);
+  public redirectToPasswordReset(event: any): void {
+    if (event.pointerType === 'mouse') {
+      this.router.navigate(['/resetPassword']);
+    }
   }
 
   IsMobile() {

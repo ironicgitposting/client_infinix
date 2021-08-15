@@ -76,10 +76,6 @@ export class LoanComponent implements OnInit {
 
   public notificationCountBookingUser: number = 0;
 
-  public rowsBookingsUser: any[];
-
-  ELEMENT_DATA: LoanDataModel[];
-
   constructor(public dialog: MatDialog,
     private msgService: MessageService,
     private loanService: LoanService,
@@ -99,14 +95,6 @@ export class LoanComponent implements OnInit {
 
 
   public ngOnInit(): void {
-    this.statusService.getStatusByFamilyStatus(FamilyStatusEnum.bookingsFamily).subscribe(status => {
-      const statusAll: StatusModel = new StatusModel();
-      statusAll.label = 'Tous';
-      this.status.push(statusAll);
-      status.forEach(stat => {
-        this.status.push(stat);
-      });
-    });
     this.fetchLoans();
   }
 
@@ -118,10 +106,10 @@ export class LoanComponent implements OnInit {
     //récupération du statusId
     this.activatedRoute.params.subscribe((param) => {
       this.statusId = param['statusId'];
-      //console.log('Le status du navigateur 3 :', this.statusId);
     });
 
     this.statusService.getStatusByFamilyStatus(FamilyStatusEnum.bookingsFamily).subscribe(status => {
+      this.status = [];
       const statusAll: StatusModel = new StatusModel();
       statusAll.label = 'Tous';
       this.status.push(statusAll);
@@ -191,16 +179,6 @@ export class LoanComponent implements OnInit {
 
       this.dataSource.sort = this.sort;
     });
-
-    /*this.loanService.getBookingsForUtilisateurStatusValide(5,4).subscribe(loan => {
-      this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
-
-    this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
-      console.log("Les Rows", loan.notificationCountBookingUser.rows);
-       this.ELEMENT_DATA = loan;
-      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      this.dataSource.sort = this.sort;
-     });*/
 
   }
 

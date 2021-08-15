@@ -125,7 +125,6 @@ export class ResetPasswordFormComponent implements OnInit, AfterViewInit {
         userId: this.userId,
         clearPassword: this.resetPasswordForm.value.password,
       };
-      debugger;
       this.authenticationService.changeUserPassword(data);
     }
   }

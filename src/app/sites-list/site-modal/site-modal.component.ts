@@ -73,7 +73,6 @@ export class SiteModalComponent implements OnInit {
    */
   public close(saved: boolean = false): void {
     const site: SiteDataModel = new SiteDataModel();
-    debugger;
     if (!this.siteForm.valid) {
       this.dialogRef.close();
       return;

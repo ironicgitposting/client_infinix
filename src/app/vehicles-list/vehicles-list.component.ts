@@ -102,7 +102,7 @@ export class VehiclesListComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.sort = this.sort;
     });
-    
+
   }
 
   openDialog(vehicle: Vehicle): void {
@@ -140,7 +140,7 @@ export class VehiclesListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      
+
       if (result && result.saved && !lastImmatriculation) {
         this.vehicleService.createVehicle(result.vehicle).subscribe(response => {
           this.msgService.snackbar('Véhicule enregistré', 'success');
@@ -165,7 +165,7 @@ export class VehiclesListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.saved) {
-        
+
         this.sinisterService.createSinister(result.sinister).subscribe(response => {
           this.msgService.snackbar('Sinistre enregistré', 'success');
           const selectedVehicle : Vehicle = result.selectedVehicle;
@@ -185,7 +185,6 @@ export class VehiclesListComponent implements OnInit {
   getSinistersForVehicle(vehicle: Vehicle) : void {
     this.sinisterService.getSinisters(vehicle.id, 100).subscribe(sinisters => {
       this.sinisters = sinisters;
-      console.log(sinisters.length);
     });
 
   }
@@ -204,21 +203,21 @@ export class VehiclesListComponent implements OnInit {
         sinister.status = new StatusModel();
         sinister.status.id = 300;
         sinister.status.label = StatusEnum.solved;
-     
+
         this.sinisterService.updateSinister(sinister).subscribe(response =>{
           this.msgService.snackbar('Sinistre archivé !', 'success');
           this.hasSinister(vehicle);
           this.fetchData();
-        }); 
-        
+        });
+
       }
-      
+
     });
   }
 
     /**
    * Compte les sinistres pour un véhicule, si il n'y en a pas, on change le state du véhicule
-   */ 
+   */
   hasSinister(vehicle: Vehicle) : void {
     this.sinisterService.getSinisters(vehicle.id, 100).subscribe(sinisters => {
       if (sinisters.length == 0) {
@@ -233,9 +232,8 @@ export class VehiclesListComponent implements OnInit {
 
   onVehicleSwitchToggle($event: MatSlideToggleChange, vehicle: Vehicle) : void {
     vehicle.flagService = !$event.checked;
-    console.log(vehicle);
     this.vehicleService.updateVehicle(vehicle, vehicle.immatriculation).subscribe(response => {
-      
+
     });
   }
 

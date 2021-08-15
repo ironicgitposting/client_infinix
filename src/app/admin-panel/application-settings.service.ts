@@ -22,7 +22,6 @@ export class ApplicationSettingsService {
 
   public updateSetting(setting: Setting): void {
     if (this.authService.getIsAdmin()) {
-      debugger;
       this.http.put<any>('http://localhost:3000/api/v1/settings/update/' + setting.id, setting).subscribe();
     }
   }

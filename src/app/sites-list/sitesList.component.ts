@@ -64,14 +64,10 @@ export class SitesListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      console.log('mode', mode);
-      debugger;
 
       if (result && result.saved && mode === 'new') {
         this.siteService.createSite(result.site).subscribe(response => {
           this.fetchData();
-          console.log(response);
         });
       } else if (result && result.saved && mode === 'update') {
         this.siteService.updateSite(result.site, lastLabel).subscribe(response => {
@@ -83,24 +79,32 @@ export class SitesListComponent implements OnInit {
   }
 
   public openSiteModalFromMap(mode: string, searchResult: any): void {
-    console.log(searchResult);
-    const placeInformations = searchResult.place_name.split(',');
+
     const site = new SiteDataModel();
-    site.adress = placeInformations[0].trim();
-    //TODO: se baser sur autre chose que le split du place_name
-    site.postalCode = placeInformations[1].trim().split(' ')[0].trim();
-    site.city = placeInformations[1].trim().split(' ')[1].trim();
-    site.pays = placeInformations[2].trim();
+
+    // Gestion différente si le site est un monument ou une adresse standard
+    if (searchResult.hasOwnProperty('address') && !searchResult.properties.hasOwnProperty('address')) {
+      site.adress = searchResult.address + ' ' + searchResult.text;
+    } else if (!searchResult.hasOwnProperty('address') && searchResult.properties.hasOwnProperty('address')) {
+      site.adress = searchResult.properties.address;
+    }
+    if (searchResult.context.length === 5) {
+      site.postalCode = searchResult.context[1].text;
+      site.city = searchResult.context[3].text;
+      site.pays = searchResult.context[4].text;
+    } else if (searchResult.context.length === 4) {
+      site.postalCode = searchResult.context[0].text;
+      site.city = searchResult.context[2].text;
+      site.pays = searchResult.context[3].text;
+    }
     site.longitude = searchResult.center[0];
     site.latitude = searchResult.center[1];
-    console.log(site);
+
     const dialogRef = this.dialog.open(SiteModalComponent, {
       data: { mode, site }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-
       if (result && result.saved && mode === 'new') {
         this.siteService.createSite(result.site).subscribe(response => {
           this.fetchData();
@@ -131,13 +135,13 @@ export class SitesListComponent implements OnInit {
   }
 
   public deleteSite(site: SiteDataModel): void {
-    if (confirm('Are you sure to delete ')) {
-      if (site.label) {
+    this.msgService.confirm('Êtes-vous sûr(e) de vouloir supprimer ce site ?').subscribe(response => {
+      if (response) {
         this.siteService.deleteSite(site, site.id).subscribe(() => {
           this.fetchData();
         });
       }
-    }
+    });
   }
 
   public applyFilter(event: Event): void {

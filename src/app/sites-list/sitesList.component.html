@@ -12,9 +12,9 @@
             </div>
           </mat-card-header>
           <mat-card-content class='wrapper-card-content'>
-            <table mat-table [dataSource]='dataSource' multiTemplateDataRows class='mat-elevation-z8'>
+            <table mat-table [dataSource]='dataSource' multiTemplateDataRows class='mat-elevation-z8' matSort>
               <ng-container matColumnDef='{{column}}' *ngFor='let column of columnsToDisplay'>
-                <th mat-header-cell *matHeaderCellDef> {{columnsName[column]}} </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{columnsName[column]}} </th>
                 <ng-container *ngIf="column !== 'action'">
                   <td mat-cell *matCellDef='let site'> {{site[column]}} </td>
                 </ng-container>
@@ -26,13 +26,13 @@
                         Modifier
                       </button>
                       <button class='action-btn' mat-raised-button color='warn' (click)='deleteSite(site)'>
-                        ARCHIVER
+                        Supprimer
                       </button>
                     </div>
                   </td>
                 </ng-container>
               </ng-container>
-              <tr mat-header-row *matHeaderRowDef='columnsToDisplay'></tr>
+              <tr mat-header-row *matHeaderRowDef='columnsToDisplay; sticky: true'></tr>
               <tr mat-row *matRowDef='let row; columns: columnsToDisplay;'></tr>
             </table>
           </mat-card-content>

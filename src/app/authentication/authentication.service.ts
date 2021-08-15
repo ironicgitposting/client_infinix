@@ -37,14 +37,8 @@ export class AuthenticationService {
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
-  public createUser(authenticationData: AuthenticationDataModel): void {
-    this.httpClient
-      .post('http://localhost:3000/api/v1/users/signup', authenticationData)
-      .subscribe((response) => {
-        console.log(response);
-        // TODO: redirect to confirmation page
-        this.router.navigate(['/']);
-      });
+  public createUser(authenticationData: AuthenticationDataModel): Observable<any> {
+    return this.httpClient.post('http://localhost:3000/api/v1/users/signup', authenticationData);
   }
 
   public login(authenticationData: AuthenticationDataModel): void {
@@ -52,7 +46,6 @@ export class AuthenticationService {
       .post('http://localhost:3000/api/v1/users/login', authenticationData)
       .subscribe(
         (response: any) => {
-          console.log("Reponse", response);
           const user = response.user;
 
           if(user && Boolean(user.enabled)) {
@@ -80,11 +73,9 @@ export class AuthenticationService {
         }
         else{
             this.isActivated.next(false);
-            console.log("Compte désactivée", user.enabled);
           }
         },
         (error) => {
-          console.log("Reponse", error);
           this.authStatusListener.next(false);
         },
       );
@@ -101,7 +92,6 @@ export class AuthenticationService {
 
   autoAuthUser(): void {
     const authInformation = this.getAuthData();
-    console.log(authInformation);
     if (!authInformation) {
       return;
     }
@@ -109,7 +99,6 @@ export class AuthenticationService {
     const now = new Date();
     // In Ms
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
-    console.log(authInformation, expiresIn);
     if (expiresIn > 0) {
       this.token = authInformation.token;
       this.isAuthenticated = true;
@@ -130,7 +119,6 @@ export class AuthenticationService {
   }
 
   private setAuthTimer(duration: number): void {
-    console.log('Setting timer: ' + duration);
     this.tokenTimer = setTimeout(() => {
       this.logout();
     }, duration * 1000);
@@ -158,8 +146,6 @@ export class AuthenticationService {
         email: email,
       })
       .subscribe((response) => {
-        debugger;
-        console.log(response);
         // TODO: redirect to confirmation page
         this.router.navigate(['/']);
       });
@@ -173,7 +159,6 @@ export class AuthenticationService {
     this.httpClient
       .post('http://localhost:3000/api/v1/users/resetPassword', data)
       .subscribe((response) => {
-        console.log(response);
 
         this.router.navigate(['/']);
       });

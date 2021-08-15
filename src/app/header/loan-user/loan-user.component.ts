@@ -93,13 +93,11 @@ export class LoanUserComponent implements OnInit {
     if (!this.connectedUser.profile) {
       this.userProfile = 'Administrateur';
     }
-      //console.log("this.connectedUser.email", this.connectedUser.email);
 
     this.loanService.getBookingsForUtilisateurStatusValide(this.connectedUser.id,4).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
 
     this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
-      //console.log("Les Rows", loan.notificationCountBookingUser.rows);
        this.ELEMENT_DATA = loan;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.sort = this.sort;

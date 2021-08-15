@@ -22,11 +22,6 @@ export class MapComponent implements OnInit, OnChanges {
 
   public map: mapboxgl.Map;
   public style = 'mapbox://styles/mapbox/streets-v11';
-  /**
-   * Coordonnées Nantes
-   */
-  public latNantes = 47.218371;
-  public lngNantes = -1.553621;
 
   /**
    * Coordonnées France

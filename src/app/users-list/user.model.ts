@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { autoserializeAs } from 'cerialize';
+import { SiteDataModel } from '../sites-list/site.model';
 
 export class User {
   @autoserializeAs('id')
@@ -9,7 +10,7 @@ export class User {
   @autoserializeAs('name')
   name: string;
   @autoserializeAs('profession')
-  profession: number;
+  profession: string;
   @autoserializeAs('email')
   email: string;
   @autoserializeAs('telephone')
@@ -19,7 +20,7 @@ export class User {
   @autoserializeAs('dateLastSeen')
   dateLastSeen: Moment;
   @autoserializeAs('site')
-  site: number;
+  site: SiteDataModel;
   @autoserializeAs('language')
   language: number;
   @autoserializeAs('archived')

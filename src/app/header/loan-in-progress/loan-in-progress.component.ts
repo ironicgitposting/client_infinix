@@ -121,7 +121,6 @@ export class LoanInProgressComponent implements OnInit {
     // Permet de donner le contenu des réservations avec le Status 'Validé' pour l'utilisateur connecté
     /* rowsBookingsUser */
     this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
-      //console.log("Les Rows", loan.notificationCountBookingUser.rows);
        this.ELEMENT_DATA = loan;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.sort = this.sort;
