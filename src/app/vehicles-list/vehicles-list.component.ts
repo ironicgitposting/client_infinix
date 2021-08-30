@@ -11,6 +11,13 @@ import { VehicleModal } from './vehicle-modal/vehicle-modal.component';
 import { MessageService } from '../common/services/message.service';
 import { SinisterModal } from '../sinister/sinister-modal.component';
 import { Device } from '../common/device';
+import { SinisterService } from '../sinister/sinister.service';
+import { SinisterModel } from '../sinister/sinister.model';
+import { ConfirmComponent } from '../confirm/confirm.component';
+import { StatusEnum } from '../common/models/status.enum';
+import { StatusModel } from '../common/models/StatusModel';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-vehicles-list',
@@ -30,6 +37,8 @@ export class VehiclesListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   vehicles: Vehicle[] = [];
+
+  sinisters: SinisterModel[] = [];
 
   ELEMENT_DATA: Vehicle[];
   columnsToDisplay: string[] = ['model', 'libelle', 'immatriculation', 'state', 'status'];
@@ -53,11 +62,12 @@ export class VehiclesListComponent implements OnInit {
   dataSource: MatTableDataSource<Vehicle>;
 
   constructor(private vehicleService: VehicleService,
-              public dialog: MatDialog,
-              private msgService: MessageService) {
+              private sinisterService: SinisterService,
+              private dialog: MatDialog,
+              private msgService: MessageService,
+              private datePipe: DatePipe) {
 
   }
-
 
   ngOnInit() {
     this.fetchData();
@@ -81,14 +91,18 @@ export class VehiclesListComponent implements OnInit {
     }
   }
 
+  formatDateSinistre(date_sinistre: Date){
+    const formated_date = this.datePipe.transform(date_sinistre, 'dd/MM/yyyy');
+    return formated_date;
+  }
+
   fetchData() {
     this.vehicleService.getVehicles().subscribe(vehicles => {
       this.ELEMENT_DATA = vehicles;
-      console.log(this.ELEMENT_DATA);
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-      console.log(this.dataSource);
       this.dataSource.sort = this.sort;
     });
+
   }
 
   openDialog(vehicle: Vehicle): void {
@@ -126,7 +140,7 @@ export class VehiclesListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      
+
       if (result && result.saved && !lastImmatriculation) {
         this.vehicleService.createVehicle(result.vehicle).subscribe(response => {
           this.msgService.snackbar('Véhicule enregistré', 'success');
@@ -139,14 +153,89 @@ export class VehiclesListComponent implements OnInit {
         });
       }
     });
-
   }
-
+  /**
+   * Ouverture de la modal de création de sinistre
+   * Après fermeture on passe le flagService à false et on change l'état
+   */
   openSinisterModal(){
     const dialogRef = this.dialog.open(SinisterModal, {
       width: "512px",
-  });
-}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.saved) {
+
+        this.sinisterService.createSinister(result.sinister).subscribe(response => {
+          this.msgService.snackbar('Sinistre enregistré', 'success');
+          const selectedVehicle : Vehicle = result.selectedVehicle;
+          selectedVehicle.flagService = false;
+          selectedVehicle.state = 'Sinistre en cours';
+          this.vehicleService.updateVehicle(selectedVehicle, selectedVehicle.immatriculation)
+          .subscribe(response => {});
+          this.fetchData();
+        });
+      }
+    });
+  }
+
+  /**
+   * Affiche les sinistres par véhicule
+   */
+  getSinistersForVehicle(vehicle: Vehicle) : void {
+    this.sinisterService.getSinisters(vehicle.id, 100).subscribe(sinisters => {
+      this.sinisters = sinisters;
+    });
+
+  }
+
+  /**
+   * Ouvre une modal et supprime un sinistre, si plus de sinistre actif, change l'etat du véhicule
+   */
+  deleteSinister(sinister: SinisterModel, vehicle: Vehicle) : void {
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      data : {message : "Êtes-vous sûr de vouloir archiver ce sinistre ?"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      const answer = result;
+      if (answer === true) {
+        sinister.status = new StatusModel();
+        sinister.status.id = 300;
+        sinister.status.label = StatusEnum.solved;
+
+        this.sinisterService.updateSinister(sinister).subscribe(response =>{
+          this.msgService.snackbar('Sinistre archivé !', 'success');
+          this.hasSinister(vehicle);
+          this.fetchData();
+        });
+
+      }
+
+    });
+  }
+
+    /**
+   * Compte les sinistres pour un véhicule, si il n'y en a pas, on change le state du véhicule
+   */
+  hasSinister(vehicle: Vehicle) : void {
+    this.sinisterService.getSinisters(vehicle.id, 100).subscribe(sinisters => {
+      if (sinisters.length == 0) {
+        const selectedVehicle : Vehicle = vehicle;
+        selectedVehicle.state = 'Sinistres terminés';
+        this.vehicleService.updateVehicle(selectedVehicle, selectedVehicle.immatriculation).subscribe(response =>{
+          this.fetchData();
+        });
+      }
+    });
+  }
+
+  onVehicleSwitchToggle($event: MatSlideToggleChange, vehicle: Vehicle) : void {
+    vehicle.flagService = !$event.checked;
+    this.vehicleService.updateVehicle(vehicle, vehicle.immatriculation).subscribe(response => {
+
+    });
+  }
 
   IsMobile(){
     Device.definedUseDevice('vehicle-container');

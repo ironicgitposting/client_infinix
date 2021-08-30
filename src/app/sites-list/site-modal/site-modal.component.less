@@ -7,6 +7,9 @@
 mat-form-field, mat-checkbox {
   padding-top: 2em;
 }
+mat-form-field {
+  width: 100%;
+}
 .acceptPassengers {
   padding-bottom: 2em;
 }
@@ -26,7 +29,23 @@ mat-form-field, mat-checkbox {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-top: .5em;
   & button {
     margin-left: 1em;
+  }
+}
+
+.two-inputs-one-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-container {
+  display: flex;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }

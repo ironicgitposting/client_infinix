@@ -1,9 +1,45 @@
-.action-btn,
-.btn-modal,
-.slide-toggle {
-  margin-left: 10px;
-}
+@import "../common/common.less";
 
+.user-container {
+  height: 100%;
+  .wrapper{
+    height: 100vh;
+    .container{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+
+
+      .add-user {
+        position: absolute;
+        z-index: 101;
+        top: 10px;
+        right: 60px;
+      }
+      .wrapper-card{
+        height: 80%;
+        display: block;
+        margin: 0;
+        margin-top:4em;
+        width: 90%;
+        .wrapper-card-content {
+          box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+          overflow: auto;
+          height: calc(100% - 100px);
+          .mat-elevation-z8 {
+            box-shadow: none;
+            width: 100%;
+            .btn-modal {
+              margin-top: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 
 mat-form-field,
@@ -11,6 +47,57 @@ textarea {
   width: 100%;
 }
 
-.btn-modal {
-  margin-top: 10px;
+.action-btn,
+.btn-modal,
+.slide-toggle {
+  margin-left: 10px;
+}
+
+::ng-deep .mat-form-field-infix {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-header {
+  position: relative;
+
+  .close-button {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+  }
+}
+.form-container {
+  display: flex;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .two-inputs-one-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      mat-form-field:first-child {
+        margin-right: 2em;
+      }
+    }
+
+    mat-form-field, mat-checkbox {
+      padding-top: 2em;
+    }
+
+    .actions {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      & button {
+        margin-left: 1em;
+      }
+    }
+  }
 }

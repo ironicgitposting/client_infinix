@@ -81,13 +81,16 @@
                 justify-content: flex-end;
               "
             >
-              <button mat-button (click)="redirectToPasswordReset()">
+              <button mat-button (click)="redirectToPasswordReset($event)">
                 Mot de passe oublié ?
               </button>
             </div>
           </form>
-          <div class="error" id="login-error" *ngIf="wrongId">
+          <div class="error" *ngIf="wrongId">
             Les identifiants de connexion sont incorrects
+          </div>
+          <div class="error" *ngIf="!isActivated">
+            Votre compte n'est pas activé
           </div>
           <button
             mat-raised-button

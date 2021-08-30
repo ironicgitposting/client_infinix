@@ -1,7 +1,12 @@
 @import "../common/common.less";
 
 .sidebar{
-  width: 300px;
+  @media screen and (max-width: 500px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 500px) {
+    width: 300px;
+  }
   margin-top: 4em;
   display: flex;
   align-items: center;
@@ -26,7 +31,7 @@
         margin-right: .5em;
       }
     }
-    &:hover{ 
+    &:hover{
       span > mat-icon{
         opacity: 0;
         &:last-child {

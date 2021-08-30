@@ -1,7 +1,6 @@
 <div *ngIf="IsMobile()"></div>
 <div id="loan-container" class="loan-container">
   <div id="wrapper" class="wrapper">
-    <canvas #canvas></canvas>
     <div id="container" class="container">
       <div class="button-add-loan">
         <button mat-raised-button color='primary' class='add-loan' (click)="openLoanModal('new', null)">
@@ -163,7 +162,8 @@
                       <button mat-button color='primary' *ngIf='isReadButtonActive(loan)'
                         (click)="this.openLoanModal('read', loan)">Consulter
                       </button>
-                      <button mat-button color='warn' *ngIf='isCloseLoanButtonActive(loan)' (click)='closeLoan(loan)'>
+                      <button mat-button color='warn' *ngIf='isCloseLoanButtonActive(loan)'
+                        (click)='openCloseLoanModal(loan)'>
                         Clôturer
                       </button>
                       <button mat-button color='warn' *ngIf='isCancelButtonActive(loan)' (click)='cancelLoan(loan)'>

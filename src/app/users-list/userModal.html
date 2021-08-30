@@ -1,70 +1,46 @@
-<form (submit)="onConfirmClick(updateForm)" #updateForm="ngForm">
-  <mat-form-field>
-    <input
-      matInput
-      name="email"
-      [ngModel]="modalUser.email"
-      type="email"
-      email
-      #emailInput="ngModel"
-    />
-    <mat-hint>Email</mat-hint>
-  </mat-form-field>
-  <mat-form-field>
-    <input
-      matInput
-      name="surname"
-      ngModel
-      type="text"
-      [ngModel]="modalUser.surname"
-      #surnameInput="ngModel"
-    />
-    <mat-hint>Prenom</mat-hint>
-  </mat-form-field>
-  <mat-form-field>
-    <input
-      matInput
-      name="name"
-      ngModel
-      type="text"
-      [ngModel]="modalUser.name"
-      #nameInput="ngModel"
-    />
-    <mat-hint>Nom</mat-hint>
-  </mat-form-field>
-  <mat-form-field class="example-full-width">
-    <mat-label>Telephone</mat-label>
-    <span matPrefix>+33 &nbsp;</span>
-    <input type="tel" matInput placeholder=Telephone>
-    <mat-hint>Telephone</mat-hint>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Langue</mat-label>
-    <select matNativeControl>
-      <option value="fr">Français</option>
-      <option value="en">Anglais</option>
-    </select>
-  </mat-form-field>
-  <mat-form-field>
-    <input
-      matInput
-      name="profession"
-      ngModel
-      type="text"
-      placeholder="Profession"
-      [ngModel]="modalUser.profession"
-    />
-    <mat-hint>Profession</mat-hint>
-  </mat-form-field>
-  <mat-form-field appearance="fill">
-    <mat-label>Site</mat-label>
-    <select matNativeControl>
-      <option value="null">Inconnu</option>
-      <option value="0">St Herblain</option>
-      <option value="1">Quimper</option>
-    </select>
-  </mat-form-field>
+<div id='user-modal'>
+  <div class='modal-header'>
+    <div>
+      <h1 *ngIf='isNewMode()'>Création</h1>
+      <h1 *ngIf='isUpdateMode()'>Modification</h1>
+    </div>
+    <button mat-icon-button class='close-button' (click)='close()'>
+      <mat-icon style='color: rgba(0, 0, 0, 0.54)'>close</mat-icon>
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <div class='form-container'>
+    <form [formGroup]='userForm' class='form'>
+      <div>
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput aria-label='Email' name='email' formControlName='email' type='email' />
+        </mat-form-field>
+      </div>
+      <div class='two-inputs-one-row'>
+        <mat-form-field>
+          <mat-label>Nom</mat-label>
+          <input matInput aria-label='Nom' name='name' type='text' formControlName='surname' />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Prenom</mat-label>
+          <input matInput aria-label='Prenom' name='surname' type='text' formControlName='name' />
+        </mat-form-field>
+      </div>
+      <div class='two-inputs-one-row'>
+        <mat-form-field>
+          <mat-label>Telephone</mat-label>
+          <input type='tel' matInput name='tel' aria-label='Telephone' formControlName='phone'>
+        </mat-form-field>
+        <mat-slide-toggle class="slide-toggle" color='primary' [checked]="data?.user?.authorizationAccess === 1" formControlName='profile'>
+          Profil administrateur
+        </mat-slide-toggle>
+      </div>
+      <div class='actions'>
+        <button mat-stroked-button (click)='close()'>Annuler</button>
+        <button class='btn-modal' mat-raised-button color='primary' (click)='save(true)' [disabled]='!isSaveDisabled()'>Valider</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-  <button class="btn-modal" mat-raised-button color="primary" type="submit">Confirmer</button>
-  <button class="btn-modal" mat-raised-button color="accent" type="submit">Annuler</button>
-</form>

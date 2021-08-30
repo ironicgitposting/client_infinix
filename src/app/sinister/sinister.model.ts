@@ -1,6 +1,5 @@
 import { autoserializeAs } from 'cerialize';
 import { StatusModel } from '../common/models/StatusModel';
-import { Vehicle } from '../vehicles-list/vehicle.model';
 
 export class SinisterModel {
     @autoserializeAs('id')
@@ -10,5 +9,7 @@ export class SinisterModel {
     @autoserializeAs('status')
     status: StatusModel;
     @autoserializeAs('idVehicle')
-    idVehicle: Vehicle;
+    idVehicle: number;
+    @autoserializeAs('createdAt')
+    createdAt: Date;
 }

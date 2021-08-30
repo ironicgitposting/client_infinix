@@ -15,7 +15,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   declarations: [
     VehiclesListComponent,    
@@ -36,7 +36,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatExpansionModule,
     MatSelectModule,
     MatTableModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTooltipModule
   ],
   exports: [VehiclesListComponent],
   providers: [],

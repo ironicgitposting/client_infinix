@@ -1,19 +1,20 @@
 @import "../common/common.less";
 
 .site-container{
+  height: 100%;
   .wrapper{
-    .container{  
+    .container{
       width: 100%;
       display: flex;
-      justify-content: space-evenly;
       flex-direction: column;
-      align-items: center;  
+      align-items: center;
       height: 100%;
       .wrapper-card {
-        height: 100%;
-        display: block;
-        margin-top:5%;
+        display: flex;
+        margin: 0;
+        margin-top:4em;
         width: 90%;
+        height: 80%;
         .wrapper-card-header {
           display: block;
 
@@ -90,14 +91,19 @@
       }
       textarea {
         width: 100%;
-      }        
+      }
       /* Structure */
       table {
         width: 100%;
-      }      
+      }
     }
   }
 }
 
-
-
+.mapbox{
+  width: 50%;
+  height: 100%;
+  border: 1px solid silver;
+  border-radius: 0.5em;
+  margin-left: 1em;
+}

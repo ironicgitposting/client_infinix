@@ -11,6 +11,7 @@ export class AuthenticationService {
   private tokenTimer: any;
   private authStatusListener = new Subject<boolean>();
   private isAdmin: boolean = false;
+  private isActivated = new Subject<boolean>();
 
   getToken(): string | null {
     return this.token;
@@ -25,20 +26,19 @@ export class AuthenticationService {
     return this.authStatusListener.asObservable();
   }
 
+  // tslint:disable-next-line:typedef
+  getIsActivated(): Observable<boolean> {
+    return this.isActivated.asObservable();
+  }
+
   getIsAuth(): boolean {
     return this.isAuthenticated;
   }
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
-  public createUser(authenticationData: AuthenticationDataModel): void {
-    this.httpClient
-      .post('http://localhost:3000/api/v1/users/signup', authenticationData)
-      .subscribe((response) => {
-        console.log(response);
-        // TODO: redirect to confirmation page
-        this.router.navigate(['/']);
-      });
+  public createUser(authenticationData: AuthenticationDataModel): Observable<any> {
+    return this.httpClient.post('http://localhost:3000/api/v1/users/signup', authenticationData);
   }
 
   public login(authenticationData: AuthenticationDataModel): void {
@@ -46,13 +46,15 @@ export class AuthenticationService {
       .post('http://localhost:3000/api/v1/users/login', authenticationData)
       .subscribe(
         (response: any) => {
-          console.log(response);
+          const user = response.user;
 
+          if(user && Boolean(user.enabled)) {
           const token = response.token;
           this.token = token;
+
           if (token) {
             const expiresInDuration = response.expiresIn;
-            const user = response.user;
+
             this.setAuthTimer(expiresInDuration);
             this.isAuthenticated = true;
             if (user.authorizationAccess == 1) {
@@ -60,12 +62,17 @@ export class AuthenticationService {
               this.isAdmin = true;
             }
             this.authStatusListener.next(true);
+            this.isActivated.next(true);
             const now: Date = new Date();
             const expirationDate: Date = new Date(
               now.getTime() + expiresInDuration * 1000,
             );
             this.saveAuthData(token, expirationDate, user);
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/loan']);
+          }
+        }
+        else{
+            this.isActivated.next(false);
           }
         },
         (error) => {
@@ -85,7 +92,6 @@ export class AuthenticationService {
 
   autoAuthUser(): void {
     const authInformation = this.getAuthData();
-    console.log(authInformation);
     if (!authInformation) {
       return;
     }
@@ -93,7 +99,6 @@ export class AuthenticationService {
     const now = new Date();
     // In Ms
     const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
-    console.log(authInformation, expiresIn);
     if (expiresIn > 0) {
       this.token = authInformation.token;
       this.isAuthenticated = true;
@@ -114,7 +119,6 @@ export class AuthenticationService {
   }
 
   private setAuthTimer(duration: number): void {
-    console.log('Setting timer: ' + duration);
     this.tokenTimer = setTimeout(() => {
       this.logout();
     }, duration * 1000);
@@ -142,8 +146,6 @@ export class AuthenticationService {
         email: email,
       })
       .subscribe((response) => {
-        debugger;
-        console.log(response);
         // TODO: redirect to confirmation page
         this.router.navigate(['/login']);
       });
@@ -157,7 +159,6 @@ export class AuthenticationService {
     this.httpClient
       .post('http://localhost:3000/api/v1/users/resetPassword', data)
       .subscribe((response) => {
-        console.log(response);
 
         this.router.navigate(['/login']);
       });

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { SitesListComponent, DialogSite } from './sitesList.component';
+import { SitesListComponent } from './sitesList.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -13,12 +13,13 @@ import {MatSelectModule} from '@angular/material/select'
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
+import { MapModule } from '../map/map.module';
 
 
 @NgModule({
   declarations: [
-    SitesListComponent,
-    DialogSite
+    SitesListComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +34,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatSelectModule,
     MatTableModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatSortModule,
+    MapModule,
   ],
   exports: [SitesListComponent],
   providers: [],

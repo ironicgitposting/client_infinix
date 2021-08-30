@@ -13,6 +13,7 @@ import { Vehicle } from '../../vehicles-list/vehicle.model';
 import { VehicleService } from '../../vehicles-list/vehicle-list.service';
 import { Device } from '../../common/device';
 import * as moment from 'moment';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-loan-modal',
@@ -48,6 +49,8 @@ export class LoanModalComponent implements OnInit {
 
   public oneVehiculeAlreadylinked: boolean = false;
 
+  coordinatesToMark: Subject<[[number, number]]> = new Subject<[[number, number]]>();
+
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<LoanModalComponent>,
               private userService: UserService,
@@ -80,13 +83,19 @@ export class LoanModalComponent implements OnInit {
           this.drivers = users;
       });
     }
-    this.siteService.getSitesAvailable().subscribe(sites => {
+    this.siteService.getSitesAvailable().subscribe((sites: SiteDataModel[]) => {
       this.sites = sites;
-    });
-    this.vehicleService.getVehicles().subscribe(vehicles => {
-      this.vehicules = vehicles;
+      const coordinates: [[number, number]] = [[0, 0]];
+      coordinates.splice(0);
+      sites.forEach(site => {
+        coordinates.push([site.longitude, site.latitude]);
+      });
+      this.coordinatesToMark.next(coordinates);
     });
     if (this.data.loan) {
+      this.vehicleService.getAvailableVehicles(this.data.loan.startDate, this.data.loan.endDate).subscribe(vehicles => {
+        this.vehicules = vehicles;
+      });
       // On alimente le formgroup avec les valeurs de la réservation
       this.loanForm.controls['driver'].setValue(this.data.loan.driver.surname + ' ' + this.data.loan.driver.name);
       this.selectedDriver = this.data.loan.driver;

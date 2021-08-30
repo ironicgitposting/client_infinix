@@ -35,7 +35,12 @@ export class HeaderComponent implements OnInit {
 
   public rowsBookingsValider: any[];
 
-  
+    public notificationCountStatutEnAttenteDeValidation: number =0;
+
+  public notificationCountStatutValide: number =0;
+
+
+
   /**
    * Date du jour au format string
    */
@@ -49,28 +54,43 @@ export class HeaderComponent implements OnInit {
     public dialog2: MatDialog,
     @Inject(LOCALE_ID) public locale: string
   ) { }
-  /**
-     * Déconnexion
-     */
-  
-  ngOnInit(): void {
+
+  public ngOnInit(): void {
     const localStorageUser: string = localStorage.getItem('connectedUser') || '';
     this.connectedUser = JSON.parse(localStorageUser);
-    if (!this.connectedUser.profile) {
+    if (this.connectedUser.authorizationAccess === 1) {
       this.userProfile = 'Administrateur';
+    } else {
+      this.userProfile = 'Utilisateur';
     }
 
+    // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
+    /* notificationCountStatutEnAttenteDeValidation */
     this.loanService.getLoansByStatus(1).subscribe(loan => {
-      this.notificationCount = loan.notificationCount.count;
+      this.notificationCountStatutEnAttenteDeValidation = loan.notificationCount.count;
       this.rowsBookingsValider = loan.notificationCount.rows;
     });
-  
-    this.loanService.getLoansByUtilisateur(this.connectedUser.id).subscribe(loan => {
+
+    // Permet de donner le nombre de réservations avec le Status 'En attente de Validation'
+    /* notificationCountStatutEnAttenteDeValidation */
+     this.loanService.getLoansByStatus(4).subscribe(loan => {
+      this.notificationCountStatutValide = loan.notificationCount.count;
+      this.rowsBookingsValider = loan.notificationCount.rows;
+    });
+
+    // Permet de donner le nombre réservation avec le Status 'Validé' pour l'utilisateur connecté
+    /* notificationCountBookingUser */
+    this.loanService.getBookingsForUtilisateurStatusValide(this.connectedUser.id,4).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
       this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
      });
+
+
   }
 
+  /**
+   * Déconnexion
+   */
   public logout(): void {
     this.authenticationService.logout();
   }

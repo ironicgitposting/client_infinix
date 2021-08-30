@@ -4,5 +4,8 @@ export enum StatusEnum {
   running = 'En cours',
   late = 'En retard',
   ended = 'Clôturé',
-  canceled = 'Annulé'
+  canceled = 'Annulé',
+  discovered = 'Découvert',
+  takenOver = 'Pris en charge',
+  solved = 'Résolu'
 }

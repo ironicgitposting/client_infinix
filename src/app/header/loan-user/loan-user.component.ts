@@ -93,13 +93,11 @@ export class LoanUserComponent implements OnInit {
     if (!this.connectedUser.profile) {
       this.userProfile = 'Administrateur';
     }
-      //console.log("this.connectedUser.email", this.connectedUser.email);
 
-    this.loanService.getLoansByUtilisateur(this.connectedUser.email).subscribe(loan => {
+    this.loanService.getBookingsForUtilisateurStatusValide(this.connectedUser.id,4).subscribe(loan => {
       this.notificationCountBookingUser = loan.notificationCountBookingUser.count;
 
     this.rowsBookingsUser = loan.notificationCountBookingUser.rows;
-      //console.log("Les Rows", loan.notificationCountBookingUser.rows);
        this.ELEMENT_DATA = loan;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
       this.dataSource.sort = this.sort;
@@ -108,8 +106,6 @@ export class LoanUserComponent implements OnInit {
      this.loanService.getLoansByStatus(1).subscribe(loan => {
       this.notificationCount = loan.notificationCount.count;
       this.rowsBookingsValider = loan.notificationCount.rows;
-      //console.log("Header : Nombre de réservation à valider", loan.notificationCount.count);
-      //console.log("Les Rows à valider", this.rowsBookingsValider);
     });
   }
 

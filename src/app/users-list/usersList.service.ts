@@ -29,15 +29,11 @@ export class UserService {
   }
 
   enableOrDisableUser(user: User) {
-    console.log(user.email);
-    console.log(user);
     return this.http.put<any>('http://localhost:3000/api/v1/users/toggleUser/' + user.email, user).subscribe();
   }
 
-  updateUser(user: User) {
-    console.log(user.email);
-    console.log(user);
-    return this.http.put<any>('http://localhost:3000/api/v1/users/update/' + user.email, user).subscribe();
+  updateUser(user: User): Observable<any> {
+    return this.http.put<any>('http://localhost:3000/api/v1/users/update/' + user.email, user);
   }
 
   deleteUser(user: User) {

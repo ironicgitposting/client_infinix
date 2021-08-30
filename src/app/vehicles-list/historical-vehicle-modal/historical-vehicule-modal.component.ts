@@ -27,9 +27,9 @@ import { StatusModel } from 'src/app/common/models/StatusModel';
   })
   export class HistoricalVehicleModal implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
-    
+
     public modalVehicle : Vehicle;
-    
+
     ELEMENT_DATA: LoanDataModel[];
 
     columnsToDisplay: string[] = ['status', 'driver', 'departureSite', 'startDate', 'endDate', 'actions'];
@@ -49,7 +49,7 @@ import { StatusModel } from 'src/app/common/models/StatusModel';
     expandedElement: LoanDataModel | null;
 
     dataSource: MatTableDataSource<LoanDataModel>;
-    
+
     public status: StatusModel[] = [];
 
     constructor(
@@ -57,25 +57,23 @@ import { StatusModel } from 'src/app/common/models/StatusModel';
       private loanService: LoanService,
       @Inject(MAT_DIALOG_DATA) public data: any
     ){}
-  
+
     ngOnInit(){
       this.modalVehicle = this.data.vehicle;
       if (this.data.vehicle) {
         this.fetchData(this.modalVehicle.id);
       }
     }
-    
+
     onNoClick(): void {
       this.dialogRef.close();
     }
 
     fetchData(id: number) {
-      console.log(id);
+
       this.loanService.getAllLoansForVehicle(id).subscribe(bookings => {
         this.ELEMENT_DATA = bookings;
-        console.log(this.ELEMENT_DATA);
         this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-        console.log(this.dataSource);
         this.dataSource.sort = this.sort;
       });
     }
