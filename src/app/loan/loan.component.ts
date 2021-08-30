@@ -238,7 +238,7 @@ export class LoanComponent implements OnInit {
   }
 
   /**
- * Ouverture de la modale de réservation
+ * Ouverture de la modale de Cloture
  * @param isReadOnly En lecture seule ou non
  * @param mode Mode d'ouverture
  * @param loan
@@ -250,7 +250,7 @@ export class LoanComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.saved) {
-        this.loanService.createLoan(result.loan).subscribe(response => {
+        this.loanService.updateLoanForClose(result.loan).subscribe(response => {
           this.msgService.snackbar('Réservation cloturé', 'success');
           this.fetchLoans();
         });

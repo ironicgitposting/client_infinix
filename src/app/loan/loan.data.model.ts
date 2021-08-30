@@ -21,4 +21,10 @@ export class LoanDataModel {
   departureSite: SiteDataModel;
   @autoserializeAs('arrivalSite')
   arrivalSite: SiteDataModel;
+  @autoserializeAs('commentLoan')
+  commentLoan: string;
+  @autoserializeAs('essence')
+  essence: number;
+  @autoserializeAs('kilometrage')
+  kilometrage: number;
 }
