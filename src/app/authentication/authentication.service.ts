@@ -145,7 +145,7 @@ export class AuthenticationService {
         debugger;
         console.log(response);
         // TODO: redirect to confirmation page
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       });
   }
 
@@ -159,7 +159,7 @@ export class AuthenticationService {
       .subscribe((response) => {
         console.log(response);
 
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       });
   }
 }
