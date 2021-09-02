@@ -21,4 +21,8 @@ export class Vehicle {
   site: SiteDataModel;
   @autoserializeAs('status')
   status: StatusModel;
+  @autoserializeAs('essenceVehicule')
+  essenceVehicule: number;
+  @autoserializeAs('killometrageVehicle')
+  killometrageVehicle: number;
 }

@@ -2,9 +2,7 @@
 <div id="header-container">
     <div id="header" class="header d-flex align-items-center flex-direction-row">
         <div id="logo-infinix" class="logo-infinix d-flex align-items-center flex-direction-row">
-            <a href="/dashboard" class="d-flex">
-                <img src="../../assets/pictures/logoInfinix.png" />
-            </a>
+            <img src="../../assets/pictures/logoInfinix.png" />
         </div>
         <div id="header-right-part" class="header-right-part d-flex flex-direction-row">
             <div id="header-center" class="header-center d-flex align-items-center flex-direction-row">
@@ -21,16 +19,16 @@
         <div *ngIf="connectedUser.authorizationAccess === 1; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
             <div class="header-notification">
-                <mat-icon matBadge="{{notificationCountStatutEnAttenteDeValidation + notificationCountStatutValide}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
-                <span class="cdk-visually-hidden">
-                </span>
+              <button mat-icon-button>
+                <mat-icon style="cursor: pointer" matBadge="{{notificationCountStatutEnAttenteDeValidation + notificationCountStatutValide}}" matBadgeColor="primary" (click)="openLoanInProgress('new', null)">notifications_none</mat-icon>
+              </button>
             </div>
         </ng-template>
         <ng-template #elseBlock>
             <div>
-                <mat-icon matBadge="{{notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
-                <span class="cdk-visually-hidden">
-                </span>
+              <button mat-icon-button>
+                <mat-icon style="cursor: pointer" matBadge="{{notificationCountBookingUser}}" matBadgeColor="primary" (click)="openLoanInProgress('new', null)">notifications_none</mat-icon>
+              </button>
             </div>
         </ng-template>
         <div id="user-part" class="user-part d-flex align-items-center flex-direction-row">

@@ -72,7 +72,7 @@
                           <div>
                             <mat-slide-toggle class="slide-toggle" [checked]="!vehicle.flagService"
                               (change)="onVehicleSwitchToggle($event, vehicle)">
-                                Utiliser le véhicule
+                                Véhicule en service ?
                             </mat-slide-toggle>
                           </div>
                         </mat-card-content>
@@ -88,14 +88,14 @@
                           </mat-card-title>
                         </mat-card-header>
                         <mat-card-content>
-                          <div>
-                            Le véhicule se trouve à cet endroit : {{ vehicle?.site?.label }}
-                          </div>
-                          <div>
-                            Les clés :
-                          </div>
-                          <div>
-                            Le double des clés :
+                          <div *ngIf='vehicle?.site'>
+                            <h3>{{ vehicle?.site?.label }}</h3>
+                            <div>
+                              {{ vehicle?.site?.adress }}
+                            </div>
+                            <div>
+                              {{ vehicle?.site?.postalCode }}, {{ vehicle?.site?.city }}
+                            </div>
                           </div>
                         </mat-card-content>
                       </mat-card>
