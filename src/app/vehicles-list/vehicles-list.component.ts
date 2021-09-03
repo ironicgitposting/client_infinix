@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Vehicle } from './vehicle.model';
 import { VehicleService } from './vehicle-list.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +17,7 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 import { StatusEnum } from '../common/models/status.enum';
 import { StatusModel } from '../common/models/StatusModel';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { ArchivedSinistersComponent } from './archived-sinisters/archived-sinisters.component';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -64,24 +65,20 @@ export class VehiclesListComponent implements OnInit {
   constructor(private vehicleService: VehicleService,
               private sinisterService: SinisterService,
               private dialog: MatDialog,
-              private msgService: MessageService,
-              private datePipe: DatePipe) {
+              private datePipe: DatePipe,
+              private msgService: MessageService) {
 
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.fetchData();
   }
 
-  ngOnDestroy(): void {
-
-  }
-
-  isEmptyVehicles() {
+  public isEmptyVehicles(): boolean {
     return this.vehicles.length === 0;
   }
 
-  deleteVehicle(vehicle: Vehicle): void {
+  public deleteVehicle(vehicle: Vehicle): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) {
       if (vehicle.immatriculation) {
         this.vehicleService.deleteVehicle(vehicle).subscribe(() => {
@@ -95,8 +92,7 @@ export class VehiclesListComponent implements OnInit {
     const formated_date = this.datePipe.transform(date_sinistre, 'dd/MM/yyyy');
     return formated_date;
   }
-
-  fetchData() {
+  public fetchData(): void {
     this.vehicleService.getVehicles().subscribe(vehicles => {
       this.ELEMENT_DATA = vehicles;
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -105,7 +101,7 @@ export class VehiclesListComponent implements OnInit {
 
   }
 
-  openDialog(vehicle: Vehicle): void {
+  public openDialog(vehicle: Vehicle): void {
     const dialogRef = this.dialog.open(VehicleModal, {
       data: {
         vehicle,
@@ -114,7 +110,7 @@ export class VehiclesListComponent implements OnInit {
     });
   }
 
-  historicalVehicle(vehicle: Vehicle): void {
+  public historicalVehicle(vehicle: Vehicle): void {
     const dialogRef = this.dialog.open(HistoricalVehicleModal, {
       data: {
         vehicle,
@@ -123,20 +119,20 @@ export class VehiclesListComponent implements OnInit {
     });
   }
 
-  applyFilter(event: Event) {
+  public applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   /**
    * Ouverture de la modale d'ajout de véhicule
-   * @param isReadOnly En lecture seule ou non
+   * @param vehicle Véhicule concerné
    * @param mode Mode d'ouverture => Création / modification
    * @param lastImmatriculation En cas de modification de l'immatriculation il nous faut l'ancienne pour update
    */
-  openVehicleModal(mode: string, vehicle: Vehicle | null, lastImmatriculation: string | null): void {
+  public openVehicleModal(mode: string, vehicle: Vehicle | null, lastImmatriculation: string | null): void {
     const dialogRef = this.dialog.open(VehicleModal, {
-      data: { mode: mode, vehicle: vehicle, lastImmatriculation: lastImmatriculation },
+      data: { mode, vehicle, lastImmatriculation },
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -154,13 +150,14 @@ export class VehiclesListComponent implements OnInit {
       }
     });
   }
+
   /**
    * Ouverture de la modal de création de sinistre
    * Après fermeture on passe le flagService à false et on change l'état
    */
-  openSinisterModal(){
+  public openSinisterModal(): void {
     const dialogRef = this.dialog.open(SinisterModal, {
-      width: "512px",
+      width: '512px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -168,11 +165,11 @@ export class VehiclesListComponent implements OnInit {
 
         this.sinisterService.createSinister(result.sinister).subscribe(response => {
           this.msgService.snackbar('Sinistre enregistré', 'success');
-          const selectedVehicle : Vehicle = result.selectedVehicle;
+          const selectedVehicle: Vehicle = result.selectedVehicle;
           selectedVehicle.flagService = false;
           selectedVehicle.state = 'Sinistre en cours';
           this.vehicleService.updateVehicle(selectedVehicle, selectedVehicle.immatriculation)
-          .subscribe(response => {});
+            .subscribe();
           this.fetchData();
         });
       }
@@ -180,9 +177,18 @@ export class VehiclesListComponent implements OnInit {
   }
 
   /**
+   * Ouverture de la liste des sinistres archivés d'un véhicule
+   */
+  public openArchivedSinisterModal(vehicle: Vehicle): void {
+    this.dialog.open(ArchivedSinistersComponent, {
+      data: { vehicle }
+    });
+  }
+
+  /**
    * Affiche les sinistres par véhicule
    */
-  getSinistersForVehicle(vehicle: Vehicle) : void {
+  public getSinistersForVehicle(vehicle: Vehicle): void {
     this.sinisterService.getSinisters(vehicle.id, 100).subscribe(sinisters => {
       this.sinisters = sinisters;
     });
@@ -192,19 +198,18 @@ export class VehiclesListComponent implements OnInit {
   /**
    * Ouvre une modal et supprime un sinistre, si plus de sinistre actif, change l'etat du véhicule
    */
-  deleteSinister(sinister: SinisterModel, vehicle: Vehicle) : void {
+  public deleteSinister(sinister: SinisterModel, vehicle: Vehicle): void {
     const dialogRef = this.dialog.open(ConfirmComponent, {
-      data : {message : "Êtes-vous sûr de vouloir archiver ce sinistre ?"}
+      data: { message: 'Êtes-vous sûr de vouloir archiver ce sinistre ?' },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      const answer = result;
-      if (answer === true) {
+      if (result === true) {
         sinister.status = new StatusModel();
         sinister.status.id = 300;
         sinister.status.label = StatusEnum.solved;
 
-        this.sinisterService.updateSinister(sinister).subscribe(response =>{
+        this.sinisterService.updateSinister(sinister).subscribe(response => {
           this.msgService.snackbar('Sinistre archivé !', 'success');
           this.hasSinister(vehicle);
           this.fetchData();
@@ -215,29 +220,29 @@ export class VehiclesListComponent implements OnInit {
     });
   }
 
-    /**
+  /**
    * Compte les sinistres pour un véhicule, si il n'y en a pas, on change le state du véhicule
    */
-  hasSinister(vehicle: Vehicle) : void {
+  public hasSinister(vehicle: Vehicle): void {
     this.sinisterService.getSinisters(vehicle.id, 100).subscribe(sinisters => {
-      if (sinisters.length == 0) {
-        const selectedVehicle : Vehicle = vehicle;
+      if (sinisters.length === 0) {
+        const selectedVehicle: Vehicle = vehicle;
         selectedVehicle.state = 'Sinistres terminés';
-        this.vehicleService.updateVehicle(selectedVehicle, selectedVehicle.immatriculation).subscribe(response =>{
+        this.vehicleService.updateVehicle(selectedVehicle, selectedVehicle.immatriculation).subscribe(response => {
           this.fetchData();
         });
       }
     });
   }
 
-  onVehicleSwitchToggle($event: MatSlideToggleChange, vehicle: Vehicle) : void {
-    vehicle.flagService = !$event.checked;
+  public onVehicleSwitchToggle($event: MatSlideToggleChange, vehicle: Vehicle): void {
+    vehicle.flagService = $event.checked;
     this.vehicleService.updateVehicle(vehicle, vehicle.immatriculation).subscribe(response => {
-
+      this.msgService.snackbar('Disponibilité modifiée');
     });
   }
 
-  IsMobile(){
+  public isMobile(): boolean {
     Device.definedUseDevice('vehicle-container');
     return Device.isMobileDevice();
   }

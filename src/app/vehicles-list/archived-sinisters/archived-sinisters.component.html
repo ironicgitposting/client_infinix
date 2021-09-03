@@ -1,0 +1,16 @@
+<div class="archived-sinisters">
+  <h3 *ngIf="sinisters && sinisters.length === 1">{{sinisters.length}} sinistre archivé</h3>
+  <h3 *ngIf="sinisters && sinisters.length > 1">{{sinisters.length}} sinistres archivés</h3>
+  <div class="sinisters-container">
+    <div *ngFor="let sinister of sinisters" class="sinister-block">
+      <div class="sinister-wrap">
+        <div class="sinister-label">{{ sinister.libelle }}</div>
+        <div
+          class="sinister-dates">
+          <div>Créé le {{sinister.createdAt | date: 'longDate'}}</div>
+          <div>Clôturé le {{sinister.updatedAt | date: 'longDate'}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

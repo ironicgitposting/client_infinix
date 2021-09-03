@@ -49,8 +49,8 @@
                 <td mat-cell *matCellDef='let vehicle' [attr.colspan]='columnsToDisplay.length'>
                   <div class='element-detail' [@detailExpand]="vehicle === expandedElement ? 'expanded' : 'collapsed'">
 
-                    <div class='element-description'>
-                      <mat-card class='vehicule-detail'>
+                    <div class='element-description' style="width: 80%;">
+                      <mat-card class='vehicule-detail' style="max-width: 33%;">
                         <mat-card-header>
                           <mat-card-title>
                             <div class='detail-card-title'>
@@ -60,7 +60,7 @@
                           </mat-card-title>
                         </mat-card-header>
                         <mat-card-content>
-                          <div *ngIf='vehicle.flagService === false; else usedVehicle'>
+                          <div *ngIf='vehicle.flagService; else usedVehicle'>
                             Disponibilité : Le véhicule est libre
                           </div>
                           <ng-template #usedVehicle>
@@ -70,15 +70,15 @@
                             Etat : {{ vehicle.state }} <br>
                           </div>
                           <div>
-                            <mat-slide-toggle class="slide-toggle" [checked]="!vehicle.flagService"
+                            <mat-slide-toggle class="slide-toggle" [checked]="vehicle.flagService"
                               (change)="onVehicleSwitchToggle($event, vehicle)">
-                                Véhicule en service ?
+                                Véhicule disponible ?
                             </mat-slide-toggle>
                           </div>
                         </mat-card-content>
                       </mat-card>
 
-                      <mat-card class='site-detail'>
+                      <mat-card class='site-detail' style="max-width: 33%;">
                         <mat-card-header>
                           <mat-card-title>
                             <div class='detail-card-title'>
@@ -99,7 +99,7 @@
                           </div>
                         </mat-card-content>
                       </mat-card>
-                      <mat-card class='other-detail'>
+                      <mat-card class='other-detail' style="max-width: 33%;">
                         <mat-card-header>
                           <mat-card-title>
                             <div class='detail-card-title'>
@@ -117,19 +117,18 @@
                       </mat-card>
                     </div>
                     <div class='button-wrapper'>
-
                       <button mat-button color='primary'
-                        (click)="openVehicleModal('update', vehicle, vehicle.immatriculation)">MODIFIER
+                        (click)="openVehicleModal('update', vehicle, vehicle.immatriculation)">Modifier
                       </button>
-
                       <button mat-button color='primary' (click)='historicalVehicle(vehicle)'>
-                        HISTORIQUE DES PRÊTS
+                        Historique des prêts
                       </button>
-
+                      <button mat-button color='primary' (click)='openArchivedSinisterModal(vehicle)'>
+                        Historique des sinistres
+                      </button>
                       <button mat-button color='warn' (click)='deleteVehicle(vehicle)'>
-                        SUPPRIMER
+                        Supprimer
                       </button>
-
                     </div>
                   </div>
                 </td>

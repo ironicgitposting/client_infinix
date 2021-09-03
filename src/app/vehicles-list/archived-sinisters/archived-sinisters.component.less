@@ -1,0 +1,41 @@
+@import "../../common/common.less";
+
+.archived-sinisters {
+  width: 500px;
+
+  .sinister-block {
+    box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+    border: 1px solid #673ab7;
+    margin-bottom: .5em;
+  }
+
+  .sinisters-container {
+    max-height: 500px;
+    overflow: auto;
+  }
+
+  .sinister-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 1em;
+  }
+
+  .sinister-label {
+    width: 65%;
+    height: 34px;
+    overflow: auto;
+    padding: .5em 0;
+  }
+
+  .sinister-dates {
+    display: flex;
+    flex-direction: column;
+    color: gray;
+    font-style: italic;
+    font-size: .8em;
+    border-left: .5em solid #673ab7;
+    padding: .5em;
+    margin: 0 auto;
+  }
+}

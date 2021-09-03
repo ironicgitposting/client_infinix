@@ -21,6 +21,13 @@ export class VehicleModal implements OnInit {
 
   public siteVehicle: SiteDataModel = new SiteDataModel();
 
+  vehicleBrandList = ['Acura', 'Alfa-Romeo', 'Aston Martin', 'Audi', 'BMW', 'Bentley', 'Bugatti', 'Buick', 'Cadillac', 'Chevrolet', 'Chrysler', 'Citroen', 'Daewoo', 'Daihatsu',
+    'Dodge', 'Eagle', 'Ferrari', 'Fiat', 'Fisker', 'Ford', 'Freighliner', 'GMC - General Motors Company', 'Genesis', 'Geo', 'Honda', 'Hummer', 'Hyundai',
+    'Infinity', 'Isuzu', 'Iveco', 'Jaguar', 'Jeep', 'Kla', 'Lamborghini', 'Land Rover', 'Lexus', 'Lincoln', 'Lotus', 'Mazda', 'Maserati', 'Maybach',
+    'McLaren', 'Mercedez-Benz', 'Mercury', 'Mini', 'Mitsubishi', 'Nissan', 'Oldsmobile', 'Opel', 'Panoz', 'Peugeot', 'Plymouth', 'Polestar', 'Pontiac',
+    'Porsche', 'Ram', 'Renault', 'Rivian', 'Rolls_Royce', 'Saab', 'Saturn', 'Smart', 'Subaru', 'Susuki', 'Tesla', 'Toyota', 'Volkswagen',
+    'Volvo'];
+
   constructor(
     private dialogRef: MatDialogRef<VehicleModal>,
     private fb: FormBuilder,
@@ -45,7 +52,7 @@ export class VehicleModal implements OnInit {
   }
 
   public ngOnInit(): void {
-  
+
     this.modalVehicle = this.data.vehicle;
 
     this.siteService.getSitesAvailable().subscribe(sites => {

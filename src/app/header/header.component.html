@@ -32,14 +32,22 @@
             </div>
         </ng-template>
         <div id="user-part" class="user-part d-flex align-items-center flex-direction-row">
+            <div style="height: 100%">
+              <button mat-button [matMenuTriggerFor]="menuTranslation" id="menu-translation" class="menu-user" style="height: 100%">
+                <span class="flag-icon flag-icon-fr flag-icon-squared" style="margin: 0 auto"></span>
+              </button>
+              <mat-menu #menuTranslation="matMenu">
+                <button mat-menu-item>
+                  <span class="flag-icon flag-icon-fr flag-icon-squared" style="margin: 0 auto"></span>
+                  Français
+                </button>
+              </mat-menu>
+            </div>
             <div  id="user-connected" class="user-connected">
-                <button mat-button [matMenuTriggerFor]="menu" id="menu-user" class="menu-user">
+                <button mat-button id="menu-user" class="menu-user">
                     <span>{{ connectedUser.surname }} {{ connectedUser.name }}</span>
                     <span style="font-size: 10px;">{{ userProfile }}</span>
                 </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Language : {{ locale }}</button>
-                </mat-menu>
             </div>
             <div id="logout" class="logout">
                 <button mat-mini-fab color="primary" (click)="logout()">
