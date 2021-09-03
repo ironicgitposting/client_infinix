@@ -111,7 +111,7 @@
       </div>
     </form>
     <div class='mapbox' id='mapbox'>
-      <app-map [coordinatesToMark]='coordinatesToMark | async' [searchBar]='false'></app-map>
+      <app-map [coordinatesToMark]='coordinatesToMark | async' [searchBar]='false' [departureSite]="selectedDepartureSite" [arrivalSite]="selectedArrivalSite"></app-map>
     </div>
   </div>
 </div>

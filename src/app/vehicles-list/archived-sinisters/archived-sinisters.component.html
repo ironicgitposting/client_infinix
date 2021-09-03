@@ -1,4 +1,5 @@
 <div class="archived-sinisters">
+  <h3 *ngIf="!sinisters || sinisters.length === 0">Aucun sinistre archivé</h3>
   <h3 *ngIf="sinisters && sinisters.length === 1">{{sinisters.length}} sinistre archivé</h3>
   <h3 *ngIf="sinisters && sinisters.length > 1">{{sinisters.length}} sinistres archivés</h3>
   <div class="sinisters-container">
