@@ -18,8 +18,7 @@ export class MapComponent implements OnInit {
   source: any;
   markers: any;
 
-  constructor() {
-  }
+  constructor() {}
 
   public ngOnInit(): void {
     this.map = new mapboxgl.Map({
@@ -31,7 +30,7 @@ export class MapComponent implements OnInit {
     });
     // Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
-    this.map.on('click', event => {
+    this.map.on('click', (event) => {
       // If the user clicked on one of your markers, get its information.
       const features: any = this.map.queryRenderedFeatures(event.point, {
         layers: ['YOUR_LAYER_NAME'], // replace with your layer name
@@ -46,28 +45,30 @@ export class MapComponent implements OnInit {
       const popup = new mapboxgl.Popup({ offset: [0, -15] })
         .setLngLat(feature.geometry.coordinates)
         .setHTML(
-          '<h3>' + feature.properties.title + '</h3>' +
-          '<p>' + feature.properties.description + '</p>',
+          '<h3>' +
+            feature.properties.title +
+            '</h3>' +
+            '<p>' +
+            feature.properties.description +
+            '</p>',
         )
         .addTo(this.map);
-
     });
   }
 
   private initializeMap(): void {
     /// locate the user
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
+      navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         this.map.flyTo({
-          center: [this.lng, this.lat]
+          center: [this.lng, this.lat],
         });
       });
     }
 
     this.buildMap();
-
   }
 
   public buildMap(): void {
@@ -75,31 +76,27 @@ export class MapComponent implements OnInit {
       container: 'map',
       style: this.style,
       zoom: 13,
-      center: [this.lng, this.lat]
+      center: [this.lng, this.lat],
     });
-
 
     /// Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
 
-
     //// Add Marker on Click
     this.map.on('click', (event) => {
       const coordinates = [event.lngLat.lng, event.lngLat.lat];
-      const newMarker   = new GeoJson(coordinates);
+      const newMarker = new GeoJson(coordinates);
     });
-
 
     /// Add realtime firebase data on map load
     this.map.on('load', (event) => {
-
       /// register source
       this.map.addSource('firebase', {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: []
-        }
+          features: [],
+        },
       });
 
       /// get source
@@ -121,22 +118,20 @@ export class MapComponent implements OnInit {
           'text-size': 24,
           'text-transform': 'uppercase',
           'icon-image': 'rocket-15',
-          'text-offset': [0, 1.5]
+          'text-offset': [0, 1.5],
         },
         paint: {
           'text-color': '#f16624',
           'text-halo-color': '#fff',
-          'text-halo-width': 2
-        }
+          'text-halo-width': 2,
+        },
       });
-
     });
-
   }
 
   public flyTo(data: GeoJson): void {
     this.map.flyTo({
-      center: data.geometry.coordinates as any
+      center: data.geometry.coordinates as any,
     });
   }
 }
