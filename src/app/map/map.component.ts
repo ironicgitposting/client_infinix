@@ -79,6 +79,29 @@ export class MapComponent implements OnInit, OnChanges {
       this.map.once('styledata', () => {
         this.calculateRoute();
       });
+      this.calculateRoute();
+    }
+    if ('departureSite' in changes && this.departureSite.longitude && this.departureSite.latitude) {
+      this.map.flyTo({
+        center: [this.departureSite.longitude, this.departureSite.latitude],
+        zoom: 10,
+        speed: 2,
+        curve: 1,
+        easing(t) {
+          return t;
+        }
+      });
+    }
+    if ('arrivalSite' in changes && this.arrivalSite.longitude && this.arrivalSite.latitude) {
+      this.map.flyTo({
+        center: [this.arrivalSite.longitude, this.arrivalSite.latitude],
+        zoom: 10,
+        speed: 2,
+        curve: 1,
+        easing(t) {
+          return t;
+        }
+      });
     }
   }
 
