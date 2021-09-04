@@ -66,7 +66,7 @@ export class LoanModalComponent implements OnInit {
       departureSite: new FormControl({value: '', disabled: this.isReadMode() || this.isValidateMode()}, Validators.required),
       arrivalSite: new FormControl({value: '', disabled: this.isReadMode() || this.isValidateMode()}, Validators.required),
       start: new FormControl({value: '', disabled: this.isReadMode() || this.isValidateMode()}, [Validators.required]),
-      end: new FormControl({value: '', disabled: this.isReadMode() || this.isValidateMode()}, []),
+      end: new FormControl({value: '', disabled: this.isReadMode() || this.isValidateMode()}, [Validators.required]),
       acceptPassengers: new FormControl({value: '', disabled: this.isReadMode() || this.isValidateMode()}, []),
       lentVehicule: new FormControl({value: '', disabled: this.isReadMode()}, [])
     });
@@ -240,6 +240,10 @@ export class LoanModalComponent implements OnInit {
       return this.loanForm.controls['start'].value;
     }
     return '';
+  }
+
+  public getDebMinDate(): Date {
+    return new Date();
   }
 
   IsMobile(){
