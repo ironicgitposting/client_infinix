@@ -15,6 +15,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import { Marker } from 'mapbox-gl';
 import { HttpClient } from '@angular/common/http';
 import { SiteDataModel } from '../sites-list/site.model';
+// Map Class
 
 @Component({
   selector: 'app-map',
