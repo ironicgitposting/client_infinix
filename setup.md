@@ -13,9 +13,18 @@ npm install -g node-windows
 ## Build Sources
 
 ```
-
 ng build --prod --output-path ./dist
+```
 
+
+## Update path in svc.js file to match target environment:
+
+```
+var svc = new Service({
+ ...  
+  script: "Path\\To\\client_infinix\bootstrap.js",
+  ...
+});
 ```
 
 ## Create and run a Windows Service
