@@ -35,3 +35,5 @@ ng serve
 ```
 
 ## Server should be running on port 4200
+
+## Check instructions in setup.md to start a deployment server
