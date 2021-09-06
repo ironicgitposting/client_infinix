@@ -251,7 +251,7 @@ export class LoanComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.saved) {
         this.loanService.updateLoanForClose(result.loan).subscribe(response => {
-          this.msgService.snackbar('Réservation cloturé', 'success');
+          this.msgService.snackbar('Réservation cloturée', 'success');
           this.fetchLoans();
         });
       }
@@ -479,11 +479,35 @@ export class LoanComponent implements OnInit {
   }
 
   /**
+   * Est-ce que le prêt est clôturée
+   * @param loan Réservation
+   */
+  public isLoanClosed(loan: LoanDataModel): boolean {
+    let ret: boolean = false;
+    if (loan.status.label === StatusEnum.ended) {
+      ret = true;
+    }
+    return ret;
+  }
+
+  /**
+   * Est-ce que le prêt est en retard
+   * @param loan Réservation
+   */
+  public isLoanLate(loan: LoanDataModel): boolean {
+    let ret: boolean = false;
+    if (loan.status.label === StatusEnum.late) {
+      ret = true;
+    }
+    return ret;
+  }
+
+  /**
    * Est-ce que le bouton de modification est actif
    * @param loan Réservation
    */
   public isUpdateButtonActive(loan: LoanDataModel): boolean {
-    return !this.isLoanActive(loan) && !this.isLoanValidated(loan) && !this.isLoanCanceled(loan);
+    return !this.isLoanActive(loan) && !this.isLoanValidated(loan) && !this.isLoanCanceled(loan) && !this.isLoanClosed(loan) && !this.isLoanRunning(loan) && !this.isLoanLate(loan);
   }
 
   /**
@@ -499,7 +523,7 @@ export class LoanComponent implements OnInit {
    * @param loan Réservation
    */
   public isCloseLoanButtonActive(loan: LoanDataModel): boolean {
-    return !this.isEndDatePassed(loan) || this.isLoanRunning(loan);
+    return this.isLoanRunning(loan) || this.isLoanLate(loan);
   }
 
   /**

@@ -2,9 +2,7 @@
 <div id="header-container">
     <div id="header" class="header d-flex align-items-center flex-direction-row">
         <div id="logo-infinix" class="logo-infinix d-flex align-items-center flex-direction-row">
-            <a href="/dashboard" class="d-flex">
-                <img src="../../assets/pictures/logoInfinix.png" />
-            </a>
+            <img src="../../assets/pictures/logoInfinix.png" />
         </div>
         <div id="header-right-part" class="header-right-part d-flex flex-direction-row">
             <div id="header-center" class="header-center d-flex align-items-center flex-direction-row">
@@ -21,27 +19,35 @@
         <div *ngIf="connectedUser.authorizationAccess === 1; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
             <div class="header-notification">
-                <mat-icon matBadge="{{notificationCountStatutEnAttenteDeValidation + notificationCountStatutValide}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
-                <span class="cdk-visually-hidden">
-                </span>
+              <button mat-icon-button>
+                <mat-icon style="cursor: pointer" matBadge="{{notificationCountStatutEnAttenteDeValidation + notificationCountStatutValide}}" matBadgeColor="primary" (click)="openLoanInProgress('new', null)">notifications_none</mat-icon>
+              </button>
             </div>
         </ng-template>
         <ng-template #elseBlock>
             <div>
-                <mat-icon matBadge="{{notificationCountBookingUser}}" matBadgeColor="warn" (click)="openLoanInProgress('new', null)">home</mat-icon>
-                <span class="cdk-visually-hidden">
-                </span>
+              <button mat-icon-button>
+                <mat-icon style="cursor: pointer" matBadge="{{notificationCountBookingUser}}" matBadgeColor="primary" (click)="openLoanInProgress('new', null)">notifications_none</mat-icon>
+              </button>
             </div>
         </ng-template>
         <div id="user-part" class="user-part d-flex align-items-center flex-direction-row">
+            <div style="height: 100%">
+              <button mat-button [matMenuTriggerFor]="menuTranslation" id="menu-translation" class="menu-user" style="height: 100%">
+                <span class="flag-icon flag-icon-fr flag-icon-squared" style="margin: 0 auto"></span>
+              </button>
+              <mat-menu #menuTranslation="matMenu">
+                <button mat-menu-item>
+                  <span class="flag-icon flag-icon-fr flag-icon-squared" style="margin: 0 auto"></span>
+                  Français
+                </button>
+              </mat-menu>
+            </div>
             <div  id="user-connected" class="user-connected">
-                <button mat-button [matMenuTriggerFor]="menu" id="menu-user" class="menu-user">
+                <button mat-button id="menu-user" class="menu-user">
                     <span>{{ connectedUser.surname }} {{ connectedUser.name }}</span>
                     <span style="font-size: 10px;">{{ userProfile }}</span>
                 </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Language : {{ locale }}</button>
-                </mat-menu>
             </div>
             <div id="logout" class="logout">
                 <button mat-mini-fab color="primary" (click)="logout()">

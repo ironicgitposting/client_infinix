@@ -1,14 +1,14 @@
-import { ViewChild } from "@angular/core";
-import { Component } from "@angular/core";
-import { OnInit } from "@angular/core";
-import { SiteDataModel } from "./site.model";
-import { SiteService } from "./sitesList.service";
+import { ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
+import { SiteDataModel } from './site.model';
+import { SiteService } from './sitesList.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SiteModalComponent } from "./site-modal/site-modal.component";
-import { MessageService } from "../common/services/message.service";
-import { MatSort } from "@angular/material/sort";
-import { animate, state, style, transition, trigger } from "@angular/animations";
-import { MatTableDataSource } from "@angular/material/table";
+import { SiteModalComponent } from './site-modal/site-modal.component';
+import { MessageService } from '../common/services/message.service';
+import { MatSort } from '@angular/material/sort';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -48,8 +48,6 @@ export class SitesListComponent implements OnInit {
       action: 'action',
     };
 
-  expandedElement: SiteDataModel | null;
-
   dataSource: MatTableDataSource<SiteDataModel>;
 
   coordinatesToMark: Subject<[[number, number]]> = new Subject<[[number, number]]>();
@@ -71,7 +69,7 @@ export class SitesListComponent implements OnInit {
         });
       } else if (result && result.saved && mode === 'update') {
         this.siteService.updateSite(result.site, lastLabel).subscribe(response => {
-          this.msgService.snackbar('Véhicule modifié');
+          this.msgService.snackbar('Site modifié');
           this.fetchData();
         });
       }
@@ -90,7 +88,7 @@ export class SitesListComponent implements OnInit {
     }
     if (searchResult.context.length === 5) {
       site.postalCode = searchResult.context[1].text;
-      site.city = searchResult.context[3].text;
+      site.city = searchResult.context[2].text;
       site.pays = searchResult.context[4].text;
     } else if (searchResult.context.length === 4) {
       site.postalCode = searchResult.context[0].text;

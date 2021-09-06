@@ -16,9 +16,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { ArchivedSinistersModule } from './archived-sinisters/archived-sinisters.module';
 @NgModule({
   declarations: [
-    VehiclesListComponent,    
+    VehiclesListComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +38,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatSelectModule,
     MatTableModule,
     MatDividerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ArchivedSinistersModule
   ],
   exports: [VehiclesListComponent],
   providers: [],

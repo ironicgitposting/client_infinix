@@ -85,6 +85,7 @@ export class UsersListComponent implements OnInit {
       if (user.email && response) {
         this.userService.deleteUser(user);
         this.msgService.snackbar('Utilisateur supprimé', 'success');
+        this.fetchUsers();
       }
     });
   }
