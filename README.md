@@ -25,6 +25,7 @@ cd path/to/client_infinix
 Install NPM packages:
 
 ```
+npm install -g @angular/cli
 npm install
 ```
 
