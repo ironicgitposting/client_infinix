@@ -27,8 +27,10 @@
     "@types/mapbox-gl": "^2.1.2",
     "cerialize": "^0.1.18",
     "flag-icon-css": "^3.5.0",
+    "express": "^4.17.1",
     "mapbox-gl": "^2.3.0",
     "moment": "^2.29.1",
+    "node-windows": "^1.0.0-beta.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
