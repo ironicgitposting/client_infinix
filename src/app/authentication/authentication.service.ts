@@ -84,6 +84,7 @@ export class AuthenticationService {
   logout(): void {
     this.token = null;
     this.isAuthenticated = false;
+    this.isAdmin = false;
     this.authStatusListener.next(false);
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
