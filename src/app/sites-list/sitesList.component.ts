@@ -85,6 +85,8 @@ export class SitesListComponent implements OnInit {
       site.adress = searchResult.address + ' ' + searchResult.text;
     } else if (!searchResult.hasOwnProperty('address') && searchResult.properties.hasOwnProperty('address')) {
       site.adress = searchResult.properties.address;
+    } else if (!searchResult.hasOwnProperty('address') && !searchResult.properties.hasOwnProperty('address')) {
+      site.adress = searchResult.text;
     }
     if (searchResult.context.length === 5) {
       site.postalCode = searchResult.context[1].text;

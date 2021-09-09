@@ -82,6 +82,6 @@
   <!-- AJOUTER LE FLAG SERVICE QD ON EST EN UPDATE -->
   <div class='actions'>
     <button mat-stroked-button (click)='close(false)'>Annuler</button>
-    <button mat-raised-button color='primary' (click)='close(true)'>Valider</button>
+    <button mat-raised-button color='primary' (click)='close(true)' [disabled]='!isSaveDisabled()'>Valider</button>
   </div>
 </form>

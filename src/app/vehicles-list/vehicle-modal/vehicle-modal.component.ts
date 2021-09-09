@@ -44,7 +44,7 @@ export class VehicleModal implements OnInit {
       type: new FormControl({ value: '', disabled: this.isReadMode() }),
       libelle: new FormControl({ value: '', disabled: this.isReadMode() }, Validators.required),
       model: new FormControl({ value: '', disabled: this.isReadMode() }, Validators.required),
-      flagService: new FormControl({ value: '', disabled: this.isReadMode() }, Validators.required),
+      flagService: new FormControl({ value: '', disabled: this.isReadMode() }),
       state: new FormControl({ value: '', disabled: this.isReadMode() }),
       kilometrage: new FormControl({ value: '', disabled: this.isReadMode() }, Validators.required),
       gas: new FormControl({ value: '', disabled: this.isReadMode() }, Validators.required),
