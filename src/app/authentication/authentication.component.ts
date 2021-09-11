@@ -174,7 +174,7 @@ export class AuthenticationComponent implements OnInit, AfterViewInit {
     user.surname = this.registerForm.value.surname;
     user.email = this.registerForm.value.email;
     user.password = this.registerForm.value.password;
-    user.phone = this.registerForm.value.phone;
+    user.telephone = this.registerForm.value.phone;
     this.authenticationService.createUser(user).subscribe(response => {
       this.router.navigate(['/']);
       this.openSnackBar('success', 'Demande de création de compte enregistrée');

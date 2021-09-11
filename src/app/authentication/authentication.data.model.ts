@@ -10,5 +10,5 @@ export class AuthenticationDataModel {
   @autoserializeAs('surname')
   surname: string;
   @autoserializeAs('phone')
-  phone: string;
+  telephone: string;
 }
