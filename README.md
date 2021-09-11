@@ -4,9 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Prerequisites
 
-- NodeJS
-- Git
-- Npm
+- NodeJS 14.17.6 LTS (https://nodejs.org/en/)
+- Git 2.33.0 (https://git-scm.com/)
 
 ## Download Sources
 
